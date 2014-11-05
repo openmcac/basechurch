@@ -42,6 +42,9 @@ GEM
     erubis (2.7.0)
     hike (1.2.3)
     i18n (0.6.11)
+    jbuilder (2.0.8)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
     json (1.8.1)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
@@ -112,6 +115,7 @@ PLATFORMS
 DEPENDENCIES
   acts-as-taggable-on (~> 3.4)
   devise
+  jbuilder
   rails (= 4.1.7)
   rails-api
   rspec-rails (~> 3.0.0)
