@@ -7,6 +7,7 @@ gem 'rails', '4.1.7'
 gem 'rails-api'
 
 gem 'acts-as-taggable-on', '~> 3.4'
+gem 'active_model_serializers'
 
 gem 'spring', :group => :development
 
@@ -15,6 +16,13 @@ gem 'sqlite3'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'guard-rspec'
+end
+
+group :test do
+  gem 'factory_girl_rails'
+  gem 'pry'
+  gem 'rspec-its'
 end
 
 # To use ActiveModel has_secure_password
