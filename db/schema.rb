@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141104050852) do
+ActiveRecord::Schema.define(version: 20141107024218) do
+
+  create_table "bulletins", force: true do |t|
+    t.datetime "date"
+    t.string   "name"
+    t.string   "description"
+    t.text     "service_order"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal  "group_id"
+  end
 
   create_table "groups", force: true do |t|
     t.string   "name"

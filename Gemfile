@@ -23,6 +23,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'pry'
   gem 'rspec-its'
+  gem 'forgery'
 end
 
 # To use ActiveModel has_secure_password

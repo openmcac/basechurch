@@ -11,5 +11,5 @@ describe GroupSerializer do
   end
 
   its(['name']) { should eq(group.name) }
-  its(['created_at']) { should eq(group.created_at.utc.to_time.iso8601) }
+  its(['createdAt']) { should eq(group.created_at.utc.to_time.iso8601) }
 end
