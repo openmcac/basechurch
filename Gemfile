@@ -17,11 +17,12 @@ gem 'sqlite3'
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'guard-rspec'
+  gem 'pry'
+  gem 'pry-remote'
 end
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'pry'
   gem 'rspec-its'
   gem 'forgery'
 end
