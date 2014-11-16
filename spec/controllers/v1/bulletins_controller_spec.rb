@@ -4,7 +4,7 @@ describe V1::BulletinsController do
   let(:valid_attributes) do
     {
       bulletin: {
-        date: DateTime.now.to_time.iso8601,
+        publishedAt: DateTime.now.to_time.iso8601,
         name: Forgery(:lorem_ipsum).title,
         description: Forgery(:lorem_ipsum).words(10),
         serviceOrder: Forgery(:lorem_ipsum).words(10)
@@ -37,7 +37,7 @@ describe V1::BulletinsController do
         bulletin = Bulletin.new
         bulletin.id = Bulletin.last.id
         bulletin.name = bulletin_hash[:name]
-        bulletin.date = DateTime.iso8601(bulletin_hash[:date])
+        bulletin.published_at = DateTime.iso8601(bulletin_hash[:publishedAt])
         bulletin.description = bulletin_hash[:description]
         bulletin.service_order = bulletin_hash[:serviceOrder]
 
@@ -49,9 +49,9 @@ describe V1::BulletinsController do
       let(:invalid_attributes) { valid_attributes }
       let(:create) { post :create, valid_attributes }
 
-      context "where date is not iso8601 compliant" do
+      context "where published_at is not iso8601 compliant" do
         before do
-          invalid_attributes[:bulletin][:date] = 'sdafasdfdsa'
+          invalid_attributes[:bulletin][:publishedAt] = 'sdafasdfdsa'
           create
         end
 

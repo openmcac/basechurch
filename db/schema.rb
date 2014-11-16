@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141107024218) do
+ActiveRecord::Schema.define(version: 20141115220442) do
 
   create_table "bulletins", force: true do |t|
-    t.datetime "date"
+    t.datetime "published_at"
     t.string   "name"
     t.string   "description"
     t.text     "service_order"

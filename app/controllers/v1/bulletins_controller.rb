@@ -1,7 +1,6 @@
 class V1::BulletinsController < ApplicationController
   serialization_scope nil
 
-  before_action :ensure_valid_params, only: [:create]
   before_action :set_bulletin, only: [:create]
 
   def show
@@ -10,23 +9,19 @@ class V1::BulletinsController < ApplicationController
   end
 
   def create
-    @bulletin.save!
-    render json: @bulletin.reload
-  end
-
-  private
-  def ensure_valid_params
     begin
-      DateTime.iso8601(user_params[:date])
-    rescue
-      head :unprocessable_entity
+      @bulletin.save!
+      render json: @bulletin.reload
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { error: e.to_s }, status: :unprocessable_entity
     end
   end
 
+  private
   def set_bulletin
     @bulletin = Bulletin.new
     @bulletin.name = user_params[:name]
-    @bulletin.date = DateTime.iso8601(user_params[:date])
+    @bulletin.display_published_at = user_params[:publishedAt]
     @bulletin.description = user_params[:description]
     @bulletin.service_order = user_params[:serviceOrder]
   end
