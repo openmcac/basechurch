@@ -19,9 +19,11 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'pry'
   gem 'pry-remote'
+  gem 'travis'
 end
 
 group :test do
+  gem "codeclimate-test-reporter", require: nil
   gem 'factory_girl_rails'
   gem 'rspec-its'
   gem 'forgery'

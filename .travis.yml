@@ -1,4 +1,8 @@
 language: ruby
 rvm:
-  - 2.1.1
-  - 2.0.0
+- 2.1.1
+- 2.0.0
+addons:
+  code_climate:
+    repo_token:
+      secure: XKfpSOSzLlGchgsqE0HpxUHJuM/EEEIYLFkmtjGzQMcvKh24n4N6nOfxj89H4oj4jUam6vaJ+vHJG2rltVGCT/cw8S4BtpY+e2pvlIuNt1NoVffzfXTDXCXuMvH6CqNoXIgCrQTMUrFarLr1FSkMtXipbhPUO8570yGR/hG3ic0=
