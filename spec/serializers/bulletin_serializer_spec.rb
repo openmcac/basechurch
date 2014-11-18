@@ -18,7 +18,7 @@ describe BulletinSerializer do
 
   context 'with a group' do
     let(:group) { bulletin.group }
-    let(:group_json) { JSON.parse(GroupSerializer.new(group).to_json) }
+    let(:group_json) { bulletin_json['bulletin'] }
     it_behaves_like 'a serialized group'
   end
 end

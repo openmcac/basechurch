@@ -3,8 +3,9 @@ class BulletinSerializer < ActiveModel::Serializer
              :published_at,
              :name,
              :service_order,
-             :description,
-             :group
+             :description
+
+  has_one :group
 
   def published_at
     object.published_at.utc.to_time.iso8601
