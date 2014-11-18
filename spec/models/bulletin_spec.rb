@@ -13,10 +13,12 @@ RSpec.describe Bulletin, :type => :model do
   end
 
   context "validation" do
-    let(:bulletin) { create(:bulletin, display_published_at: 'asdasf') }
-
     it 'requires a valid date' do
       expect(build(:bulletin, display_published_at: '')).to_not be_valid
+    end
+
+    it 'requires a group' do
+      expect(build(:bulletin, group: nil)).to_not be_valid
     end
   end
 end
