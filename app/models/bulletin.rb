@@ -2,6 +2,7 @@ class Bulletin < ActiveRecord::Base
   belongs_to :group
   before_save :populate_published_at
   validate :display_published_at_must_be_correct_format
+  validates :group, presence: true
 
   attr_accessor :display_published_at
 

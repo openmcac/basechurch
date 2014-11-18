@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :v1, defaults: { format: 'json' } do
-    resources :groups
-    resources :bulletins
+    resources :groups do
+      resources :bulletins
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

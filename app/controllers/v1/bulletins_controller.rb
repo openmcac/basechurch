@@ -1,6 +1,7 @@
 class V1::BulletinsController < ApplicationController
   serialization_scope nil
 
+  before_action :set_group
   before_action :set_bulletin, only: [:create]
 
   def show
@@ -24,6 +25,11 @@ class V1::BulletinsController < ApplicationController
     @bulletin.display_published_at = user_params[:publishedAt]
     @bulletin.description = user_params[:description]
     @bulletin.service_order = user_params[:serviceOrder]
+    @bulletin.group = @group
+  end
+
+  def set_group
+    @group = Group.find(params[:group_id])
   end
 
   def user_params
