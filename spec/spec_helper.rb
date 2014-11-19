@@ -1,5 +1,6 @@
 require 'support/request_helpers'
 require "codeclimate-test-reporter"
+require "devise"
 
 CodeClimate::TestReporter.start
 

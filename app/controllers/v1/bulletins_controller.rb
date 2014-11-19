@@ -1,6 +1,7 @@
 class V1::BulletinsController < ApplicationController
   serialization_scope nil
 
+  before_action :authenticate_user!, except: [:show]
   before_action :set_group
   before_action :set_bulletin, only: [:create]
 

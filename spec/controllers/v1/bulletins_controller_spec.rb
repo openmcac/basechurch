@@ -5,6 +5,8 @@ describe V1::BulletinsController do
     create(:group)
   end
 
+  let(:user) { create(:user) }
+
   let(:all_attributes) do
     {
       bulletin: {
@@ -51,29 +53,46 @@ describe V1::BulletinsController do
   end
 
   describe 'POST /:group_slug/bulletins' do
-    context 'with minimum params required' do
-      let(:post_params) { valid_attributes }
-      it_behaves_like 'an action to create a bulletin'
-    end
+    context 'with an authenticated user' do
+      before { sign_in user }
 
-    context 'with all params provided' do
-      let(:post_params) { all_attributes }
-      it_behaves_like 'an action to create a bulletin'
-    end
+      context 'with minimum params required' do
+        let(:post_params) { valid_attributes }
+        it_behaves_like 'an action to create a bulletin'
+      end
 
-    context 'with invalid parameters' do
-      let(:invalid_attributes) { valid_attributes }
-      let(:perform_create) { post :create, valid_attributes }
+      context 'with all params provided' do
+        let(:post_params) { all_attributes }
+        it_behaves_like 'an action to create a bulletin'
+      end
 
-      context "where published_at is not iso8601 compliant" do
-        before do
-          invalid_attributes[:bulletin][:publishedAt] = 'sdafasdfdsa'
-          perform_create
+      context 'with invalid parameters' do
+        let(:invalid_attributes) { valid_attributes }
+        let(:perform_create) { post :create, valid_attributes }
+
+        context "where published_at is not iso8601 compliant" do
+          before do
+            invalid_attributes[:bulletin][:publishedAt] = 'sdafasdfdsa'
+            perform_create
+          end
+
+          subject { response }
+
+          its(:status) { should == 422 }
         end
+      end
+    end
 
-        subject { response }
+    context 'with an anonymous user' do
+      before { post :create, valid_attributes }
 
-        its(:status) { should == 422 }
+      it 'returns a 302 status code' do
+        expect(response.status).to eq(302)
+      end
+
+      it 'does not create a bulletin' do
+        expect { post :create, valid_attributes }.
+            to_not change { Bulletin.count }
       end
     end
   end
