@@ -16,4 +16,4 @@
 # Using secret_token for rails3 compatibility. Change to secret_key_base
 # to avoid deprecation warning.
 # Can be safely removed in a rails3 api-only application.
-BasecampApi::Application.config.secret_token = 'a3beb4cecfc5e0f26b3b8ce2ed334fd67c35f280731c037684a7208f374f18434ad4b8475abdb04425be29d3edc6f87bb5e26380dcdba3b19d800a2d70bada95'
+BasechurchApi::Application.config.secret_token = 'a3beb4cecfc5e0f26b3b8ce2ed334fd67c35f280731c037684a7208f374f18434ad4b8475abdb04425be29d3edc6f87bb5e26380dcdba3b19d800a2d70bada95'
