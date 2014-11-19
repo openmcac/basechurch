@@ -5,7 +5,7 @@ describe V1::BulletinsController do
     create(:group)
   end
 
-  let(:valid_attributes) do
+  let(:all_attributes) do
     {
       bulletin: {
         publishedAt: DateTime.now.to_time.iso8601,
@@ -15,6 +15,30 @@ describe V1::BulletinsController do
       },
       group_id: sunday_service.id
     }
+  end
+
+  let(:valid_attributes) do
+    {
+      bulletin: {
+        publishedAt: DateTime.now.to_time.iso8601
+      },
+      group_id: sunday_service.id
+    }
+  end
+
+  shared_examples_for 'an action to create a bulletin' do
+    let(:perform_create) { post :create, post_params }
+
+    it 'creates a new bulletin' do
+      expect { perform_create }.to change { Bulletin.count }.by(1)
+    end
+
+    it 'returns the created bulletin' do
+      perform_create
+
+      expect(response.body).
+          to eq(BulletinSerializer.new(Bulletin.last).to_json)
+    end
   end
 
   describe 'GET /:group_slug/bulletins/:id' do
@@ -27,19 +51,14 @@ describe V1::BulletinsController do
   end
 
   describe 'POST /:group_slug/bulletins' do
-    context 'with valid params' do
-      let(:perform_create) { post :create, valid_attributes }
+    context 'with minimum params required' do
+      let(:post_params) { valid_attributes }
+      it_behaves_like 'an action to create a bulletin'
+    end
 
-      it 'creates a new bulletin' do
-        expect { perform_create }.to change { Bulletin.count }.by(1)
-      end
-
-      it 'returns the created bulletin' do
-        perform_create
-
-        expect(response.body).
-            to eq(BulletinSerializer.new(Bulletin.last).to_json)
-      end
+    context 'with all params provided' do
+      let(:post_params) { all_attributes }
+      it_behaves_like 'an action to create a bulletin'
     end
 
     context 'with invalid parameters' do
