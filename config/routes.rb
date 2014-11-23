@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :api_keys, except: [:new, :edit]
   devise_for :users
 
   namespace :v1, defaults: { format: 'json' } do
