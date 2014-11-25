@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :api_keys, except: [:new, :edit]
-  devise_for :users
+  devise_for :users#, controllers: { sessions: 'sessions' }
 
   namespace :v1, defaults: { format: 'json' } do
     resources :groups do

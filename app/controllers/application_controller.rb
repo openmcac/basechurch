@@ -2,6 +2,9 @@ class ApplicationController < ActionController::API
   include ActionController::Serialization
   include ActionController::MimeResponds
   include ActionController::ImplicitRender
+  include ActionController::StrongParameters
+
+  respond_to :json
 
   def current_user
     api_key = ApiKey.active.where(access_token: token).first

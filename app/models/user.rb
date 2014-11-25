@@ -7,6 +7,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   def session_api_key
-    
+    api_keys.active.session.first_or_create
   end
 end
