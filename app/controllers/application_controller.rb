@@ -6,14 +6,18 @@ class ApplicationController < ActionController::API
 
   respond_to :json
 
-  def current_user
-    api_key = ApiKey.active.where(access_token: token).first
-    api_key.try(:user)
-  end
+  before_action :authenticate_user_from_token!
 
-  def token
-    bearer = request.headers['HTTP_AUTHORIZATION']
-    return bearer.split.last if bearer.present?
-    nil
+  private
+  def authenticate_user_from_token!
+    return unless request.headers['X-User-Email']
+
+    email = request.headers['X-User-Email']
+    user = email && User.find_by_email(email)
+    token = request.headers['X-User-Token']
+
+    if user && Devise.secure_compare(user.session_api_key.access_token, token)
+      sign_in user, store: false
+    end
   end
 end
