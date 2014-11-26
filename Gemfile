@@ -19,7 +19,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'pry'
   gem 'pry-remote'
-  gem 'pry-debugger'
   gem 'travis'
 end
 
