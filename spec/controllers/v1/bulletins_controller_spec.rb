@@ -54,7 +54,10 @@ describe V1::BulletinsController do
 
   describe 'POST /:group_slug/bulletins' do
     context 'with an authenticated user' do
-      before { sign_in user }
+      before do
+        request.headers['X-User-Email'] = user.email
+        request.headers['X-User-Token'] = user.session_api_key.access_token
+      end
 
       context 'with minimum params required' do
         let(:post_params) { valid_attributes }

@@ -19,7 +19,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'pry'
   gem 'pry-remote'
-  gem 'pry-debugger'
   gem 'travis'
 end
 
@@ -28,10 +27,11 @@ group :test do
   gem 'factory_girl_rails'
   gem 'rspec-its'
   gem 'forgery'
+  gem 'timecop'
 end
 
 # To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'bcrypt-ruby', '~> 3.1.2'
 
 # To use Jbuilder templates for JSON
 gem 'jbuilder'
