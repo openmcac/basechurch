@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141122193506) do
+ActiveRecord::Schema.define(version: 20141127050515) do
 
   create_table "api_keys", force: true do |t|
     t.integer  "user_id"
@@ -40,6 +40,22 @@ ActiveRecord::Schema.define(version: 20141122193506) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "posts", force: true do |t|
+    t.integer  "group_id"
+    t.integer  "author_id"
+    t.integer  "editor_id"
+    t.string   "slug"
+    t.string   "title"
+    t.text     "content"
+    t.datetime "published_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "posts", ["author_id"], name: "index_posts_on_author_id"
+  add_index "posts", ["editor_id"], name: "index_posts_on_editor_id"
+  add_index "posts", ["group_id"], name: "index_posts_on_group_id"
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
