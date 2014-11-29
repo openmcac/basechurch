@@ -7,4 +7,17 @@ class Post < ActiveRecord::Base
   validates :content, presence: true
   validates :editor, presence: true, unless: :new_record?
   validates :group, presence: true
+
+  validates :display_published_at, iso8601: true
+
+  before_save :populate_published_at
+
+  attr_accessor :display_published_at
+
+  private
+  def populate_published_at
+    unless display_published_at.blank?
+      self.published_at = DateTime.iso8601(display_published_at)
+    end
+  end
 end
