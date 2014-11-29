@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   namespace :v1, defaults: { format: 'json' } do
     resources :groups do
       resources :bulletins
+      resources :posts
     end
   end
 
