@@ -19,6 +19,11 @@ describe PostSerializer do
   its(['updatedAt']) { should eq(post.updated_at.utc.to_time.iso8601) }
   its(['publishedAt']) { should eq(post.published_at.utc.to_time.iso8601) }
 
+  context 'with tags' do
+    let(:post) { create(:post, tag_list: ['x', 'y', 'z']) }
+    its(['tags']) { should eq(post.tag_list) }
+  end
+
   context 'with a publish date' do
     let(:post) { create(:post, published_at: DateTime.now) }
     its(['publishedAt']) { should eq(post.published_at.utc.to_time.iso8601) }

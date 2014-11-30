@@ -40,6 +40,7 @@ class V1::PostsController < ApplicationController
     post.display_published_at = user_params[:publishedAt]
     post.group = @group
     post.author ||= current_user
+    post.tag_list = user_params[:tags]
   end
 
   def set_group

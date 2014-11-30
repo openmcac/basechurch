@@ -14,6 +14,7 @@ describe V1::PostsController do
         publishedAt: DateTime.now.to_time.iso8601,
         title: Forgery(:lorem_ipsum).title,
         content: Forgery(:lorem_ipsum).words(10),
+        tags: ['tag1', 'tag2', 'tag3']
       },
       group_id: group.id
     }
@@ -49,6 +50,7 @@ describe V1::PostsController do
       its(:content) { should == post_params[:post][:content] }
       its(:group) { should == group }
       its(:title) { should == post_params[:post][:title] }
+      its(:tag_list) { should == expected_tags }
     end
 
     it 'contains the published date provided in params' do
@@ -77,6 +79,7 @@ describe V1::PostsController do
       its(:content) { should == post_params[:post][:content] }
       its(:group) { should == group }
       its(:title) { should == post_params[:post][:title] }
+      its(:tag_list) { should == expected_tags }
     end
 
     # it 'contains the published date provided in params' do
@@ -104,16 +107,13 @@ describe V1::PostsController do
 
       context 'with minimum params required' do
         let(:post_params) { valid_attributes }
-        let(:expected_published_at) { DateTime.now }
+        let(:expected_tags) { [] }
         it_behaves_like 'an action to create a post'
       end
 
       context 'with all params provided' do
         let(:post_params) { all_attributes }
-        let(:expected_published_at) do
-          DateTime.iso8601(post_params[:post][:publishedAt])
-        end
-
+        let(:expected_tags) { all_attributes[:post][:tags] }
         it_behaves_like 'an action to create a post'
       end
 
@@ -161,6 +161,7 @@ describe V1::PostsController do
           valid_attributes[:id] = post_to_update.id
           valid_attributes
         end
+        let(:expected_tags) { [] }
 
         it_behaves_like 'an action to update a post'
       end
@@ -170,6 +171,7 @@ describe V1::PostsController do
           all_attributes[:id] = post_to_update.id
           all_attributes
         end
+        let(:expected_tags) { post_params[:post][:tags] }
 
         let(:expected_published_at) do
           DateTime.iso8601(post_params[:post][:publishedAt])
