@@ -14,9 +14,23 @@ RSpec.describe Post, :type => :model do
       expect(build(:post, display_published_at: 'asdfasdfasd')).to_not be_valid
     end
 
+    it 'requires a group' do
+      expect(build(:post, group: nil)).to_not be_valid
+    end
+
     context 'when updating a post' do
       it 'requires an editor' do
         expect(create(:post)).not_to be_valid
+      end
+
+      context 'when a display_published_at value is not provided' do
+        let(:post) { create(:post) }
+
+        it 'assigns now as the published_at value' do
+          Timecop.freeze do
+            expect(post.published_at).to eq(DateTime.now)
+          end
+        end
       end
     end
   end

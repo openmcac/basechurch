@@ -3,7 +3,6 @@ class V1::PostsController < ApplicationController
 
   before_action :authenticate_user!, except: [:show]
   before_action :set_group
-  before_action :set_post, only: [:create]
 
   attr_reader :post
 
@@ -13,6 +12,20 @@ class V1::PostsController < ApplicationController
   end
 
   def create
+    @post = Post.new
+    set_post_with_params(@post)
+    save_post_and_render
+  end
+
+  def update
+    @post = Post.find(params['id'])
+    set_post_with_params(@post)
+    @post.editor = current_user
+    save_post_and_render
+  end
+
+  private
+  def save_post_and_render
     begin
       post.save!
       render json: post.reload
@@ -21,14 +34,12 @@ class V1::PostsController < ApplicationController
     end
   end
 
-  private
-  def set_post
-    @post = Post.new
-    @post.content = user_params[:content]
-    @post.title = user_params[:title]
-    @post.display_published_at = user_params[:publishedAt]
-    @post.group = @group
-    @post.author = current_user
+  def set_post_with_params(post)
+    post.content = user_params[:content]
+    post.title = user_params[:title]
+    post.display_published_at = user_params[:publishedAt]
+    post.group = @group
+    post.author ||= current_user
   end
 
   def set_group

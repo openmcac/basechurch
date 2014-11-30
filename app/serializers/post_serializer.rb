@@ -1,6 +1,5 @@
 class PostSerializer < ActiveModel::Serializer
   attributes :id,
-             :editor,
              :title,
              :content,
              :published_at,
@@ -9,6 +8,7 @@ class PostSerializer < ActiveModel::Serializer
 
   has_one :group
   has_one :author
+  has_one :editor
 
   def created_at
     object.created_at.utc.to_time.iso8601

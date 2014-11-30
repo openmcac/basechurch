@@ -17,7 +17,7 @@ describe PostSerializer do
   its(['editor']) { should be_nil }
   its(['createdAt']) { should eq(post.created_at.utc.to_time.iso8601) }
   its(['updatedAt']) { should eq(post.updated_at.utc.to_time.iso8601) }
-  its(['publishedAt']) { should be_nil }
+  its(['publishedAt']) { should eq(post.published_at.utc.to_time.iso8601) }
 
   context 'with a publish date' do
     let(:post) { create(:post, published_at: DateTime.now) }
