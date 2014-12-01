@@ -2,6 +2,7 @@ class PostSerializer < ActiveModel::Serializer
   attributes :id,
              :title,
              :content,
+             :slug,
              :tags,
              :published_at,
              :created_at,

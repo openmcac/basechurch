@@ -98,7 +98,7 @@ describe V1::PostsController do
     end
   end
 
-  describe 'POST /:group_slug/posts' do
+  describe 'POST /groups/:group_id/posts' do
     context 'with an authenticated user' do
       before do
         request.headers['X-User-Email'] = logged_user.email
@@ -147,7 +147,7 @@ describe V1::PostsController do
     end
   end
 
-  describe 'PUT /:group_slug/:post_id' do
+  describe 'PUT /groups/:group_id/posts/:post_id' do
     context 'with an authenticated user' do
       before do
         request.headers['X-User-Email'] = logged_user.email

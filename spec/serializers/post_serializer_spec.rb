@@ -14,6 +14,7 @@ describe PostSerializer do
   its(['id']) { should eq(post.id) }
   its(['title']) { should eq(post.title) }
   its(['content']) { should eq(post.content) }
+  its(['slug']) { should eq(post.slug) }
   its(['editor']) { should be_nil }
   its(['createdAt']) { should eq(post.created_at.utc.to_time.iso8601) }
   its(['updatedAt']) { should eq(post.updated_at.utc.to_time.iso8601) }

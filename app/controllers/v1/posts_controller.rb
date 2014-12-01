@@ -2,7 +2,7 @@ class V1::PostsController < ApplicationController
   serialization_scope nil
 
   before_action :authenticate_user!, except: [:show]
-  before_action :set_group
+  before_action :set_group, except: [:show]
 
   attr_reader :post
 
@@ -19,8 +19,8 @@ class V1::PostsController < ApplicationController
 
   def update
     @post = Post.find(params['id'])
-    set_post_with_params(@post)
     @post.editor = current_user
+    set_post_with_params(@post)
     save_post_and_render
   end
 

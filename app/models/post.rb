@@ -1,4 +1,8 @@
 class Post < ActiveRecord::Base
+  extend FriendlyId
+
+  friendly_id :generate_slug, use: :slugged
+
   belongs_to :group
   belongs_to :author, class_name: :User
   belongs_to :editor, class_name: :User
@@ -26,5 +30,14 @@ class Post < ActiveRecord::Base
     else
       DateTime.iso8601(display_published_at)
     end
+  end
+
+  def generate_slug
+    shorten(title.nil? ? content : title)
+  end
+
+  def shorten(str)
+    max_words = 10
+    str.split[0..(max_words - 1)].join(' ')
   end
 end

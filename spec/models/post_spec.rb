@@ -45,4 +45,50 @@ RSpec.describe Post, :type => :model do
       expect(post.published_at.to_i).to eq(published_at.to_i)
     end
   end
+
+  context '#slug' do
+    context 'with a title' do
+      context 'where it is <= 10 words' do
+        let(:post) { create(:post, title: 'A nice title') }
+
+        it 'populates a slug based on the title' do
+          expect(post.slug).to eq('a-nice-title')
+        end
+      end
+
+      context 'where it is longer than 10 words' do
+        let(:post) do
+          create(:post,
+                 title: 'oh man this is a long word when will it truncate?')
+        end
+
+        it 'populates a slug based on the title' do
+          expect(post.slug).
+              to eq('oh-man-this-is-a-long-word-when-will-it')
+        end
+      end
+    end
+
+    context 'without a title' do
+      context 'with content longer than 10 words' do
+        let(:post) do
+          create(:post,
+                 content: 'oh man this is a long word when will it truncate?')
+        end
+
+        it 'populates a slug based on first 10 words of content' do
+          expect(post.slug).
+              to eq('oh-man-this-is-a-long-word-when-will-it')
+        end
+      end
+
+      context 'with content <= 10 words' do
+        let(:post) { create(:post, content: 'this is long') }
+
+        it 'populates a slug based on content' do
+          expect(post.slug).to eq('this-is-long')
+        end
+      end
+    end
+  end
 end

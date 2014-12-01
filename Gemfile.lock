@@ -67,6 +67,8 @@ GEM
     ffi (1.9.6)
     forgery (0.6.0)
     formatador (0.2.5)
+    friendly_id (5.0.4)
+      activerecord (>= 4.0.0)
     gh (0.13.2)
       addressable
       backports
@@ -221,6 +223,7 @@ DEPENDENCIES
   devise
   factory_girl_rails
   forgery
+  friendly_id (~> 5.0.0)
   guard-rspec
   jbuilder
   pry
