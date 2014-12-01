@@ -11,6 +11,7 @@ gem 'active_model_serializers'
 
 gem 'spring', :group => :development
 
+gem 'friendly_id', '~> 5.0.0'
 
 gem 'sqlite3'
 
