@@ -15,12 +15,13 @@ gem 'friendly_id', '~> 5.0.0'
 
 gem 'sqlite3'
 
+gem 'travis'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'guard-rspec'
   gem 'pry'
   gem 'pry-remote'
-  gem 'travis'
 end
 
 group :test do
