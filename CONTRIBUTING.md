@@ -10,6 +10,7 @@ Team discussions will take place in Slack. Join @ https://mcac.slack.com/signup.
 If you're starting from scratch here are a couple guides that will help you out:
 
  - Setting up Git: https://help.github.com/articles/set-up-git/
+ - Writing good commit messages: https://github.com/erlang/otp/wiki/Writing-good-commit-messages
  - Learning the fundamental JavaScript concepts: http://superherojs.com
  - Build a Rails app from scratch: https://www.railstutorial.org/book
  - Ember basics: http://emberjs.com/guides/
