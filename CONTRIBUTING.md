@@ -1,6 +1,10 @@
 Contributing
 ============
 
+### Join the Team
+
+Team discussions will take place in Slack. Join @ https://mcac.slack.com/signup.
+
 ### Recommended Reading
 
 If you're starting from scratch here are a couple guides that will help you out:
