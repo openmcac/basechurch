@@ -7,6 +7,10 @@ Rails.application.routes.draw do
       resources :bulletins
       resources :posts
     end
+
+    resources :announcements
+
+    post '/groups/:group_id/bulletins/:bulletin_id/announcements', to: 'announcements#create', as: 'bulletin_announcement'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

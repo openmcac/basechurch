@@ -7,7 +7,7 @@ gem 'rails', '4.1.7'
 gem 'rails-api'
 
 gem 'acts-as-taggable-on', '~> 3.4'
-gem 'acts-as-list'
+gem 'acts_as_list'
 gem 'active_model_serializers'
 
 gem 'spring', :group => :development
