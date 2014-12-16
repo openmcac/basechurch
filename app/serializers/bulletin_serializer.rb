@@ -6,6 +6,7 @@ class BulletinSerializer < ActiveModel::Serializer
              :description
 
   has_one :group
+  has_many :announcements
 
   def published_at
     object.published_at.utc.to_time.iso8601
