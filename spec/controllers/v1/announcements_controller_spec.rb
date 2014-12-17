@@ -79,4 +79,36 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
      end
     end
   end
+
+  describe 'PATCH /announcements/:id/move/:position' do
+    context 'with an authenticated user' do
+      before do
+        request.headers['X-User-Email'] = user.email
+        request.headers['X-User-Token'] = user.session_api_key.access_token
+      end
+
+      context 'with minimum params required' do
+        let(:bulletin) do
+          create(:bulletin_with_announcements, announcements_count: 3)
+        end
+        let(:position) { 2 }
+        let(:announcement_id) { bulletin.announcements.last.id }
+
+        let(:patch_params) do
+          {
+            announcement_id: announcement_id,
+            position: position
+          }
+        end
+
+        before do
+          patch :move, patch_params
+        end
+
+        it 'moves existing announcement to position specified' do
+          expect(Announcement.find(announcement_id).position).to eq(position)
+        end
+      end
+    end
+  end
 end

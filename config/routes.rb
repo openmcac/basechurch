@@ -8,7 +8,9 @@ Rails.application.routes.draw do
       resources :posts
     end
 
-    resources :announcements
+    resources :announcements do
+      patch 'move/:position', to: 'announcements#move'
+    end
 
     post '/groups/:group_id/bulletins/:bulletin_id/announcements',
          to: 'announcements#create',
