@@ -29,6 +29,17 @@ class V1::AnnouncementsController < ApplicationController
     render json: @announcement.insert_at(@position)
   end
 
+  def update
+    begin
+      @announcement = Announcement.find(params[:id])
+      @announcement.description = user_params[:description]
+      @announcement.save!
+      render json: @announcement.reload
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { error: e.to_s }, status: :unprocessable_entity
+    end
+  end
+
   private
   def set_bulletin
     @bulletin = Bulletin.find(params[:bulletin_id])

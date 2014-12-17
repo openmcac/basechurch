@@ -5,7 +5,6 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
   let(:user) { create(:user) }
   let(:announcement_post) { create(:post, group: bulletin.group) }
 
-
   let(:valid_attributes) do
     {
       announcement: {
@@ -80,7 +79,7 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
     end
   end
 
-  describe 'PATCH /announcements/:id/move/:position' do
+  describe 'PUT /announcements/:id' do
     context 'with an authenticated user' do
       before do
         request.headers['X-User-Email'] = user.email
@@ -107,6 +106,41 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
 
         it 'moves existing announcement to position specified' do
           expect(Announcement.find(announcement_id).position).to eq(position)
+        end
+      end
+    end
+  end
+
+  describe 'PATCH /announcements/:id/move/:position' do
+    context 'with an authenticated user' do
+      before do
+        request.headers['X-User-Email'] = user.email
+        request.headers['X-User-Token'] = user.session_api_key.access_token
+      end
+
+      context 'with minimum params required' do
+        let(:bulletin) do
+          create(:bulletin_with_announcements, announcements_count: 1)
+        end
+        let(:announcement) { bulletin.announcements.first }
+        let(:description) { Forgery(:lorem_ipsum).words(90) }
+
+        let(:put_params) do
+          {
+            id: announcement.id,
+            announcement: {
+              description: description
+            }
+          }
+        end
+
+        before do
+          put :update, put_params
+        end
+
+        it 'updates the description of the specified announcement' do
+          expect(Announcement.find(announcement.id).description).
+              to eq(description)
         end
       end
     end
