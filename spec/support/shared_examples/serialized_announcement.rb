@@ -11,4 +11,5 @@ shared_examples 'a serialized announcement' do
   its(['description']) { should eq(announcement.description) }
   its(['bulletinId']) { should eq(announcement.bulletin.id) }
   its(['postId']) { should eq(announcement.post.id) }
+  its(['position']) { should eq(announcement.position) }
 end
