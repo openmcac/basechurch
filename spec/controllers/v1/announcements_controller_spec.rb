@@ -145,4 +145,26 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
       end
     end
   end
+
+  describe 'DELETE /announcements/:id' do
+    context 'with an authenticated user' do
+      before do
+        request.headers['X-User-Email'] = user.email
+        request.headers['X-User-Token'] = user.session_api_key.access_token
+      end
+
+      let!(:announcements) { create_list(:announcement, 3) }
+
+      let(:announcement) { announcements[1] }
+
+      let(:delete_params) { { id: announcement.id } }
+
+      let(:perform_delete) { delete :destroy, delete_params }
+
+      it 'deletes the announcement specified' do
+        expect { perform_delete }.to change { Announcement.count }.by(-1)
+        expect(Announcement.where(id: announcement.id)).to be_empty
+      end
+    end
+  end
 end

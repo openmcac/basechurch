@@ -40,6 +40,11 @@ class V1::AnnouncementsController < ApplicationController
     end
   end
 
+  def destroy
+    Announcement.find(params[:id]).destroy
+    head status: :no_content
+  end
+
   private
   def set_bulletin
     @bulletin = Bulletin.find(params[:bulletin_id])
