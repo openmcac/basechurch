@@ -14,17 +14,16 @@ gem 'spring', :group => :development
 
 gem 'friendly_id', '~> 5.0.0'
 
-gem 'sqlite3'
-
 gem 'travis'
 
 gem 'coveralls', require: false
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0.0'
   gem 'guard-rspec'
   gem 'pry'
   gem 'pry-remote'
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'sqlite3'
 end
 
 group :test do
@@ -33,6 +32,10 @@ group :test do
   gem 'rspec-its'
   gem 'forgery'
   gem 'timecop'
+end
+
+group :staging do
+  gem 'pg'
 end
 
 # To use ActiveModel has_secure_password

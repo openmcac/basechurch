@@ -18,11 +18,11 @@ that a church's various platforms (iOS, Android, web) will fetch data from.
  - Set up repository
 
 ```bash
-$ cd ~/repos                   # or wherever you want to store your code
+$ cd ~/repos                        # or wherever you want to store your code
 $ git clone git@github.com:openmcac/basechurch-api
 $ cd basechurch-api
-$ bundle install               # install required gems
-$ bundle exec rake db:migrate  # update database
+$ bundle install --without staging  # install required gems
+$ bundle exec rake db:migrate       # update database
 ```
 
  - [Set up application server][pow]
