@@ -4,45 +4,43 @@ class V1::AnnouncementsController < ApplicationController
   before_action :set_bulletin, only: [:create, :create_at]
   before_action :set_announcement, only: [:create, :create_at]
   before_action :set_position, only: [:create_at, :move]
-  before_action :set_announcement_from_id, only: [:move]
 
   def create
-    begin
+    do_or_render_error do
       @announcement.save!
       render json: @announcement.reload
-    rescue ActiveRecord::RecordInvalid => e
-      render json: { error: e.to_s }, status: :unprocessable_entity
     end
   end
 
   def create_at
-    begin
+    do_or_render_error do
       @announcement.save!
       @announcement.insert_at(@position)
       render json: @announcement.reload
-    rescue ActiveRecord::RecordInvalid => e
-      render json: { error: e.to_s }, status: :unprocessable_entity
     end
   end
 
   def move
-    render json: @announcement.insert_at(@position)
+    do_or_render_error do
+      @announcement = Announcement.find(params[:announcement_id])
+      render json: @announcement.insert_at(@position)
+    end
   end
 
   def update
-    begin
+    do_or_render_error do
       @announcement = Announcement.find(params[:id])
       @announcement.description = user_params[:description]
       @announcement.save!
       render json: @announcement.reload
-    rescue ActiveRecord::RecordInvalid => e
-      render json: { error: e.to_s }, status: :unprocessable_entity
     end
   end
 
   def destroy
-    Announcement.find(params[:id]).destroy
-    head status: :no_content
+    do_or_render_error do
+      Announcement.find(params[:id]).destroy
+      head status: :no_content
+    end
   end
 
   private
@@ -57,12 +55,18 @@ class V1::AnnouncementsController < ApplicationController
     @announcement.post = Post.find(user_params[:post_id])
   end
 
-  def set_announcement_from_id
-    @announcement = Announcement.find(params[:announcement_id])
-  end
-
   def set_position
     @position = params[:position].to_i
+  end
+
+  def do_or_render_error
+    begin
+      yield
+    rescue => e
+      render json: { error: e.to_s },
+             status: :unprocessable_entity,
+             serializer: nil
+    end
   end
 
   def user_params
