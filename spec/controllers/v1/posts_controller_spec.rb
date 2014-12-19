@@ -30,57 +30,75 @@ describe V1::PostsController do
   end
 
   shared_examples_for 'an action to create a post' do
-    let(:perform_create) { post :create, post_params }
+    let(:perform_action) { post :create, post_params }
 
-    it 'creates a new post' do
-      expect { perform_create }.to change { Post.count }.by(1)
-    end
+    context 'with an authenticated user' do
+      before do
+        request.headers['X-User-Email'] = logged_user.email
+        request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+      end
 
-    it 'returns the created post' do
-      perform_create
+      it 'creates a new post' do
+        expect { perform_action }.to change { Post.count }.by(1)
+      end
 
-      expect(response.body).to eq(PostSerializer.new(Post.last).to_json)
-    end
+      it 'returns the created post' do
+        perform_action
 
-    context 'with a created post' do
-      subject { Post.last }
-      before { perform_create }
+        expect(response.body).to eq(PostSerializer.new(Post.last).to_json)
+      end
 
-      its(:author) { should == logged_user }
-      its(:content) { should == post_params[:post][:content] }
-      its(:group) { should == group }
-      its(:title) { should == post_params[:post][:title] }
-      its(:tag_list) { should == expected_tags }
-    end
+      context 'with a created post' do
+        subject { Post.last }
+        before { perform_action }
 
-    it 'contains the published date provided in params' do
-      Timecop.freeze do
-        perform_create
-        expect(Post.last.published_at.utc.to_time.iso8601).
-            to eq(DateTime.now.utc.to_time.iso8601)
+        its(:author) { should == logged_user }
+        its(:content) { should == post_params[:post][:content] }
+        its(:group) { should == group }
+        its(:title) { should == post_params[:post][:title] }
+        its(:tag_list) { should == expected_tags }
+      end
+
+      it 'contains the published date provided in params' do
+        Timecop.freeze do
+          perform_action
+          expect(Post.last.published_at.utc.to_time.iso8601).
+              to eq(DateTime.now.utc.to_time.iso8601)
+        end
       end
     end
+
+    it_behaves_like 'an authenticated action'
   end
 
   shared_examples_for 'an action to update a post' do
     let(:perform_action) { put :update, post_params }
 
-    it 'returns the updated post' do
-      perform_action
+    context 'with an authenticated user' do
+      before do
+        request.headers['X-User-Email'] = logged_user.email
+        request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+      end
 
-      expect(response.body).to eq(PostSerializer.new(post_to_update.reload).to_json)
+      it 'returns the updated post' do
+        perform_action
+
+        expect(response.body).to eq(PostSerializer.new(post_to_update.reload).to_json)
+      end
+
+      context 'with an updated post' do
+        subject { post_to_update.reload }
+        before { perform_action }
+
+        its(:editor) { should == logged_user }
+        its(:content) { should == post_params[:post][:content] }
+        its(:group) { should == group }
+        its(:title) { should == post_params[:post][:title] }
+        its(:tag_list) { should == expected_tags }
+      end
     end
 
-    context 'with an updated post' do
-      subject { post_to_update.reload }
-      before { perform_action }
-
-      its(:editor) { should == logged_user }
-      its(:content) { should == post_params[:post][:content] }
-      its(:group) { should == group }
-      its(:title) { should == post_params[:post][:title] }
-      its(:tag_list) { should == expected_tags }
-    end
+    it_behaves_like 'an authenticated action'
 
     # it 'contains the published date provided in params' do
     #   perform_create
@@ -100,11 +118,6 @@ describe V1::PostsController do
 
   describe 'POST /groups/:group_id/posts' do
     context 'with an authenticated user' do
-      before do
-        request.headers['X-User-Email'] = logged_user.email
-        request.headers['X-User-Token'] = logged_user.session_api_key.access_token
-      end
-
       context 'with minimum params required' do
         let(:post_params) { valid_attributes }
         let(:expected_tags) { [] }
@@ -118,13 +131,18 @@ describe V1::PostsController do
       end
 
       context 'with invalid parameters' do
+        before do
+          request.headers['X-User-Email'] = logged_user.email
+          request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+        end
+
         let(:invalid_attributes) { valid_attributes }
-        let(:perform_create) { post :create, invalid_attributes }
+        let(:perform_action) { post :create, invalid_attributes }
 
         context "where published_at is not iso8601 compliant" do
           before do
             invalid_attributes[:post][:publishedAt] = 'sdafasdfdsa'
-            perform_create
+            perform_action
           end
 
           subject { response }
@@ -133,27 +151,10 @@ describe V1::PostsController do
         end
       end
     end
-
-    context 'with an anonymous user' do
-      before { post :create, valid_attributes }
-
-      it 'returns a 302 status code' do
-        expect(response.status).to eq(302)
-      end
-
-      it 'does not create a post' do
-        expect { post :create, valid_attributes }.to_not change { Post.count }
-      end
-    end
   end
 
   describe 'PUT /groups/:group_id/posts/:post_id' do
     context 'with an authenticated user' do
-      before do
-        request.headers['X-User-Email'] = logged_user.email
-        request.headers['X-User-Token'] = logged_user.session_api_key.access_token
-      end
-
       let(:post_to_update) { create(:post) }
 
       context 'with minimum params required' do
@@ -188,6 +189,11 @@ describe V1::PostsController do
 
         let(:perform_action) { put :update, invalid_attributes }
 
+        before do
+          request.headers['X-User-Email'] = logged_user.email
+          request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+        end
+
         context "where published_at is not iso8601 compliant" do
           before do
             invalid_attributes[:post][:publishedAt] = 'sdafasdfdsa'
@@ -198,23 +204,6 @@ describe V1::PostsController do
 
           its(:status) { should == 422 }
         end
-      end
-    end
-
-    context 'with an anonymous user' do
-      let(:post_to_update) { create(:post) }
-
-      before do
-        valid_attributes[:id] = post_to_update.id
-        put :update, valid_attributes
-      end
-
-      it 'returns a 302 status code' do
-        expect(response.status).to eq(302)
-      end
-
-      it 'does not create a post' do
-        expect { put :update, valid_attributes }.to_not change { Post.count }
       end
     end
   end

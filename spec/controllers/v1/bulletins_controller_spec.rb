@@ -29,14 +29,14 @@ describe V1::BulletinsController do
   end
 
   shared_examples_for 'an action to create a bulletin' do
-    let(:perform_create) { post :create, post_params }
+    let(:perform_action) { post :create, post_params }
 
     it 'creates a new bulletin' do
-      expect { perform_create }.to change { Bulletin.count }.by(1)
+      expect { perform_action }.to change { Bulletin.count }.by(1)
     end
 
     it 'returns the created bulletin' do
-      perform_create
+      perform_action
 
       expect(response.body).
           to eq(BulletinSerializer.new(Bulletin.last).to_json)
@@ -53,6 +53,8 @@ describe V1::BulletinsController do
   end
 
   describe 'POST /:group_slug/bulletins' do
+    let(:perform_action) { post :create, valid_attributes }
+
     context 'with an authenticated user' do
       before do
         request.headers['X-User-Email'] = user.email
@@ -71,12 +73,11 @@ describe V1::BulletinsController do
 
       context 'with invalid parameters' do
         let(:invalid_attributes) { valid_attributes }
-        let(:perform_create) { post :create, valid_attributes }
 
         context "where published_at is not iso8601 compliant" do
           before do
             invalid_attributes[:bulletin][:publishedAt] = 'sdafasdfdsa'
-            perform_create
+            perform_action
           end
 
           subject { response }
@@ -86,17 +87,6 @@ describe V1::BulletinsController do
       end
     end
 
-    context 'with an anonymous user' do
-      before { post :create, valid_attributes }
-
-      it 'returns a 302 status code' do
-        expect(response.status).to eq(302)
-      end
-
-      it 'does not create a bulletin' do
-        expect { post :create, valid_attributes }.
-            to_not change { Bulletin.count }
-      end
-    end
+    it_behaves_like 'an authenticated action'
   end
 end
