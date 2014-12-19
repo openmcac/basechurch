@@ -21,48 +21,52 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
   #  - post_params
   #  - expected_position
   shared_examples_for 'an action to create an announcement' do
-    let(:perform_create) do
+    let(:perform_action) do
       post action_name, post_params
     end
 
-    it 'works as expected' do
-      # it creates a new announcement
-      expect { perform_create }.to change { Announcement.count }.by(1)
-
-      created_announcement = Announcement.last
-
-      # it returns the created announcement
-      expect(response.body).
-          to eq(AnnouncementSerializer.new(created_announcement).to_json)
-
-      expect(created_announcement.position).to eq(expected_position)
-    end
-
-    context 'with invalid parameters' do
-      let(:invalid_params) do
-        post_params[:announcement][:description] = ''
-        post_params
-      end
-
-      let(:perform_create) { post action_name, invalid_params }
-
-      it 'fails as expected' do
-        # it does not create a new announcement
-        expect { perform_create }.to_not change { Announcement.count }
-
-        # it returns a payload with error key
-        expect(JSON.parse(response.body).has_key?('error')).to be_truthy
-      end
-    end
-  end
-
-  describe 'POST /groups/:group_id/bulletins/:bulletin_id/announcements' do
-    context 'with an authenticated user' do
+    context 'when authenticated' do
       before do
         request.headers['X-User-Email'] = user.email
         request.headers['X-User-Token'] = user.session_api_key.access_token
       end
 
+      it 'works as expected' do
+        # it creates a new announcement
+        expect { perform_action }.to change { Announcement.count }.by(1)
+
+        created_announcement = Announcement.last
+
+        # it returns the created announcement
+        expect(response.body).
+            to eq(AnnouncementSerializer.new(created_announcement).to_json)
+
+        expect(created_announcement.position).to eq(expected_position)
+      end
+
+      context 'with invalid parameters' do
+        let(:invalid_params) do
+          post_params[:announcement][:description] = ''
+          post_params
+        end
+
+        let(:perform_create) { post action_name, invalid_params }
+
+        it 'fails as expected' do
+          # it does not create a new announcement
+          expect { perform_create }.to_not change { Announcement.count }
+
+          # it returns a payload with error key
+          expect(JSON.parse(response.body).has_key?('error')).to be_truthy
+        end
+      end
+    end
+
+    it_behaves_like 'an authenticated action'
+  end
+
+  describe 'POST /groups/:group_id/bulletins/:bulletin_id/announcements' do
+    context 'with an authenticated user' do
       context 'with minimum params required' do
         let(:action_name) { :create }
         let(:post_params) { valid_attributes }
@@ -74,25 +78,20 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
 
   describe 'POST /groups/:group_id/bulletins/:bulletin_id/announcements/:position' do
     context 'with an authenticated user' do
-      before do
-        request.headers['X-User-Email'] = user.email
-        request.headers['X-User-Token'] = user.session_api_key.access_token
+      context 'with minimum params required' do
+        let(:expected_position) { 2 }
+        let(:action_name) { :create_at }
+        let!(:bulletin) do
+          create(:bulletin_with_announcements, announcements_count: 3)
+        end
+
+        let(:post_params) do
+          valid_attributes[:position] = expected_position
+          valid_attributes
+        end
+
+        it_behaves_like 'an action to create an announcement'
       end
-
-     context 'with minimum params required' do
-       let(:expected_position) { 2 }
-       let(:action_name) { :create_at }
-       let!(:bulletin) do
-         create(:bulletin_with_announcements, announcements_count: 3)
-       end
-
-       let(:post_params) do
-         valid_attributes[:position] = expected_position
-         valid_attributes
-       end
-
-       it_behaves_like 'an action to create an announcement'
-     end
     end
   end
 
@@ -115,7 +114,7 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
           position: position
         }
       end
-      
+
       before { patch :move, patch_params }
 
       context 'with minimum params required' do
@@ -138,32 +137,35 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
   end
 
   describe 'PUT /announcements/:id' do
+    let(:bulletin) do
+      create(:bulletin_with_announcements, announcements_count: 1)
+    end
+
+    let(:announcement) { bulletin.announcements.first }
+    let(:description) { Forgery(:lorem_ipsum).words(90) }
+
+    let(:put_params) do
+      {
+        id: announcement.id,
+        announcement: {
+          description: description
+        }
+      }
+    end
+
+    let(:perform_action) { put :update, put_params }
+
+    it_behaves_like 'an authenticated action'
+
     context 'with an authenticated user' do
       before do
         request.headers['X-User-Email'] = user.email
         request.headers['X-User-Token'] = user.session_api_key.access_token
       end
 
-      let(:bulletin) do
-        create(:bulletin_with_announcements, announcements_count: 1)
-      end
-
-      let(:announcement) { bulletin.announcements.first }
-
-      let(:put_params) do
-        {
-          id: announcement.id,
-          announcement: {
-            description: description
-          }
-        }
-      end
-
       context 'with minimum params required' do
-        let(:description) { Forgery(:lorem_ipsum).words(90) }
-
         before do
-          put :update, put_params
+          perform_action
         end
 
         it 'updates the description of the specified announcement' do
@@ -175,11 +177,9 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
       context 'with invalid parameters' do
         let(:description) { '' }
 
-        let(:perform_update) { put :update, put_params }
-
         it 'fails as expected' do
           # it doesn't update the announcement description
-          expect { perform_update }.
+          expect { perform_action }.
               to_not change { Announcement.find(announcement.id).description }
 
           # it returns a payload with error key
@@ -190,19 +190,21 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
   end
 
   describe 'DELETE /announcements/:id' do
+    let!(:announcements) { create_list(:announcement, 3) }
+
+    let(:announcement) { announcements[1] }
+
+    let(:delete_params) { { id: announcement.id } }
+
+    let(:perform_delete) { delete :destroy, delete_params }
+
+    let(:perform_action) { perform_delete }
+
     context 'with an authenticated user' do
       before do
         request.headers['X-User-Email'] = user.email
         request.headers['X-User-Token'] = user.session_api_key.access_token
       end
-
-      let!(:announcements) { create_list(:announcement, 3) }
-
-      let(:announcement) { announcements[1] }
-
-      let(:delete_params) { { id: announcement.id } }
-
-      let(:perform_delete) { delete :destroy, delete_params }
 
       it 'deletes the announcement specified' do
         expect { perform_delete }.to change { Announcement.count }.by(-1)
@@ -221,5 +223,7 @@ RSpec.describe V1::AnnouncementsController, :type => :controller do
         end
       end
     end
+
+    it_behaves_like 'an authenticated action'
   end
 end

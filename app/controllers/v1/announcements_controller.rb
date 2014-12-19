@@ -1,6 +1,8 @@
 class V1::AnnouncementsController < ApplicationController
   serialization_scope nil
 
+  before_action :authenticate_user!
+
   before_action :set_bulletin, only: [:create, :create_at]
   before_action :set_announcement, only: [:create, :create_at]
   before_action :set_position, only: [:create_at, :move]
