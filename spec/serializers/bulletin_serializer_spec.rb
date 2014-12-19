@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'rspec/its'
 
 describe BulletinSerializer do
-  let(:bulletin) { create(:bulletin) }
+  let(:bulletin) { create(:bulletin_with_announcements) }
   let(:bulletin_json) { JSON.parse(BulletinSerializer.new(bulletin).to_json) }
 
   subject { bulletin_json['bulletin'] }
@@ -22,5 +22,19 @@ describe BulletinSerializer do
     let(:group_json) { bulletin_json['bulletin'] }
     it_behaves_like 'a serialized group'
   end
-end
 
+  context 'with announcements' do
+    it 'has an "announcements" key' do
+      expect(bulletin_json['bulletin']).to have_key('announcements')
+    end
+
+    it "serializes the announcements' descriptions" do
+      expect(bulletin_json['bulletin']['announcements'][0]['description']).
+          to eq(bulletin.announcements[0].description)
+      expect(bulletin_json['bulletin']['announcements'][1]['description']).
+          to eq(bulletin.announcements[1].description)
+      expect(bulletin_json['bulletin']['announcements'][2]['description']).
+          to eq(bulletin.announcements[2].description)
+    end
+  end
+end

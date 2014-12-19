@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130222902) do
+ActiveRecord::Schema.define(version: 20141216021608) do
+
+  create_table "announcements", force: true do |t|
+    t.integer  "post_id"
+    t.integer  "bulletin_id"
+    t.text     "description"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "announcements", ["bulletin_id"], name: "index_announcements_on_bulletin_id"
+  add_index "announcements", ["post_id"], name: "index_announcements_on_post_id"
 
   create_table "api_keys", force: true do |t|
     t.integer  "user_id"

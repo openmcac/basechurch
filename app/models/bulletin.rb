@@ -1,5 +1,7 @@
 class Bulletin < ActiveRecord::Base
   belongs_to :group
+  has_many :announcements
+
   before_save :populate_published_at
   validates :group, presence: true
   validates :display_published_at, iso8601: true, presence: true
