@@ -13,7 +13,38 @@ gemspec
 # To use debugger
 # gem 'debugger'
 
+gem 'active_model_serializers'
+gem 'acts-as-taggable-on', '~> 3.4'
+gem 'acts_as_list'
+gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'coveralls', require: false
+gem 'devise'
+gem 'friendly_id', '~> 5.0.0'
+gem 'jbuilder'
+gem 'rails'
+gem 'rails-api'
+gem 'travis'
+
+group :development do
+  gem 'spring'
+end
+
 group :test do
-  gem 'rspec-rails'
+  gem "codeclimate-test-reporter", require: nil
   gem 'factory_girl_rails'
+  gem 'forgery'
+  gem 'rspec-rails'
+  gem 'rspec-its'
+  gem 'timecop'
+end
+
+group :development, :test do
+  gem 'guard-rspec'
+  gem 'pry'
+  gem 'pry-remote'
+  gem 'sqlite3'
+end
+
+group :staging do
+  gem 'pg'
 end
