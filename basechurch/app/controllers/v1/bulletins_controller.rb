@@ -1,4 +1,4 @@
-class V1::BulletinsController < ApplicationController
+class V1::BulletinsController < Basechurch::ApplicationController
   serialization_scope nil
 
   before_action :authenticate_user!, except: [:show]

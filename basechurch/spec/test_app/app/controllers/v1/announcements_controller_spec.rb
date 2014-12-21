@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe V1::AnnouncementsController, :type => :controller do
+RSpec.describe V1::AnnouncementsController, type: :controller do
   let(:bulletin) { create(:bulletin) }
   let(:user) { create(:user) }
   let(:announcement_post) { create(:post, group: bulletin.group) }

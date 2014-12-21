@@ -1,4 +1,4 @@
-class V1::GroupsController < ApplicationController
+class V1::GroupsController < Basechurch::ApplicationController
   serialization_scope nil
 
   def show

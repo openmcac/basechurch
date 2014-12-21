@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe V1::BulletinsController do
+describe V1::BulletinsController, type: :controller do
   let(:sunday_service) do
     create(:group)
   end

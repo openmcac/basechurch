@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe V1::PostsController do
+describe V1::PostsController, type: :controller do
   let(:group) do
     create(:group)
   end

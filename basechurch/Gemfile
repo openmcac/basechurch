@@ -21,8 +21,9 @@ gem 'coveralls', require: false
 gem 'devise'
 gem 'friendly_id', '~> 5.0.0'
 gem 'jbuilder'
-gem 'rails'
+gem 'rails', '~> 4.1.8'
 gem 'rails-api'
+gem 'responders'
 gem 'travis'
 
 group :development do

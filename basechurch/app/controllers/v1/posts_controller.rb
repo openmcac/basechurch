@@ -1,4 +1,4 @@
-class V1::PostsController < ApplicationController
+class V1::PostsController < Basechurch::ApplicationController
   serialization_scope nil
 
   before_action :authenticate_user!, except: [:show]

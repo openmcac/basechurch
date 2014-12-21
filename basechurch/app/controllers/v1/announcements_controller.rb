@@ -1,4 +1,4 @@
-class V1::AnnouncementsController < ApplicationController
+class V1::AnnouncementsController < Basechurch::ApplicationController
   serialization_scope nil
 
   before_action :authenticate_user!
