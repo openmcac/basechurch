@@ -9,7 +9,7 @@ Basechurch is a set of APIs for front-ends to interact with in order to save
 data about their church and the groups inside it. The goal is to have one API
 that a church's various platforms (iOS, Android, web) will fetch data from.
 
- - [Contribuing to Basechurch][contrib]
+ - [Contributing to Basechurch][contrib]
 
 [contrib]: https://github.com/openmcac/basechurch-api/blob/master/CONTRIBUTING.md
 
