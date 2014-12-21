@@ -1,4 +1,9 @@
+require 'active_model_serializers'
+require 'acts-as-taggable-on'
+require 'acts_as_list'
 require 'devise'
+require 'friendly_id'
+require 'rails-api'
 
 module Basechurch
   class Engine < ::Rails::Engine

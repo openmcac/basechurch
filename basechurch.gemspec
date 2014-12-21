@@ -7,15 +7,23 @@ require "basechurch/version"
 Gem::Specification.new do |s|
   s.name        = "basechurch"
   s.version     = Basechurch::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Basechurch."
-  s.description = "TODO: Description of Basechurch."
+  s.authors     = ["Montreal Chinese Alliance Church"]
+  s.email       = ["dev@mcac.church"]
+  s.homepage    = "http://mcac.church"
+  s.summary     = "An API for your church."
+  s.description = s.summary
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rspec-rails"
-  s.add_dependency "devise"
+  s.add_dependency "active_model_serializers", "~> 0.9", ">= 0.9.2"
+  s.add_dependency "acts-as-taggable-on", "~> 3.4", ">= 3.4.2"
+  s.add_dependency "acts_as_list", "~> 0"
+  s.add_dependency "bcrypt-ruby", "~> 3.1", ">= 3.1.2"
+  s.add_dependency "devise", "~> 3.4", ">= 3.4.1"
+  s.add_dependency "friendly_id", "~> 5.0", ">= 5.0.0"
+  s.add_dependency "jbuilder", "~> 2.2", ">= 2.2.6"
+  s.add_dependency "rails", "~> 4.1.8", ">= 4.1.8"
+  s.add_dependency "rails-api", "~> 0.3", ">= 0.3.1"
+  s.add_dependency "travis", "~> 1.5", ">= 1.5.0"
 end

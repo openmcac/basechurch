@@ -13,19 +13,6 @@ gemspec
 # To use debugger
 # gem 'debugger'
 
-gem 'active_model_serializers'
-gem 'acts-as-taggable-on', '~> 3.4'
-gem 'acts_as_list'
-gem 'bcrypt-ruby', '~> 3.1.2'
-gem 'coveralls', require: false
-gem 'devise'
-gem 'friendly_id', '~> 5.0.0'
-gem 'jbuilder'
-gem 'rails', '~> 4.1.8'
-gem 'rails-api'
-gem 'responders'
-gem 'travis'
-
 group :development do
   gem 'spring'
 end
@@ -40,6 +27,7 @@ group :test do
 end
 
 group :development, :test do
+  gem 'coveralls'
   gem 'guard-rspec'
   gem 'pry'
   gem 'pry-remote'
