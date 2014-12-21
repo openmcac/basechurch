@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe V1::AnnouncementsController, type: :controller do
+RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
   let(:bulletin) { create(:bulletin) }
   let(:user) { create(:user) }
   let(:announcement_post) { create(:post, group: bulletin.group) }
@@ -33,9 +33,9 @@ RSpec.describe V1::AnnouncementsController, type: :controller do
 
       it 'works as expected' do
         # it creates a new announcement
-        expect { perform_action }.to change { Announcement.count }.by(1)
+        expect { perform_action }.to change { Basechurch::Announcement.count }.by(1)
 
-        created_announcement = Announcement.last
+        created_announcement = Basechurch::Announcement.last
 
         # it returns the created announcement
         expect(response.body).
@@ -54,7 +54,7 @@ RSpec.describe V1::AnnouncementsController, type: :controller do
 
         it 'fails as expected' do
           # it does not create a new announcement
-          expect { perform_create }.to_not change { Announcement.count }
+          expect { perform_create }.to_not change { Basechurch::Announcement.count }
 
           # it returns a payload with error key
           expect(JSON.parse(response.body).has_key?('error')).to be_truthy
@@ -121,7 +121,7 @@ RSpec.describe V1::AnnouncementsController, type: :controller do
         let(:announcement_id) { bulletin.announcements.last.id }
 
         it 'moves existing announcement to position specified' do
-          expect(Announcement.find(announcement_id).position).to eq(position)
+          expect(Basechurch::Announcement.find(announcement_id).position).to eq(position)
         end
       end
 
@@ -169,7 +169,7 @@ RSpec.describe V1::AnnouncementsController, type: :controller do
         end
 
         it 'updates the description of the specified announcement' do
-          expect(Announcement.find(announcement.id).description).
+          expect(Basechurch::Announcement.find(announcement.id).description).
               to eq(description)
         end
       end
@@ -180,7 +180,7 @@ RSpec.describe V1::AnnouncementsController, type: :controller do
         it 'fails as expected' do
           # it doesn't update the announcement description
           expect { perform_action }.
-              to_not change { Announcement.find(announcement.id).description }
+              to_not change { Basechurch::Announcement.find(announcement.id).description }
 
           # it returns a payload with error key
           expect(JSON.parse(response.body).has_key?('error')).to be_truthy
@@ -207,8 +207,8 @@ RSpec.describe V1::AnnouncementsController, type: :controller do
       end
 
       it 'deletes the announcement specified' do
-        expect { perform_delete }.to change { Announcement.count }.by(-1)
-        expect(Announcement.where(id: announcement.id)).to be_empty
+        expect { perform_delete }.to change { Basechurch::Announcement.count }.by(-1)
+        expect(Basechurch::Announcement.where(id: announcement.id)).to be_empty
       end
 
       context 'with invalid parameters' do
@@ -216,7 +216,7 @@ RSpec.describe V1::AnnouncementsController, type: :controller do
 
         it 'fails as expected' do
           # it doesn't delete the announcement
-          expect { perform_delete }.to_not change { Announcement.count }
+          expect { perform_delete }.to_not change { Basechurch::Announcement.count }
 
           # it returns a payload with error key
           expect(JSON.parse(response.body).has_key?('error')).to be_truthy

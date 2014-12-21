@@ -1,4 +1,4 @@
-class ApiKey < ActiveRecord::Base
+class Basechurch::ApiKey < ActiveRecord::Base
   belongs_to :user
 
   before_create :generate_access_token, :set_expiry_date

@@ -1,4 +1,4 @@
-class V1::AnnouncementsController < Basechurch::ApplicationController
+class Basechurch::V1::AnnouncementsController < Basechurch::ApplicationController
   serialization_scope nil
 
   before_action :authenticate_user!
@@ -24,14 +24,14 @@ class V1::AnnouncementsController < Basechurch::ApplicationController
 
   def move
     do_or_render_error do
-      @announcement = Announcement.find(params[:announcement_id])
+      @announcement = Basechurch::Announcement.find(params[:announcement_id])
       render json: @announcement.insert_at(@position)
     end
   end
 
   def update
     do_or_render_error do
-      @announcement = Announcement.find(params[:id])
+      @announcement = Basechurch::Announcement.find(params[:id])
       @announcement.description = user_params[:description]
       @announcement.save!
       render json: @announcement.reload
@@ -40,21 +40,21 @@ class V1::AnnouncementsController < Basechurch::ApplicationController
 
   def destroy
     do_or_render_error do
-      Announcement.find(params[:id]).destroy
+      Basechurch::Announcement.find(params[:id]).destroy
       head status: :no_content
     end
   end
 
   private
   def set_bulletin
-    @bulletin = Bulletin.find(params[:bulletin_id])
+    @bulletin = Basechurch::Bulletin.find(params[:bulletin_id])
   end
 
   def set_announcement
-    @announcement = Announcement.new
+    @announcement = Basechurch::Announcement.new
     @announcement.description = user_params[:description]
     @announcement.bulletin = @bulletin
-    @announcement.post = Post.find(user_params[:post_id])
+    @announcement.post = Basechurch::Post.find(user_params[:post_id])
   end
 
   def set_position

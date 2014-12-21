@@ -1,4 +1,4 @@
-class V1::PostsController < Basechurch::ApplicationController
+class Basechurch::V1::PostsController < Basechurch::ApplicationController
   serialization_scope nil
 
   before_action :authenticate_user!, except: [:show]
@@ -7,18 +7,18 @@ class V1::PostsController < Basechurch::ApplicationController
   attr_reader :post
 
   def show
-    post = Post.find(params['id'])
+    post = Basechurch::Post.find(params['id'])
     render json: post
   end
 
   def create
-    @post = Post.new
+    @post = Basechurch::Post.new
     set_post_with_params(@post)
     save_post_and_render
   end
 
   def update
-    @post = Post.find(params['id'])
+    @post = Basechurch::Post.find(params['id'])
     @post.editor = current_user
     set_post_with_params(@post)
     save_post_and_render
@@ -44,7 +44,7 @@ class V1::PostsController < Basechurch::ApplicationController
   end
 
   def set_group
-    @group = Group.find(params[:group_id])
+    @group = Basechurch::Group.find(params[:group_id])
   end
 
   def user_params

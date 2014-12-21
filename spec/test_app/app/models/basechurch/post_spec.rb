@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Post, :type => :model do
+RSpec.describe Basechurch::Post, :type => :model do
   context 'validations' do
     it 'requires content' do
       expect(build(:post, content: '')).to_not be_valid

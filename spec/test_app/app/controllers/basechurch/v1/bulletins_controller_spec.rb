@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe V1::BulletinsController, type: :controller do
+describe Basechurch::V1::BulletinsController, type: :controller do
   let(:sunday_service) do
     create(:group)
   end
@@ -32,14 +32,14 @@ describe V1::BulletinsController, type: :controller do
     let(:perform_action) { post :create, post_params }
 
     it 'creates a new bulletin' do
-      expect { perform_action }.to change { Bulletin.count }.by(1)
+      expect { perform_action }.to change { Basechurch::Bulletin.count }.by(1)
     end
 
     it 'returns the created bulletin' do
       perform_action
 
       expect(response.body).
-          to eq(BulletinSerializer.new(Bulletin.last).to_json)
+          to eq(BulletinSerializer.new(Basechurch::Bulletin.last).to_json)
     end
   end
 

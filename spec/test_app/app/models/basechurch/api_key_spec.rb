@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApiKey, :type => :model do
+RSpec.describe Basechurch::ApiKey, :type => :model do
   context '#before_create' do
     let(:api_key) { create(:api_key) }
 
@@ -55,19 +55,19 @@ RSpec.describe ApiKey, :type => :model do
 
     context 'active scope' do
       it 'returns all active keys' do
-        expect(ApiKey.active).to eq(keys[1..keys.count])
+        expect(Basechurch::ApiKey.active).to eq(keys[1..keys.count])
       end
     end
 
     context 'api scope' do
       it 'returns all keys with api scope' do
-        expect(ApiKey.api).to eq(api_keys)
+        expect(Basechurch::ApiKey.api).to eq(api_keys)
       end
     end
 
     context 'session scope' do
       it 'returns all keys with session scope' do
-        expect(ApiKey.session).to eq(session_keys)
+        expect(Basechurch::ApiKey.session).to eq(session_keys)
       end
     end
   end

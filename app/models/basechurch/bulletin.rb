@@ -1,4 +1,4 @@
-class Bulletin < ActiveRecord::Base
+class Basechurch::Bulletin < ActiveRecord::Base
   belongs_to :group
   has_many :announcements
 

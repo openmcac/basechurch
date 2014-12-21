@@ -1,4 +1,4 @@
-class Post < ActiveRecord::Base
+class Basechurch::Post < ActiveRecord::Base
   extend FriendlyId
 
   friendly_id :generate_slug, use: :slugged

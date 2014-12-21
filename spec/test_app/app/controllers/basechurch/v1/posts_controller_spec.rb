@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe V1::PostsController, type: :controller do
+describe Basechurch::V1::PostsController, type: :controller do
   let(:group) do
     create(:group)
   end
@@ -39,17 +39,17 @@ describe V1::PostsController, type: :controller do
       end
 
       it 'creates a new post' do
-        expect { perform_action }.to change { Post.count }.by(1)
+        expect { perform_action }.to change { Basechurch::Post.count }.by(1)
       end
 
       it 'returns the created post' do
         perform_action
 
-        expect(response.body).to eq(PostSerializer.new(Post.last).to_json)
+        expect(response.body).to eq(PostSerializer.new(Basechurch::Post.last).to_json)
       end
 
       context 'with a created post' do
-        subject { Post.last }
+        subject { Basechurch::Post.last }
         before { perform_action }
 
         its(:author) { should == logged_user }
@@ -62,7 +62,7 @@ describe V1::PostsController, type: :controller do
       it 'contains the published date provided in params' do
         Timecop.freeze do
           perform_action
-          expect(Post.last.published_at.utc.to_time.iso8601).
+          expect(Basechurch::Post.last.published_at.utc.to_time.iso8601).
               to eq(DateTime.now.utc.to_time.iso8601)
         end
       end

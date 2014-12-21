@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Bulletin, :type => :model do
+RSpec.describe Basechurch::Bulletin, :type => :model do
   context '#before_save' do
     let(:published_at) { DateTime.now }
     let(:bulletin) do

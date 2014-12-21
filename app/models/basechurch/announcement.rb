@@ -1,4 +1,4 @@
-class Announcement < ActiveRecord::Base
+class Basechurch::Announcement < ActiveRecord::Base
   belongs_to :post
   belongs_to :bulletin
 

@@ -1,4 +1,4 @@
-class V1::BulletinsController < Basechurch::ApplicationController
+class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   serialization_scope nil
 
   before_action :authenticate_user!, except: [:show]
@@ -6,7 +6,7 @@ class V1::BulletinsController < Basechurch::ApplicationController
   before_action :set_bulletin, only: [:create]
 
   def show
-    bulletin = Bulletin.find(params['id'])
+    bulletin = Basechurch::Bulletin.find(params['id'])
     render json: bulletin
   end
 
@@ -21,7 +21,7 @@ class V1::BulletinsController < Basechurch::ApplicationController
 
   private
   def set_bulletin
-    @bulletin = Bulletin.new
+    @bulletin = Basechurch::Bulletin.new
     @bulletin.name = user_params[:name]
     @bulletin.display_published_at = user_params[:publishedAt]
     @bulletin.description = user_params[:description]
@@ -30,7 +30,7 @@ class V1::BulletinsController < Basechurch::ApplicationController
   end
 
   def set_group
-    @group = Group.find(params[:group_id])
+    @group = Basechurch::Group.find(params[:group_id])
   end
 
   def user_params

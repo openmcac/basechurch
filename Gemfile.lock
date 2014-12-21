@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     basechurch (0.0.1)
+      devise
       rspec-rails
 
 GEM

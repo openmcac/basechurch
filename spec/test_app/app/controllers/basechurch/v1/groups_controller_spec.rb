@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe V1::GroupsController, type: :controller do
+describe Basechurch::V1::GroupsController, type: :controller do
   describe 'GET /groups/:id' do
     let(:group) { create(:group) }
 

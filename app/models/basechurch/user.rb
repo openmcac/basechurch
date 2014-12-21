@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class Basechurch::User < ActiveRecord::Base
   has_many :api_keys
 
   # Include default devise modules. Others available are:
