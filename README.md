@@ -32,10 +32,10 @@ $ bundle exec rake db:migrate       # update database
 ```bash
 $ curl get.pow.cx | sh         # installs pow
 $ cd ~/.pow
-$ ln -s ~/repos/basechurch-api api.basechurch
+$ ln -s ~/repos/basechurch-api/spec/test_app basechurch
 ```
 
- - Your application is now served at http://api.basechurch.dev
+ - Your application is now served at http://basechurch.dev
 
 ### Running Specs
 
