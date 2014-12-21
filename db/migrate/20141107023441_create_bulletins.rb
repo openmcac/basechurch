@@ -1,6 +1,6 @@
 class CreateBulletins < ActiveRecord::Migration
   def change
-    create_table :bulletins do |t|
+    create_table :basechurch_bulletins do |t|
       t.datetime :date
       t.string :name
       t.string :description

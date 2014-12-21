@@ -9,7 +9,7 @@ Basechurch is a set of APIs for front-ends to interact with in order to save
 data about their church and the groups inside it. The goal is to have one API
 that a church's various platforms (iOS, Android, web) will fetch data from.
 
- - [Contribuing to Basechurch][contrib]
+ - [Contributing to Basechurch][contrib]
 
 [contrib]: https://github.com/openmcac/basechurch-api/blob/master/CONTRIBUTING.md
 
@@ -32,10 +32,10 @@ $ bundle exec rake db:migrate       # update database
 ```bash
 $ curl get.pow.cx | sh         # installs pow
 $ cd ~/.pow
-$ ln -s ~/repos/basechurch-api api.basechurch
+$ ln -s ~/repos/basechurch-api/spec/test_app basechurch
 ```
 
- - Your application is now served at http://api.basechurch.dev
+ - Your application is now served at http://basechurch.dev
 
 ### Running Specs
 

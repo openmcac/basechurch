@@ -1,6 +1,6 @@
 class CreatePosts < ActiveRecord::Migration
   def change
-    create_table :posts do |t|
+    create_table :basechurch_posts do |t|
       t.references :group, index: true
       t.references :author, index: true
       t.references :editor, index: true
