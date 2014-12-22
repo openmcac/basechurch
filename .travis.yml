@@ -5,7 +5,7 @@ rvm:
 addons:
   code_climate:
     repo_token:
-      secure: LxxjLwtN6WyRAKiu0nWre58NK0p7xB4/h/DYZwQ5ALnaYaOwSNRwqnEX5WcqawZVAuBExVjYV7E2k1ZpUGpmOyt/XI+6QGqFToLldUoB0lUwzlQ5QTmZN+hZsnZ9+G8+LSVevJtuyLe9UrIIrtUWRnCKFD6hzrsl4TQMaUCeyVs=
+      secure: eKtahgCOYZC/FzHgPSRYWLG/c7dRelaUZgCHV5TyoIn+akelAPRs+B334J8ahAfArLIVL2iUNpGQVdbDAMyQNd0BcQROkzj2qicGX5BTpaGRjDRHOVUDpevykZJl6oqy4WjvMevSp2xxY1ejZmbOwW/NzRQfSd79ekxGr+J0V/0=
 notifications:
   slack:
     secure: G6VLedqT8kXanccqUeRRej2aXkR0SMFSwCBX/hbsNy+qoC7WSTFjMr98ijTn3eTykz1nBk+d2d2sfSm5dreIsl7jsF+eqHYKmZzGb13/YG6lvf2+GNyFduhoKJC3NWj1dqPO2QS+8g9YYBpGJIpnlp+PkSck5ewqd+mDXr53QbA=
