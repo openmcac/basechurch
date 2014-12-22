@@ -3,7 +3,7 @@ Basechurch
 
 [![Build Status](https://travis-ci.org/openmcac/basechurch.svg?branch=master)](https://travis-ci.org/openmcac/basechurch)
 [![Code Climate](https://codeclimate.com/github/openmcac/basechurch/badges/gpa.svg)](https://codeclimate.com/github/openmcac/basechurch)
-[![Coverage Status](https://coveralls.io/repos/openmcac/basechurch/badge.png)](https://coveralls.io/r/openmcac/basechurch)
+[![Coverage Status](https://img.shields.io/coveralls/openmcac/basechurch.svg)](https://coveralls.io/r/openmcac/basechurch?branch=master)
 
 Basechurch is a set of APIs for front-ends to interact with in order to save
 data about their church and the groups inside it. The goal is to have one API
