@@ -47,7 +47,7 @@ class Basechurch::V1::AnnouncementsController < Basechurch::ApplicationControlle
 
   private
   def set_bulletin
-    @bulletin = Basechurch::Bulletin.find(params[:bulletin_id])
+    @bulletin = Basechurch::Bulletin.find(user_params[:bulletin_id])
   end
 
   def set_announcement

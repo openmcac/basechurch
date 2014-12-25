@@ -7,9 +7,9 @@ shared_examples 'a serialized announcement' do
     expect(announcement_json).to have_key('announcement')
   end
 
-  its(['id']) { should eq(announcement.id) }
-  its(['description']) { should eq(announcement.description) }
   its(['bulletinId']) { should eq(announcement.bulletin.id) }
-  its(['postId']) { should eq(announcement.post.id) }
+  its(['description']) { should eq(announcement.description) }
+  its(['id']) { should eq(announcement.id) }
   its(['position']) { should eq(announcement.position) }
+  its(['postId']) { should eq(announcement.post.id) }
 end
