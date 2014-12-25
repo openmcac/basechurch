@@ -1,16 +1,17 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id,
-             :title,
-             :content,
+  attributes :content,
+             :created_at,
+             :group_id,
+             :id,
+             :published_at,
              :slug,
              :tags,
-             :published_at,
-             :created_at,
+             :title,
              :updated_at
 
-  has_one :group
   has_one :author
   has_one :editor
+  has_one :group
 
   def tags
     object.tag_list
