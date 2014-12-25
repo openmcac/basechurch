@@ -13,18 +13,18 @@ describe Basechurch::V1::BulletinsController, type: :controller do
         publishedAt: DateTime.now.to_time.iso8601,
         name: Forgery(:lorem_ipsum).title,
         description: Forgery(:lorem_ipsum).words(10),
-        serviceOrder: Forgery(:lorem_ipsum).words(10)
-      },
-      group_id: sunday_service.id
+        serviceOrder: Forgery(:lorem_ipsum).words(10),
+        group_id: sunday_service.id
+      }
     }
   end
 
   let(:valid_attributes) do
     {
       bulletin: {
-        publishedAt: DateTime.now.to_time.iso8601
-      },
-      group_id: sunday_service.id
+        publishedAt: DateTime.now.to_time.iso8601,
+        group_id: sunday_service.id
+      }
     }
   end
 

@@ -5,10 +5,9 @@ Basechurch::Engine.routes.draw do
              controllers: { sessions: 'sessions' }
 
   namespace :v1, defaults: { format: 'json' } do
-    resources :groups do
-      resources :bulletins
-      resources :posts
-    end
+    resources :groups
+    resources :bulletins
+    resources :posts
 
     resources :announcements do
       patch 'move/:position', to: 'announcements#move'
