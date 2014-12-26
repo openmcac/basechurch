@@ -11,21 +11,21 @@ describe Basechurch::V1::PostsController, type: :controller do
   let(:all_attributes) do
     {
       post: {
-        publishedAt: DateTime.now.to_time.iso8601,
-        title: Forgery(:lorem_ipsum).title,
         content: Forgery(:lorem_ipsum).words(10),
-        tags: ['tag1', 'tag2', 'tag3']
+        group_id: group.id,
+        publishedAt: DateTime.now.to_time.iso8601,
+        tags: ['tag1', 'tag2', 'tag3'],
+        title: Forgery(:lorem_ipsum).title
       },
-      group_id: group.id
     }
   end
 
   let(:valid_attributes) do
     {
       post: {
-        content: Forgery(:lorem_ipsum).words(10)
-      },
-      group_id: group.id
+        content: Forgery(:lorem_ipsum).words(10),
+        group_id: group.id
+      }
     }
   end
 

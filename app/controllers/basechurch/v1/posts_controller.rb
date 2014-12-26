@@ -44,7 +44,7 @@ class Basechurch::V1::PostsController < Basechurch::ApplicationController
   end
 
   def set_group
-    @group = Basechurch::Group.find(params[:group_id])
+    @group = Basechurch::Group.find(user_params[:group_id])
   end
 
   def user_params

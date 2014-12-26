@@ -1,12 +1,13 @@
 class BulletinSerializer < ActiveModel::Serializer
   attributes :id,
-             :published_at,
+             :description,
+             :group_id,
              :name,
-             :service_order,
-             :description
+             :published_at,
+             :service_order
 
-  has_one :group
   has_many :announcements
+  has_one :group
 
   def published_at
     object.published_at.utc.to_time.iso8601

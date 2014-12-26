@@ -11,14 +11,15 @@ describe PostSerializer do
     expect(post_json).to have_key('post')
   end
 
-  its(['id']) { should eq(post.id) }
-  its(['title']) { should eq(post.title) }
   its(['content']) { should eq(post.content) }
-  its(['slug']) { should eq(post.slug) }
-  its(['editor']) { should be_nil }
   its(['createdAt']) { should eq(post.created_at.utc.to_time.iso8601) }
-  its(['updatedAt']) { should eq(post.updated_at.utc.to_time.iso8601) }
+  its(['editor']) { should be_nil }
+  its(['groupId']) { should eq(post.group_id) }
+  its(['id']) { should eq(post.id) }
   its(['publishedAt']) { should eq(post.published_at.utc.to_time.iso8601) }
+  its(['slug']) { should eq(post.slug) }
+  its(['title']) { should eq(post.title) }
+  its(['updatedAt']) { should eq(post.updated_at.utc.to_time.iso8601) }
 
   context 'with tags' do
     let(:post) { create(:post, tag_list: ['x', 'y', 'z']) }

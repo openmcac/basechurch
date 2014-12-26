@@ -16,6 +16,7 @@ describe BulletinSerializer do
   its(['description']) { should eq(bulletin.description) }
   its(['publishedAt']) { should eq(bulletin.published_at.utc.to_time.iso8601) }
   its(['description']) { should eq(bulletin.description) }
+  its(['groupId']) { should eq(bulletin.group_id) }
 
   context 'with a group' do
     let(:group) { bulletin.group }

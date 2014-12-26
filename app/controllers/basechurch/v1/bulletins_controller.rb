@@ -2,7 +2,7 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   serialization_scope nil
 
   before_action :authenticate_user!, except: [:show]
-  before_action :set_group
+  before_action :set_group, only: [:create]
   before_action :set_bulletin, only: [:create]
 
   def show
@@ -30,7 +30,7 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   end
 
   def set_group
-    @group = Basechurch::Group.find(params[:group_id])
+    @group = Basechurch::Group.find(user_params[:group_id])
   end
 
   def user_params

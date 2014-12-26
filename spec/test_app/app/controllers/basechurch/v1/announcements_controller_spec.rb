@@ -8,11 +8,11 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
   let(:valid_attributes) do
     {
       announcement: {
-        post_id: announcement_post.id,
-        description: Forgery(:lorem_ipsum).words(10)
-      },
-      group_id: bulletin.group.id,
-      bulletin_id: bulletin.id
+        bulletin_id: bulletin.id,
+        description: Forgery(:lorem_ipsum).words(10),
+        group_id: bulletin.group.id,
+        post_id: announcement_post.id
+      }
     }
   end
 
@@ -76,7 +76,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
     end
   end
 
-  describe 'POST /groups/:group_id/bulletins/:bulletin_id/announcements/:position' do
+  describe 'POST /bulletins/:bulletin_id/announcements/:position' do
     context 'with an authenticated user' do
       context 'with minimum params required' do
         let(:expected_position) { 2 }
