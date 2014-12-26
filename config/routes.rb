@@ -17,5 +17,7 @@ Basechurch::Engine.routes.draw do
 
     post '/bulletins/:bulletin_id/announcements/add/:position',
         to: 'announcements#create_at'
+
+    get '/sunday', to: 'bulletins#sunday'
   end
 end

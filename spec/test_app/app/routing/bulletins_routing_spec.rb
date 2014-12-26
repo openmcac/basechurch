@@ -15,6 +15,17 @@ describe 'routes for bulletins', type: :routing do
     end
   end
 
+  describe 'GET /v1/sunday' do
+    let(:show_sunday_bulletin) { get '/v1/sunday' }
+
+    it 'routes to bulletins#sunday' do
+      expect(show_sunday_bulletin).
+          to route_to(controller: 'basechurch/v1/bulletins',
+                      action: 'sunday',
+                      format: 'json')
+    end
+  end
+
   describe 'POST /v1/bulletins' do
     let(:id) { 1 }
     let(:post_bulletin) { post "/v1/bulletins" }
