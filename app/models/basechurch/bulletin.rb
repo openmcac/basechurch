@@ -8,6 +8,8 @@ class Basechurch::Bulletin < ActiveRecord::Base
 
   attr_accessor :display_published_at
 
+  scope :english_service, -> { where(group_id: 1) }
+
   private
   def populate_published_at
     self.published_at = DateTime.iso8601(display_published_at)

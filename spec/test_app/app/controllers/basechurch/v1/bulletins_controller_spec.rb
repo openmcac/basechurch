@@ -43,9 +43,34 @@ describe Basechurch::V1::BulletinsController, type: :controller do
     end
   end
 
+  describe 'GET /sunday' do
+    let!(:bulletin) do
+      create(:bulletin,
+             group: sunday_service,
+             display_published_at: 20.seconds.ago.utc.to_time.iso8601)
+    end
+
+    let!(:old_bulletin) do
+      create(:bulletin,
+             group: sunday_service,
+             display_published_at: 10.days.ago.utc.to_time.iso8601)
+    end
+
+    let!(:future_bulletin) do
+      create(:bulletin,
+             group: sunday_service,
+             display_published_at: 10.days.from_now.utc.to_time.iso8601)
+    end
+
+    before { get :sunday }
+
+    it 'returns the latest bulletin for English Service' do
+      expect(response.body).to eq(BulletinSerializer.new(bulletin).to_json)
+    end
+  end
+
   describe 'GET /:group_slug/bulletins/:id' do
     let(:bulletin) { create(:bulletin) }
-
     it 'returns a single bulletin' do
       get :show, id: bulletin.id, group_id: bulletin.group_id
       expect(response.body).to eq(BulletinSerializer.new(bulletin).to_json)

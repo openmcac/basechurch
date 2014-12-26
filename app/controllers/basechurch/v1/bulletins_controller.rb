@@ -1,7 +1,7 @@
 class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   serialization_scope nil
 
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:show, :sunday]
   before_action :set_group, only: [:create]
   before_action :set_bulletin, only: [:create]
 
@@ -11,15 +11,26 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   end
 
   def create
-    begin
+    do_or_render_error do
       @bulletin.save!
       render json: @bulletin.reload
-    rescue ActiveRecord::RecordInvalid => e
-      render json: { error: e.to_s }, status: :unprocessable_entity
+    end
+  end
+
+  def sunday
+    do_or_render_error do
+      render json: fetch_sunday_bulletin
     end
   end
 
   private
+  def fetch_sunday_bulletin
+    Basechurch::Bulletin.english_service
+                        .where('published_at <= ?', DateTime.now)
+                        .order('published_at DESC')
+                        .first
+  end
+
   def set_bulletin
     @bulletin = Basechurch::Bulletin.new
     @bulletin.name = user_params[:name]

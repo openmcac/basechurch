@@ -21,5 +21,15 @@ module Basechurch
         sign_in user, store: false
       end
     end
+
+    def do_or_render_error
+      begin
+        yield
+      rescue => e
+        render json: { error: e.to_s },
+               status: :unprocessable_entity,
+               serializer: nil
+      end
+    end
   end
 end

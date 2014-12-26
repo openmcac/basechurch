@@ -61,16 +61,6 @@ class Basechurch::V1::AnnouncementsController < Basechurch::ApplicationControlle
     @position = params[:position].to_i
   end
 
-  def do_or_render_error
-    begin
-      yield
-    rescue => e
-      render json: { error: e.to_s },
-             status: :unprocessable_entity,
-             serializer: nil
-    end
-  end
-
   def user_params
     params.require(:announcement)
   end
