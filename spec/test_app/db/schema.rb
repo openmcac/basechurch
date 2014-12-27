@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141216021608) do
+ActiveRecord::Schema.define(version: 20141227065555) do
 
   create_table "basechurch_announcements", force: true do |t|
     t.integer  "post_id"
@@ -51,7 +51,10 @@ ActiveRecord::Schema.define(version: 20141216021608) do
     t.string   "banner"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug"
   end
+
+  add_index "basechurch_groups", ["slug"], name: "index_basechurch_groups_on_slug", unique: true
 
   create_table "basechurch_posts", force: true do |t|
     t.integer  "group_id"

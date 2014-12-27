@@ -9,5 +9,6 @@ shared_examples 'a serialized group' do
 
   its(['id']) { should eq(group.id) }
   its(['name']) { should eq(group.name) }
+  its(['slug']) { should eq(group.slug) }
   its(['createdAt']) { should eq(group.created_at.utc.to_time.iso8601) }
 end
