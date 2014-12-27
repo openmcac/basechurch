@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Basechurch::Group, :type => :model do
   describe 'validations' do
+    it 'requires a name' do
+      expect(build(:group, name: '')).to_not be_valid
+    end
+
     it 'requires a valid slug' do
       expect(build(:group, slug: 'bad_slug')).to_not be_valid
     end
