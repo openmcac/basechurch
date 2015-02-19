@@ -1,5 +1,5 @@
 module Basechurch
-  class ApplicationController < ActionController::API
+  class ApplicationController < JSONAPI::ResourceController
     include ActionController::Serialization
     include ActionController::MimeResponds
     include ActionController::ImplicitRender
