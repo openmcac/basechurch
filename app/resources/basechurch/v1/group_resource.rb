@@ -1,10 +1,6 @@
 class Basechurch::V1::GroupResource < JSONAPI::Resource
-  attribute :id
-  attribute :secret
+  attributes :id, :name, :slug
+  attribute :created_at, format: :iso8601
 
   model_name 'Basechurch::Group'
-
-  def secret
-    "this is a secret"
-  end
 end
