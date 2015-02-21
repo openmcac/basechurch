@@ -43,6 +43,21 @@ describe Basechurch::V1::BulletinsController, type: :controller do
     end
   end
 
+  shared_examples_for 'a response containing a bulletin' do
+    it 'returns a bulletin' do
+      body = JSON.parse(response.body)
+
+      expect(body['bulletins']['id']).to eq(bulletin.id.to_s)
+      expect(body['bulletins']['name']).to eq(bulletin.name)
+      expect(body['bulletins']['description']).to eq(bulletin.description)
+      expect(body['bulletins']['publishedAt']).to eq(bulletin.published_at.utc.iso8601)
+      expect(body['bulletins']['serviceOrder']).to eq(bulletin.service_order)
+      expect(body['bulletins']['links']['group']).to eq(bulletin.group.id.to_s)
+      expect(body['bulletins']['links']['announcements']).
+          to eq(bulletin.announcements.map { |a| a.id.to_s })
+    end
+  end
+
   describe 'GET /sunday' do
     let!(:bulletin) do
       create(:bulletin,
@@ -64,17 +79,18 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
     before { get :sunday }
 
-    it 'returns the latest bulletin for English Service' do
-      expect(response.body).to eq(BulletinSerializer.new(bulletin).to_json)
-    end
+    it_behaves_like 'a response containing a bulletin'
   end
 
-  describe 'GET /:group_slug/bulletins/:id' do
-    let(:bulletin) { create(:bulletin) }
-    it 'returns a single bulletin' do
-      get :show, id: bulletin.id, group_id: bulletin.group_id
-      expect(response.body).to eq(BulletinSerializer.new(bulletin).to_json)
+  describe 'GET /bulletins/:id' do
+    let(:bulletin) do
+      create(:bulletin_with_announcements,
+             display_published_at: '2011-12-03T04:05:06+04:00')
     end
+
+    before { get :show, id: bulletin.id }
+
+    it_behaves_like 'a response containing a bulletin'
   end
 
   describe 'POST /:group_slug/bulletins' do

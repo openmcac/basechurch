@@ -7,7 +7,7 @@ Basechurch::Engine.routes.draw do
   namespace :v1, defaults: { format: 'json' } do
     jsonapi_resources :groups
     resources :posts
-    resources :bulletins
+    jsonapi_resources :bulletins
 
     resources :announcements do
       member do

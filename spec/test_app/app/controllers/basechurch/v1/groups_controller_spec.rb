@@ -12,7 +12,7 @@ describe Basechurch::V1::GroupsController, type: :controller do
       expect(body['groups']['id']).to eq(group.id.to_s)
       expect(body['groups']['name']).to eq(group.name)
       expect(body['groups']['slug']).to eq(group.slug)
-      expect(body['groups']['createdAt']).to eq('2001-02-02T21:05:06Z')
+      expect(body['groups']['createdAt']).to eq('2001-02-02T21:05:06+00:00')
     end
   end
 end
