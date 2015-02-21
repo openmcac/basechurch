@@ -1,7 +1,5 @@
 class Basechurch::V1::AnnouncementsController < Basechurch::ApplicationController
-  serialization_scope nil
-
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
 
   before_action :set_bulletin, only: [:create, :create_at]
   before_action :set_announcement, only: [:create, :create_at]

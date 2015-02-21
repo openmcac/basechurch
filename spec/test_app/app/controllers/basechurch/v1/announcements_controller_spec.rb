@@ -76,6 +76,28 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
     end
   end
 
+  shared_examples_for 'a response containing an announcement' do
+    it 'returns an announcement' do
+      body = JSON.parse(response.body)
+
+      expect(body['announcements']['id']).to eq(announcement.id.to_s)
+      expect(body['announcements']['description']).to eq(announcement.description)
+      expect(body['announcements']['position']).to eq(announcement.position)
+      expect(body['announcements']['links']['bulletin']).to eq(announcement.bulletin_id.to_s)
+      expect(body['announcements']['links']['post']).to eq(announcement.post_id.to_s)
+    end
+  end
+
+  describe 'GET /announcements/:id' do
+    let(:announcement) do
+      create(:bulletin_with_announcements, announcements_count: 1).announcements.first
+    end
+
+    before { get :show, id: announcement }
+
+    it_behaves_like 'a response containing an announcement'
+  end
+
   describe 'POST /bulletins/:bulletin_id/announcements/:position' do
     context 'with an authenticated user' do
       context 'with minimum params required' do
