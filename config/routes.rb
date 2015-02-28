@@ -8,6 +8,7 @@ Basechurch::Engine.routes.draw do
     jsonapi_resources :groups
     resources :posts
     jsonapi_resources :bulletins
+    jsonapi_resources :users
 
     resources :announcements do
       member do
