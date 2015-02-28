@@ -8,10 +8,10 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
 
   private
   def fetch_sunday_bulletin_id
-    Basechurch::Bulletin.english_service
-                        .where('published_at <= ?', DateTime.now)
-                        .order('published_at DESC')
-                        .pluck(:id)
-                        .first
+    Basechurch::Bulletin.english_service.
+                         where('published_at <= ?', DateTime.now).
+                         order('published_at DESC').
+                         pluck(:id).
+                         first
   end
 end

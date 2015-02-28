@@ -5,7 +5,11 @@ class Iso8601ValueFormatter < JSONAPI::ValueFormatter
     end
 
     def unformat(value, context)
-      DateTime.iso8601(value)
+      begin
+        DateTime.iso8601(value)
+      rescue ArgumentError
+        value
+      end
     end
   end
 end
