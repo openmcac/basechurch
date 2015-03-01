@@ -22,6 +22,12 @@ module Basechurch
       end
     end
 
+    def context
+      {
+        current_user: current_user
+      }
+    end
+
     def do_or_render_error
       begin
         yield

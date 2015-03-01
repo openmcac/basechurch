@@ -10,42 +10,69 @@ describe Basechurch::V1::PostsController, type: :controller do
 
   let(:all_attributes) do
     {
-      post: {
+      posts: {
         content: Forgery(:lorem_ipsum).words(10),
-        group_id: group.id,
         publishedAt: DateTime.now.to_time.iso8601,
         tags: ['tag1', 'tag2', 'tag3'],
-        title: Forgery(:lorem_ipsum).title
+        title: Forgery(:lorem_ipsum).title,
+        links: {
+          group: group.id.to_s
+        }
       },
     }
   end
 
   let(:valid_attributes) do
     {
-      post: {
+      posts: {
         content: Forgery(:lorem_ipsum).words(10),
-        group_id: group.id
+        links: {
+          group: group.id.to_s
+        }
       }
     }
   end
 
+  # expected variables
+  #  - response: The response of an action
+  #  - expected_post: The expected post
+  shared_examples_for 'a response containing a post' do
+    let(:body) { JSON.parse(response.body) }
+    it 'returns a post' do
+      expect(body['posts']['id']).to eq(expected_post.id.to_s)
+      expect(body['posts']['content']).to eq(expected_post.content)
+      expect(body['posts']['slug']).to eq(expected_post.slug)
+      expect(body['posts']['tags']).to eq(expected_post.tag_list)
+      expect(body['posts']['title']).to eq(expected_post.title)
+      expect(body['posts']['publishedAt']).to eq(expected_post.published_at.to_time.localtime('+00:00').iso8601)
+      expect(body['posts']['links']['group']).to eq(expected_post.group_id.to_s)
+      expect(body['posts']['links']['author']).to eq(expected_post.author_id.to_s)
+
+      if expected_post.updated_at
+        expect(body['posts']['updatedAt']).to eq(expected_post.updated_at.to_time.localtime('+00:00').iso8601)
+      end
+
+      if expected_post.editor
+        expect(body['posts']['links']['editor']).to eq(expected_post.editor_id.to_s)
+      end
+    end
+  end
+
   shared_examples_for 'an action to create a post' do
     let(:perform_action) { post :create, post_params }
+    let(:expected_post) { Basechurch::Post.last }
 
     context 'with an authenticated user' do
       before do
+        request.headers['Content-Type'] = 'application/vnd.api+json'
         request.headers['X-User-Email'] = logged_user.email
         request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+        allow_any_instance_of(Basechurch::V1::PostResource).
+            to receive(:context).and_return(double('current_user' => logged_user))
       end
 
       it 'creates a new post' do
         expect { perform_action }.to change { Basechurch::Post.count }.by(1)
-      end
-
-      it 'returns the created post' do
-        perform_action
-
-        expect(response.body).to eq(PostSerializer.new(Basechurch::Post.last).to_json)
       end
 
       context 'with a created post' do
@@ -53,10 +80,12 @@ describe Basechurch::V1::PostsController, type: :controller do
         before { perform_action }
 
         its(:author) { should == logged_user }
-        its(:content) { should == post_params[:post][:content] }
+        its(:content) { should == post_params[:posts][:content] }
         its(:group) { should == group }
-        its(:title) { should == post_params[:post][:title] }
+        its(:title) { should == post_params[:posts][:title] }
         its(:tag_list) { should == expected_tags }
+
+        it_behaves_like 'a response containing a post'
       end
 
       it 'contains the published date provided in params' do
@@ -72,18 +101,16 @@ describe Basechurch::V1::PostsController, type: :controller do
   end
 
   shared_examples_for 'an action to update a post' do
+    let(:expected_post) { post_to_update.reload }
     let(:perform_action) { put :update, post_params }
 
     context 'with an authenticated user' do
       before do
+        request.headers['Content-Type'] = 'application/vnd.api+json'
         request.headers['X-User-Email'] = logged_user.email
         request.headers['X-User-Token'] = logged_user.session_api_key.access_token
-      end
-
-      it 'returns the updated post' do
-        perform_action
-
-        expect(response.body).to eq(PostSerializer.new(post_to_update.reload).to_json)
+        allow_any_instance_of(Basechurch::V1::PostResource).
+            to receive(:context).and_return(double('current_user' => logged_user))
       end
 
       context 'with an updated post' do
@@ -91,10 +118,12 @@ describe Basechurch::V1::PostsController, type: :controller do
         before { perform_action }
 
         its(:editor) { should == logged_user }
-        its(:content) { should == post_params[:post][:content] }
+        its(:content) { should == post_params[:posts][:content] }
         its(:group) { should == group }
-        its(:title) { should == post_params[:post][:title] }
+        its(:title) { should == post_params[:posts][:title] }
         its(:tag_list) { should == expected_tags }
+
+        it_behaves_like 'a response containing a post'
       end
     end
 
@@ -107,16 +136,15 @@ describe Basechurch::V1::PostsController, type: :controller do
     # end
   end
 
-  describe 'GET /groups/:group_id/posts/:id' do
-    let(:new_post) { create(:post) }
+  describe 'GET /posts/:id' do
+    let(:expected_post) { create(:post) }
 
-    it 'returns a single post' do
-      get :show, id: new_post.id, group_id: new_post.group_id
-      expect(response.body).to eq(PostSerializer.new(new_post).to_json)
-    end
+    before { get :show, id: expected_post.id, group_id: expected_post.group_id }
+
+    it_behaves_like 'a response containing a post'
   end
 
-  describe 'POST /groups/:group_id/posts' do
+  describe 'POST /posts/:id' do
     context 'with an authenticated user' do
       context 'with minimum params required' do
         let(:post_params) { valid_attributes }
@@ -126,14 +154,17 @@ describe Basechurch::V1::PostsController, type: :controller do
 
       context 'with all params provided' do
         let(:post_params) { all_attributes }
-        let(:expected_tags) { all_attributes[:post][:tags] }
+        let(:expected_tags) { all_attributes[:posts][:tags] }
         it_behaves_like 'an action to create a post'
       end
 
       context 'with invalid parameters' do
         before do
+          request.headers['Content-Type'] = 'application/vnd.api+json'
           request.headers['X-User-Email'] = logged_user.email
           request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+          allow_any_instance_of(Basechurch::V1::PostResource).
+              to receive(:context).and_return(double('current_user' => logged_user))
         end
 
         let(:invalid_attributes) { valid_attributes }
@@ -141,19 +172,19 @@ describe Basechurch::V1::PostsController, type: :controller do
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:post][:publishedAt] = 'sdafasdfdsa'
+            invalid_attributes[:posts][:publishedAt] = 'sdafasdfdsa'
             perform_action
           end
 
-          subject { response }
-
-          its(:status) { should == 422 }
+          xit 'returns a 422 response code' do
+            expect(response.status).to eq(422)
+          end
         end
       end
     end
   end
 
-  describe 'PUT /groups/:group_id/posts/:post_id' do
+  describe 'PUT /posts/:id' do
     context 'with an authenticated user' do
       let(:post_to_update) { create(:post) }
 
@@ -172,10 +203,10 @@ describe Basechurch::V1::PostsController, type: :controller do
           all_attributes[:id] = post_to_update.id
           all_attributes
         end
-        let(:expected_tags) { post_params[:post][:tags] }
+        let(:expected_tags) { post_params[:posts][:tags] }
 
         let(:expected_published_at) do
-          DateTime.iso8601(post_params[:post][:publishedAt])
+          DateTime.iso8601(post_params[:posts][:publishedAt])
         end
 
         it_behaves_like 'an action to update a post'
@@ -190,19 +221,24 @@ describe Basechurch::V1::PostsController, type: :controller do
         let(:perform_action) { put :update, invalid_attributes }
 
         before do
+          request.headers['Content-Type'] = 'application/vnd.api+json'
           request.headers['X-User-Email'] = logged_user.email
           request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+          allow_any_instance_of(Basechurch::V1::PostResource).
+              to receive(:context).and_return(double('current_user' => logged_user))
         end
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:post][:publishedAt] = 'sdafasdfdsa'
+            invalid_attributes[:posts][:publishedAt] = 'sdafasdfdsa'
             perform_action
           end
 
           subject { response }
 
-          its(:status) { should == 422 }
+          xit 'returns a 422 response code' do
+            expect(response.status).to eq(422)
+          end
         end
       end
     end
