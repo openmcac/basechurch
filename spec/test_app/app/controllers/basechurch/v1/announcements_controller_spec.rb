@@ -7,73 +7,14 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
   let(:valid_attributes) do
     {
-      announcement: {
-        bulletin_id: bulletin.id,
+      announcements: {
         description: Forgery(:lorem_ipsum).words(10),
-        group_id: bulletin.group.id,
-        post_id: announcement_post.id
+        links: {
+          bulletin: bulletin.id.to_s,
+          post: announcement_post.id.to_s
+        }
       }
     }
-  end
-
-  # variables:
-  #  - action_name
-  #  - post_params
-  #  - expected_position
-  shared_examples_for 'an action to create an announcement' do
-    let(:perform_action) do
-      post action_name, post_params
-    end
-
-    context 'when authenticated' do
-      before do
-        request.headers['X-User-Email'] = user.email
-        request.headers['X-User-Token'] = user.session_api_key.access_token
-      end
-
-      it 'works as expected' do
-        # it creates a new announcement
-        expect { perform_action }.to change { Basechurch::Announcement.count }.by(1)
-
-        created_announcement = Basechurch::Announcement.last
-
-        # it returns the created announcement
-        expect(response.body).
-            to eq(AnnouncementSerializer.new(created_announcement).to_json)
-
-        expect(created_announcement.position).to eq(expected_position)
-      end
-
-      context 'with invalid parameters' do
-        let(:invalid_params) do
-          post_params[:announcement][:description] = ''
-          post_params
-        end
-
-        let(:perform_create) { post action_name, invalid_params }
-
-        it 'fails as expected' do
-          # it does not create a new announcement
-          expect { perform_create }.to_not change { Basechurch::Announcement.count }
-
-          # it returns a payload with error key
-          expect(JSON.parse(response.body).has_key?('error')).to be_truthy
-        end
-      end
-    end
-
-    it_behaves_like 'an authenticated action'
-  end
-
-  describe 'POST /groups/:group_id/bulletins/:bulletin_id/announcements' do
-    context 'with an authenticated user' do
-      context 'with minimum params required' do
-        let(:action_name) { :create }
-        let(:post_params) { valid_attributes }
-        let(:expected_position) { 1 }
-        it_behaves_like 'an action to create an announcement'
-      end
-    end
   end
 
   shared_examples_for 'a response containing an announcement' do
@@ -88,6 +29,101 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
     end
   end
 
+  # variables:
+  #  - action_name
+  #  - post_params
+  #  - expected_position
+  shared_examples_for 'an action to create an announcement' do
+    let(:perform_action) do
+      post action_name, post_params
+    end
+
+    context 'when authenticated' do
+      let(:announcement) { Basechurch::Announcement.last }
+
+      before do
+        request.headers['Content-Type'] = 'application/vnd.api+json'
+        request.headers['X-User-Email'] = user.email
+        request.headers['X-User-Token'] = user.session_api_key.access_token
+      end
+
+      it 'works as expected' do
+        # it creates a new announcement
+        expect { perform_action }.to change { Basechurch::Announcement.count }.by(1)
+
+        expect(announcement.position).to eq(expected_position)
+      end
+
+      context 'with valid parameters' do
+        before { perform_action }
+
+        it_behaves_like 'a response containing an announcement'
+      end
+
+      context 'with invalid parameters' do
+        let(:invalid_params) do
+          post_params[:announcements][:description] = ''
+          post_params
+        end
+
+        let(:perform_create) { post action_name, invalid_params }
+
+        it 'fails as expected' do
+          # it does not create a new announcement
+          expect { perform_create }.to_not change { Basechurch::Announcement.count }
+
+          expect(response.code).to eq("422")
+        end
+      end
+    end
+
+    it_behaves_like 'an authenticated action'
+  end
+
+  describe 'POST /announcements' do
+    let(:action_name) { :create }
+
+    context 'with an authenticated user' do
+      context 'with minimum params required' do
+        let(:post_params) { valid_attributes }
+        let(:expected_position) { 1 }
+        it_behaves_like 'an action to create an announcement'
+      end
+
+      context 'with position' do
+        let(:expected_position) { 2 }
+        let!(:bulletin) do
+          create(:bulletin_with_announcements, announcements_count: 3)
+        end
+
+        let!(:announcement_before) { bulletin.announcements[0] }
+        let!(:announcement_after) { bulletin.announcements[1] }
+
+        let(:post_params) do
+          valid_attributes[:announcements][:position] = expected_position
+          valid_attributes
+        end
+
+        it_behaves_like 'an action to create an announcement'
+
+        it 'shifts the announcements appropriately' do
+          request.headers['Content-Type'] = 'application/vnd.api+json'
+          request.headers['X-User-Email'] = user.email
+          request.headers['X-User-Token'] = user.session_api_key.access_token
+
+          post :create, post_params
+
+          bulletin.reload
+
+          expect(bulletin.announcements[0].position).to eq(1)
+          expect(bulletin.announcements[1].position).to eq(3)
+          expect(bulletin.announcements[2].position).to eq(4)
+          expect(bulletin.announcements[3].position).to eq(2)
+        end
+      end
+    end
+  end
+
   describe 'GET /announcements/:id' do
     let(:announcement) do
       create(:bulletin_with_announcements, announcements_count: 1).announcements.first
@@ -96,66 +132,6 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
     before { get :show, id: announcement }
 
     it_behaves_like 'a response containing an announcement'
-  end
-
-  describe 'POST /bulletins/:bulletin_id/announcements/:position' do
-    context 'with an authenticated user' do
-      context 'with minimum params required' do
-        let(:expected_position) { 2 }
-        let(:action_name) { :create_at }
-        let!(:bulletin) do
-          create(:bulletin_with_announcements, announcements_count: 3)
-        end
-
-        let(:post_params) do
-          valid_attributes[:position] = expected_position
-          valid_attributes
-        end
-
-        it_behaves_like 'an action to create an announcement'
-      end
-    end
-  end
-
-  describe 'PATCH /announcements/:id/move/:position' do
-    context 'with an authenticated user' do
-      before do
-        request.headers['X-User-Email'] = user.email
-        request.headers['X-User-Token'] = user.session_api_key.access_token
-      end
-
-      let(:bulletin) do
-        create(:bulletin_with_announcements, announcements_count: 3)
-      end
-
-      let(:position) { 2 }
-
-      let(:patch_params) do
-        {
-          announcement_id: announcement_id,
-          position: position
-        }
-      end
-
-      before { patch :move, patch_params }
-
-      context 'with minimum params required' do
-        let(:announcement_id) { bulletin.announcements.last.id }
-
-        it 'moves existing announcement to position specified' do
-          expect(Basechurch::Announcement.find(announcement_id).position).to eq(position)
-        end
-      end
-
-      context 'with invalid parameters' do
-        let(:announcement_id) { 121213 }
-
-        it 'fails as expected' do
-          # it returns a payload with error key
-          expect(JSON.parse(response.body).has_key?('error')).to be_truthy
-        end
-      end
-    end
   end
 
   describe 'PUT /announcements/:id' do
@@ -169,7 +145,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
     let(:put_params) do
       {
         id: announcement.id,
-        announcement: {
+        announcements: {
           description: description
         }
       }
@@ -181,6 +157,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
+        request.headers['Content-Type'] = 'application/vnd.api+json'
         request.headers['X-User-Email'] = user.email
         request.headers['X-User-Token'] = user.session_api_key.access_token
       end
@@ -196,6 +173,36 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
         end
       end
 
+      context 'with a position provided' do
+        let!(:bulletin) do
+          create(:bulletin_with_announcements, announcements_count: 3)
+        end
+
+        let(:position) { 3 }
+
+        let(:put_params) do
+          {
+            id: bulletin.announcements[1].id,
+            announcements: {
+              position: position
+            }
+          }
+        end
+
+        before { perform_action }
+
+        context 'with minimum params required' do
+          let(:announcement_id) { announcement.id }
+          before { bulletin.reload }
+
+          it 'moves existing announcement to position specified' do
+            expect(bulletin.announcements[0].position).to eq(1)
+            expect(bulletin.announcements[1].position).to eq(3)
+            expect(bulletin.announcements[2].position).to eq(2)
+          end
+        end
+      end
+
       context 'with invalid parameters' do
         let(:description) { '' }
 
@@ -204,8 +211,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
           expect { perform_action }.
               to_not change { Basechurch::Announcement.find(announcement.id).description }
 
-          # it returns a payload with error key
-          expect(JSON.parse(response.body).has_key?('error')).to be_truthy
+          expect(response.code).to eq('422')
         end
       end
     end
@@ -224,6 +230,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
+        request.headers['Content-Type'] = 'application/vnd.api+json'
         request.headers['X-User-Email'] = user.email
         request.headers['X-User-Token'] = user.session_api_key.access_token
       end
@@ -241,7 +248,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
           expect { perform_delete }.to_not change { Basechurch::Announcement.count }
 
           # it returns a payload with error key
-          expect(JSON.parse(response.body).has_key?('error')).to be_truthy
+          expect(response.code).to eq('404')
         end
       end
     end
