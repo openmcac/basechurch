@@ -1,7 +1,9 @@
 language: ruby
 rvm:
-- 2.1.1
-- 2.0.0
+- 2.1.5
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake
 addons:
   code_climate:
     repo_token:

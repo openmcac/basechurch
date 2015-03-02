@@ -9,21 +9,35 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
   let(:all_attributes) do
     {
-      bulletin: {
+      bulletins: {
         publishedAt: DateTime.now.to_time.iso8601,
         name: Forgery(:lorem_ipsum).title,
         description: Forgery(:lorem_ipsum).words(10),
         serviceOrder: Forgery(:lorem_ipsum).words(10),
-        group_id: sunday_service.id
+        links: {
+          group: sunday_service.id.to_s
+        }
       }
     }
   end
 
+  let(:full_bulletin) do
+    b = all_attributes[:bulletins]
+    create(:bulletin,
+           published_at: DateTime.iso8601(b[:publishedAt]),
+           name: b[:name],
+           description: b[:description],
+           service_order: b[:serviceOrder],
+           group: sunday_service)
+  end
+
   let(:valid_attributes) do
     {
-      bulletin: {
+      bulletins: {
         publishedAt: DateTime.now.to_time.iso8601,
-        group_id: sunday_service.id
+        links: {
+          group: sunday_service.id.to_s
+        }
       }
     }
   end
@@ -35,46 +49,54 @@ describe Basechurch::V1::BulletinsController, type: :controller do
       expect { perform_action }.to change { Basechurch::Bulletin.count }.by(1)
     end
 
-    it 'returns the created bulletin' do
-      perform_action
+    context 'when successful' do
+      before { perform_action }
+      it_behaves_like 'a response containing a bulletin'
+    end
+  end
 
-      expect(response.body).
-          to eq(BulletinSerializer.new(Basechurch::Bulletin.last).to_json)
+  shared_examples_for 'a response containing a bulletin' do
+    it 'returns a bulletin' do
+      body = JSON.parse(response.body)
+
+      expect(body['bulletins']['id']).to be_present
+      expect(body['bulletins']['name']).to eq(bulletin.name)
+      expect(body['bulletins']['description']).to eq(bulletin.description)
+      expect(body['bulletins']['publishedAt']).to eq(bulletin.published_at.to_time.localtime('+00:00').iso8601)
+      expect(body['bulletins']['serviceOrder']).to eq(bulletin.service_order)
+      expect(body['bulletins']['links']['group']).to eq(bulletin.group.id.to_s)
+      expect(body['bulletins']['links']['announcements']).
+          to eq(bulletin.announcements.map { |a| a.id.to_s })
     end
   end
 
   describe 'GET /sunday' do
     let!(:bulletin) do
-      create(:bulletin,
-             group: sunday_service,
-             display_published_at: 20.seconds.ago.utc.to_time.iso8601)
+      create(:bulletin, group: sunday_service, published_at: 20.seconds.ago)
     end
 
     let!(:old_bulletin) do
-      create(:bulletin,
-             group: sunday_service,
-             display_published_at: 10.days.ago.utc.to_time.iso8601)
+      create(:bulletin, group: sunday_service, published_at: 10.days.ago)
     end
 
     let!(:future_bulletin) do
-      create(:bulletin,
-             group: sunday_service,
-             display_published_at: 10.days.from_now.utc.to_time.iso8601)
+      create(:bulletin, group: sunday_service, published_at: 10.days.from_now)
     end
 
     before { get :sunday }
 
-    it 'returns the latest bulletin for English Service' do
-      expect(response.body).to eq(BulletinSerializer.new(bulletin).to_json)
-    end
+    it_behaves_like 'a response containing a bulletin'
   end
 
-  describe 'GET /:group_slug/bulletins/:id' do
-    let(:bulletin) { create(:bulletin) }
-    it 'returns a single bulletin' do
-      get :show, id: bulletin.id, group_id: bulletin.group_id
-      expect(response.body).to eq(BulletinSerializer.new(bulletin).to_json)
+  describe 'GET /bulletins/:id' do
+    let(:bulletin) do
+      create(:bulletin_with_announcements,
+             published_at: DateTime.iso8601('2011-12-03T04:05:06+04:00'))
     end
+
+    before { get :show, id: bulletin.id }
+
+    it_behaves_like 'a response containing a bulletin'
   end
 
   describe 'POST /:group_slug/bulletins' do
@@ -82,17 +104,26 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
+        request.headers['Content-Type'] = 'application/vnd.api+json'
         request.headers['X-User-Email'] = user.email
         request.headers['X-User-Token'] = user.session_api_key.access_token
       end
 
       context 'with minimum params required' do
         let(:post_params) { valid_attributes }
+        let(:bulletin) do
+          isoDate = valid_attributes[:bulletins][:publishedAt]
+          create(:bulletin,
+                 published_at: DateTime.iso8601(isoDate),
+                 group: sunday_service)
+        end
+
         it_behaves_like 'an action to create a bulletin'
       end
 
       context 'with all params provided' do
         let(:post_params) { all_attributes }
+        let(:bulletin) { full_bulletin }
         it_behaves_like 'an action to create a bulletin'
       end
 
@@ -101,7 +132,7 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:bulletin][:publishedAt] = 'sdafasdfdsa'
+            invalid_attributes[:bulletins][:publishedAt] = 'sdafasdfdsa'
             perform_action
           end
 

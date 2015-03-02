@@ -1,6 +1,5 @@
 module Basechurch
-  class ApplicationController < ActionController::API
-    include ActionController::Serialization
+  class ApplicationController < JSONAPI::ResourceController
     include ActionController::MimeResponds
     include ActionController::ImplicitRender
     include ActionController::StrongParameters
@@ -22,14 +21,10 @@ module Basechurch
       end
     end
 
-    def do_or_render_error
-      begin
-        yield
-      rescue => e
-        render json: { error: e.to_s },
-               status: :unprocessable_entity,
-               serializer: nil
-      end
+    def context
+      {
+        current_user: current_user
+      }
     end
   end
 end

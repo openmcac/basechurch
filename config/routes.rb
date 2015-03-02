@@ -5,18 +5,11 @@ Basechurch::Engine.routes.draw do
              controllers: { sessions: 'sessions' }
 
   namespace :v1, defaults: { format: 'json' } do
-    resources :groups
-    resources :posts
-    resources :bulletins
-
-    resources :announcements do
-      member do
-        patch 'move/:position', to: 'announcements#move'
-      end
-    end
-
-    post '/bulletins/:bulletin_id/announcements/add/:position',
-        to: 'announcements#create_at'
+    jsonapi_resources :groups
+    jsonapi_resources :posts
+    jsonapi_resources :bulletins
+    jsonapi_resources :users
+    jsonapi_resources :announcements
 
     get '/sunday', to: 'bulletins#sunday'
   end

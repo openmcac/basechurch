@@ -1,4 +1,7 @@
-require 'active_model_serializers'
+require 'jsonapi/resource'
+require 'jsonapi/resource_controller'
+require 'jsonapi/mime_types'
+require 'jsonapi/routing_ext'
 require 'acts-as-taggable-on'
 require 'acts_as_list'
 require 'devise'
