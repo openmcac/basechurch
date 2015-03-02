@@ -27,15 +27,5 @@ module Basechurch
         current_user: current_user
       }
     end
-
-    def do_or_render_error
-      begin
-        yield
-      rescue => e
-        render json: { error: e.to_s },
-               status: :unprocessable_entity,
-               serializer: nil
-      end
-    end
   end
 end
