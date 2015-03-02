@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "active_model_serializers", "~> 0.9", ">= 0.9.2"
   s.add_dependency "acts-as-taggable-on", "~> 3.4", ">= 3.4.2"
   s.add_dependency "acts_as_list", "~> 0"
   s.add_dependency "bcrypt-ruby", "~> 3.1", ">= 3.1.2"

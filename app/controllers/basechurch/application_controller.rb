@@ -1,6 +1,5 @@
 module Basechurch
   class ApplicationController < JSONAPI::ResourceController
-    include ActionController::Serialization
     include ActionController::MimeResponds
     include ActionController::ImplicitRender
     include ActionController::StrongParameters
