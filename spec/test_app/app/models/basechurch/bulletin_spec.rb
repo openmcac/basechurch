@@ -1,14 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe Basechurch::Bulletin, :type => :model do
-  context "english service bulletins" do
-    let!(:group) { create('group', name: 'English Service', id: 1) }
-    let!(:bulletins) { create_list('bulletin', 3, group: group) }
+  context 'scopes' do
+    context "english service bulletins" do
+      let!(:group) { create('group', name: 'English Service', id: 1) }
+      let!(:bulletins) { create_list('bulletin', 3, group: group) }
 
-    before { create_list('bulletin', 3) }
+      before { create_list('bulletin', 3) }
 
-    it 'returns the english service bulletins' do
-      expect(Basechurch::Bulletin.english_service.all).to eq(bulletins)
+      it 'returns the english service bulletins' do
+        expect(Basechurch::Bulletin.english_service.all).to eq(bulletins)
+      end
+    end
+
+    describe 'latest' do
+      let(:latest_bulletins) do
+        [create('bulletin', published_at: 1.months.ago),
+         create('bulletin', published_at: 2.months.ago),
+         create('bulletin', published_at: 3.months.ago)]
+      end
+
+      before do
+        create('bulletin', published_at: 3.months.from_now)
+        latest_bulletins
+      end
+
+      it 'returns the most recently published bulletin' do
+        expect(Basechurch::Bulletin.latest).to eq(latest_bulletins)
+      end
     end
   end
 
