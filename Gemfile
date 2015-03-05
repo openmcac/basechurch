@@ -29,8 +29,10 @@ end
 group :development, :test do
   gem 'coveralls'
   gem 'guard-rspec'
-  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-nav'
   gem 'pry-remote'
+  gem 'marco-polo'
   gem 'sqlite3'
 end
 

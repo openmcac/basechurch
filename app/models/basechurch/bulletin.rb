@@ -6,4 +6,7 @@ class Basechurch::Bulletin < ActiveRecord::Base
   validates :published_at, presence: true
 
   scope :english_service, -> { where(group_id: 1) }
+  scope :latest, -> do
+    where('published_at <= ?', DateTime.now).order('published_at DESC')
+  end
 end
