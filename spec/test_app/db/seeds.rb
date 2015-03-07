@@ -14,3 +14,11 @@ Basechurch::Announcement.create(post: post,
                                 bulletin: bulletin,
                                 description: 'This is an announcement',
                                 position: 1)
+Basechurch::Announcement.create(post: post,
+                                bulletin: bulletin,
+                                description: 'This is the second announcement',
+                                position: 2)
+Basechurch::Announcement.create(post: post,
+                                bulletin: bulletin,
+                                description: 'This is the third announcement',
+                                position: 3)
