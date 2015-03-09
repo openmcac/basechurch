@@ -134,6 +134,32 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
     it_behaves_like 'a response containing an announcement'
   end
 
+  describe 'GET /announcements' do
+    before do
+      create(:bulletin_with_announcements, announcements_count: 3)
+    end
+
+    context 'without sorting' do
+      before do
+        get :index
+      end
+
+      it "returns the announcements" do
+        expect(JSON.parse(response.body)['announcements'].count).to eq(3)
+      end
+    end
+
+    context 'when sorting by position' do
+      before do
+        get :index, sort: '+position'
+      end
+
+      it "does not return an error" do
+        expect(JSON.parse(response.body)).not_to have_key('errors')
+      end
+    end
+  end
+
   describe 'PUT /announcements/:id' do
     let(:bulletin) do
       create(:bulletin_with_announcements, announcements_count: 1)
