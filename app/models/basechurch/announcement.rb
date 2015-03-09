@@ -4,7 +4,6 @@ class Basechurch::Announcement < ActiveRecord::Base
 
   acts_as_list scope: :bulletin
 
-  validates :post, presence: true
   validates :bulletin, presence: true
   validates :description, presence: true
 end
