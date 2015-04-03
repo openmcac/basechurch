@@ -13,10 +13,6 @@ RSpec.describe Basechurch::Announcement, :type => :model do
         expect(build(:announcement, description: '')).to_not be_valid
       end
 
-      it 'requires a post' do
-        expect(build(:announcement, post: nil)).to_not be_valid
-      end
-
       it 'requires a bulletin' do
         expect(build(:announcement, bulletin: nil)).to_not be_valid
       end
