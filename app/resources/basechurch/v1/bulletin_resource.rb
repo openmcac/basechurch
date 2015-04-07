@@ -11,9 +11,12 @@ class Basechurch::V1::BulletinResource < JSONAPI::Resource
   model_name 'Basechurch::Bulletin'
 
   filter :latest_for_group
+  filter :group
 
   def self.apply_filter(records, filter, value)
     case filter
+    when :group
+      records.where(group_id: value)
     when :latest_for_group
       records.latest.where(group_id: value).limit(1)
     else

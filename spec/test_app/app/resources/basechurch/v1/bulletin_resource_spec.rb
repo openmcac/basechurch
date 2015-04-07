@@ -20,6 +20,7 @@ RSpec.describe Basechurch::V1::BulletinResource, :type => :resource do
 
   describe 'apply_filter' do
     let(:records) { Basechurch::Bulletin.all }
+    let(:group) { create(:group) }
 
     subject do
       Basechurch::V1::BulletinResource.apply_filter(records, filter, value)
@@ -32,9 +33,30 @@ RSpec.describe Basechurch::V1::BulletinResource, :type => :resource do
       it { is_expected.to eq([]) }
     end
 
+    context 'when filter is :group' do
+      let(:filter) { :group }
+      let(:value) { group.id.to_s }
+      let(:bulletins) do
+        create_list(:bulletin, 3, group: group)
+      end
+
+      before do
+        create(:bulletin)
+        bulletins
+        create(:bulletin)
+      end
+
+      it { is_expected.to eq(bulletins) }
+
+      context 'with an invalid group id' do
+        let (:value) { 'aasdfa' }
+
+        it { is_expected.to eq([]) }
+      end
+    end
+
     context 'when filter is :latest_for_group' do
       let(:filter) { :latest_for_group }
-      let(:group) { create(:group) }
       let(:value) { latest_bulletin.group.id.to_s }
       let(:latest_bulletin) do
         create(:bulletin, group: group, published_at: DateTime.now)

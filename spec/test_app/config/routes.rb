@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
 
-  mount Basechurch::Engine => "/testapp"
+  mount Basechurch::Engine => "/api"
 end
