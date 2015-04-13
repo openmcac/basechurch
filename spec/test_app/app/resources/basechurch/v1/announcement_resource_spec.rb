@@ -6,11 +6,11 @@ RSpec.describe Basechurch::V1::AnnouncementResource, :type => :resource do
   let(:records) { Basechurch::Announcement.all }
 
   describe 'apply_filter' do
-    subject do
-      Basechurch::V1::AnnouncementResource.apply_filter(records, filter, value)
-    end
-
     context 'when filter is something else' do
+      subject do
+        Basechurch::V1::AnnouncementResource.apply_filter(records, filter, value)
+      end
+
       let(:filter) { 'description' }
       let(:value) { 'whatever' }
 
@@ -20,6 +20,10 @@ RSpec.describe Basechurch::V1::AnnouncementResource, :type => :resource do
     end
 
     context 'when filter is :latest_for_group' do
+      subject do
+        Basechurch::V1::AnnouncementResource.apply_filter(records, filter, value)
+      end
+
       let(:filter) { :latest_for_group }
       let(:value) { group.id.to_s }
 
@@ -34,6 +38,47 @@ RSpec.describe Basechurch::V1::AnnouncementResource, :type => :resource do
           expect{ subject }.to raise_error(ArgumentError)
         end
       end
+    end
+
+    context 'when filter is :defaults_for_bulletin' do
+      subject do
+        Basechurch::V1::AnnouncementResource.apply_filter(records, filter, value)
+      end
+
+      let(:filter) { :defaults_for_bulletin }
+      let(:bulletin) do
+        create(:bulletin_with_announcements,
+               group: group,
+               published_at: 1.day.ago)
+      end
+      let(:value) { bulletin.id.to_s }
+      let(:previous_bulletin) do
+        create(:bulletin_with_announcements,
+               group: group,
+               published_at: 3.days.ago)
+      end
+
+      before do
+        create(:bulletin_with_announcements,
+               group: group,
+               published_at: 5.days.ago)
+
+        previous_bulletin
+
+        create(:bulletin_with_announcements, published_at: 2.days.ago)
+
+        create(:bulletin_with_announcements,
+               published_at: 4.days.ago,
+               group: group)
+
+        create(:bulletin_with_announcements,
+               published_at: 5.days.ago,
+               group: group)
+
+        bulletin
+      end
+
+      it { is_expected.to eq(previous_bulletin.announcements) }
     end
   end
 end
