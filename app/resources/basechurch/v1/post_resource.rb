@@ -27,10 +27,10 @@ class Basechurch::V1::PostResource < JSONAPI::Resource
   end
 
   def set_author_as_current_user
-    model.author = context.current_user
+    model.author = context[:current_user]
   end
 
   def set_editor_as_current_user
-    model.editor = context.current_user
+    model.editor = context[:current_user]
   end
 end
