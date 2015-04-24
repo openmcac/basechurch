@@ -68,7 +68,7 @@ describe Basechurch::V1::PostsController, type: :controller do
         request.headers['X-User-Email'] = logged_user.email
         request.headers['X-User-Token'] = logged_user.session_api_key.access_token
         allow_any_instance_of(Basechurch::V1::PostResource).
-            to receive(:context).and_return(double('current_user' => logged_user))
+            to receive(:context).and_return(current_user: logged_user)
       end
 
       it 'creates a new post' do
@@ -110,7 +110,7 @@ describe Basechurch::V1::PostsController, type: :controller do
         request.headers['X-User-Email'] = logged_user.email
         request.headers['X-User-Token'] = logged_user.session_api_key.access_token
         allow_any_instance_of(Basechurch::V1::PostResource).
-            to receive(:context).and_return(double('current_user' => logged_user))
+            to receive(:context).and_return(current_user: logged_user)
       end
 
       context 'with an updated post' do
@@ -164,7 +164,7 @@ describe Basechurch::V1::PostsController, type: :controller do
           request.headers['X-User-Email'] = logged_user.email
           request.headers['X-User-Token'] = logged_user.session_api_key.access_token
           allow_any_instance_of(Basechurch::V1::PostResource).
-              to receive(:context).and_return(double('current_user' => logged_user))
+              to receive(:context).and_return(current_user: logged_user)
         end
 
         let(:invalid_attributes) { valid_attributes }
@@ -225,7 +225,7 @@ describe Basechurch::V1::PostsController, type: :controller do
           request.headers['X-User-Email'] = logged_user.email
           request.headers['X-User-Token'] = logged_user.session_api_key.access_token
           allow_any_instance_of(Basechurch::V1::PostResource).
-              to receive(:context).and_return(double('current_user' => logged_user))
+              to receive(:context).and_return(current_user: logged_user)
         end
 
         context "where published_at is not iso8601 compliant" do
