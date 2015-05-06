@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141227065555) do
+ActiveRecord::Schema.define(version: 20150506020938) do
 
   create_table "basechurch_announcements", force: true do |t|
     t.integer  "post_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20141227065555) do
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "url"
   end
 
   add_index "basechurch_announcements", ["bulletin_id"], name: "index_basechurch_announcements_on_bulletin_id"

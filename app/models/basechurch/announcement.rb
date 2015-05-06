@@ -6,4 +6,5 @@ class Basechurch::Announcement < ActiveRecord::Base
 
   validates :bulletin, presence: true
   validates :description, presence: true
+  validates :url, url: { allow_blank: true }
 end
