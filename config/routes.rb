@@ -9,6 +9,7 @@ Basechurch::Engine.routes.draw do
     jsonapi_resources :bulletins
     jsonapi_resources :users
     jsonapi_resources :announcements
+    jsonapi_resources :posts
 
     get '/sunday', to: 'bulletins#sunday'
   end

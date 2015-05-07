@@ -6,6 +6,7 @@ require 'acts-as-taggable-on'
 require 'acts_as_list'
 require 'devise'
 require 'friendly_id'
+require 'validate_url'
 require 'rails-api'
 
 module Basechurch

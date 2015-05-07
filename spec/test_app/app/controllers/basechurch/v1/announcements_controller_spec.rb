@@ -24,6 +24,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
       expect(body['announcements']['id']).to eq(announcement.id.to_s)
       expect(body['announcements']['description']).to eq(announcement.description)
       expect(body['announcements']['position']).to eq(announcement.position)
+      expect(body['announcements']['url']).to eq(announcement.url)
       expect(body['announcements']['links']['bulletin']).to eq(announcement.bulletin_id.to_s)
       expect(body['announcements']['links']['post']).to eq(announcement.post_id.to_s)
     end
@@ -126,7 +127,12 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
   describe 'GET /announcements/:id' do
     let(:announcement) do
-      create(:bulletin_with_announcements, announcements_count: 1).announcements.first
+      a = create(:bulletin_with_announcements, announcements_count: 1).
+        announcements.
+        first
+      a.url = 'http://nba.com'
+      a.save
+      a.reload
     end
 
     before { get :show, id: announcement }
