@@ -8,6 +8,7 @@ require 'devise'
 require 'friendly_id'
 require 'validate_url'
 require 'rails-api'
+require 'settingslogic'
 
 module Basechurch
   class Engine < ::Rails::Engine
