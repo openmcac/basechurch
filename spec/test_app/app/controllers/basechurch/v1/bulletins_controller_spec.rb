@@ -173,7 +173,9 @@ describe Basechurch::V1::BulletinsController, type: :controller do
       before { sign_in user }
 
       before do
-        allow(SecureRandom).to receive(:uuid).and_return('random')
+        allow_any_instance_of(RandomFilename).
+          to receive(:generate).and_return('random.jpg')
+
         Timecop.freeze(DateTime.iso8601('2013-05-13T22:18:26-04:00')) do
           get :sign, name: 'myfile.jpg', size: 12343, type: 'image/jpeg'
         end

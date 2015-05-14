@@ -15,7 +15,7 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
       'Cache-Control' => 'max-age=630720000, public',
       'Content-Type' => params[:type],
       expires: @expiry,
-      key: "bulletins/#{random_filename}",
+      key: "bulletins/#{RandomFilename.new(params[:type]).generate}",
       policy: encoded_policy,
       signature: signature,
       success_action_status: '201'
@@ -63,16 +63,5 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
 
   def set_signing_expiry
     @expiry = 30.minutes.from_now
-  end
-
-  def file_extension(file_type)
-    case file_type
-    when 'image/jpeg', 'image/jpg'
-      'jpg'
-    end
-  end
-
-  def random_filename
-    "#{SecureRandom.uuid}.#{file_extension(params[:type])}"
   end
 end
