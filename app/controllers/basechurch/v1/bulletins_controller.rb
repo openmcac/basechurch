@@ -10,13 +10,13 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   def sign
     render json: {
       acl: 'public-read',
-      awsAccessKeyId: 'brokennnz',
+      awsAccessKeyId: Rails.application.secrets.aws_access_key_id,
       bucket: 'mcac-staging',
       'Cache-Control' => 'max-age=630720000, public',
       'Content-Type' => params[:type],
       expires: @expiry,
-      key: "bulletins/#{params[:name]}",
-      policy: policy,
+      key: "bulletins/#{random_filename}",
+      policy: encoded_policy,
       signature: signature,
       success_action_status: '201'
     }, status: :ok
@@ -31,36 +31,48 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
                          first
   end
 
-  def policy(options = {})
-    Base64.strict_encode64(
-      {
-        expiration: @expiry,
-        conditions: [
-          { bucket: 'mcac-staging' },
-          { acl: 'public-read' },
-          { expires: @expiry },
-          { success_action_status: '201' },
-          [ 'starts-with', '$key', '' ],
-          [ 'starts-with', '$Content-Type', '' ],
-          [ 'starts-with', '$Cache-Control', '' ],
-          [ 'content-length-range', 0, 524288000 ]
-        ]
-      }.to_json
-    )
+  def encoded_policy
+    Base64.strict_encode64(policy.to_json)
+  end
+
+  def policy
+    {
+      expiration: @expiry,
+      conditions: [
+        { bucket: 'mcac-staging' },
+        { acl: 'public-read' },
+        { expires: @expiry },
+        { success_action_status: '201' },
+        ['starts-with', '$key', ''],
+        ['starts-with', '$Content-Type', ''],
+        ['starts-with', '$Cache-Control', ''],
+        ['content-length-range', 0, 524288000]
+      ]
+    }
   end
 
   def signature
-    secret = 'broken'
     Base64.strict_encode64(
       OpenSSL::HMAC.digest(
         OpenSSL::Digest::Digest.new('sha1'),
-        secret,
-        policy({ secret_access_key: secret })
+        Rails.application.secrets.aws_secret_access_key,
+        encoded_policy
       )
     )
   end
 
   def set_signing_expiry
     @expiry = 30.minutes.from_now
+  end
+
+  def file_extension(file_type)
+    case file_type
+    when 'image/jpeg', 'image/jpg'
+      'jpg'
+    end
+  end
+
+  def random_filename
+    "#{SecureRandom.uuid}.#{file_extension(params[:type])}"
   end
 end

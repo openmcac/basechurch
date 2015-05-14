@@ -158,24 +158,40 @@ describe Basechurch::V1::BulletinsController, type: :controller do
     end
 
     context 'with a signed in user' do
+      let(:policy) do
+        'eyJleHBpcmF0aW9uIjoiMjAxMy0wNS0xNFQwMjo0ODoyNi4wMD' +
+        'BaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoibWNhYy1zdGFn' +
+        'aW5nIn0seyJhY2wiOiJwdWJsaWMtcmVhZCJ9LHsiZXhwaXJlcy' +
+        'I6IjIwMTMtMDUtMTRUMDI6NDg6MjYuMDAwWiJ9LHsic3VjY2Vz' +
+        'c19hY3Rpb25fc3RhdHVzIjoiMjAxIn0sWyJzdGFydHMtd2l0aC' +
+        'IsIiRrZXkiLCIiXSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQt' +
+        'VHlwZSIsIiJdLFsic3RhcnRzLXdpdGgiLCIkQ2FjaGUtQ29udH' +
+        'JvbCIsIiJdLFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsNTI0' +
+        'Mjg4MDAwXV19'
+      end
+
       before { sign_in user }
 
       before do
-        get :sign, name: 'myfile.jpg', size: 12343, type: 'image/jpeg'
+        allow(SecureRandom).to receive(:uuid).and_return('random')
+        Timecop.freeze(DateTime.iso8601('2013-05-13T22:18:26-04:00')) do
+          get :sign, name: 'myfile.jpg', size: 12343, type: 'image/jpeg'
+        end
       end
 
       it 'responds with values to post to s3' do
         json = JSON.parse(response.body)
-        expect(json['acl']).to eq('public-read')
-        expect(json).to have_key('awsAccessKeyId')
-        expect(json['bucket']).to eq('mcac-staging')
-        expect(json['Cache-Control']).to eq('max-age=630720000, public')
-        expect(json['Content-Type']).to eq('image/jpeg')
-        expect(json).to have_key('expires')
-        expect(json).to have_key('key')
-        expect(json).to have_key('policy')
-        expect(json).to have_key('signature')
-        expect(json).to have_key('success_action_status')
+        expect(json['acl']).to eq 'public-read'
+        expect(json['awsAccessKeyId']).
+          to eq Rails.application.secrets.aws_access_key_id
+        expect(json['bucket']).to eq 'mcac-staging'
+        expect(json['Cache-Control']).to eq 'max-age=630720000, public'
+        expect(json['Content-Type']).to eq 'image/jpeg'
+        expect(json['expires']).to eq '2013-05-14T02:48:26.000Z'
+        expect(json['key']).to eq 'bulletins/random.jpg'
+        expect(json['policy']).to eq policy
+        expect(json['signature']).to eq 'ikYXQJFQ5elOZ30Um4MIddOIBr0='
+        expect(json['success_action_status']).to eq '201'
       end
     end
   end
