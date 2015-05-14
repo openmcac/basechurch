@@ -145,4 +145,38 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
     it_behaves_like 'an authenticated action'
   end
+
+  describe '#sign' do
+    context 'when unauthenticated' do
+      before do
+        get :sign, name: 'myfile.jpg', size: 12343, type: 'image/jpeg'
+      end
+
+      it 'requires authentication' do
+        expect(response.status).to eq(302)
+      end
+    end
+
+    context 'with a signed in user' do
+      before { sign_in user }
+
+      before do
+        get :sign, name: 'myfile.jpg', size: 12343, type: 'image/jpeg'
+      end
+
+      it 'responds with values to post to s3' do
+        json = JSON.parse(response.body)
+        expect(json['acl']).to eq('public-read')
+        expect(json).to have_key('awsAccessKeyId')
+        expect(json['bucket']).to eq('mcac-staging')
+        expect(json['Cache-Control']).to eq('max-age=630720000, public')
+        expect(json['Content-Type']).to eq('image/jpeg')
+        expect(json).to have_key('expires')
+        expect(json).to have_key('key')
+        expect(json).to have_key('policy')
+        expect(json).to have_key('signature')
+        expect(json).to have_key('success_action_status')
+      end
+    end
+  end
 end

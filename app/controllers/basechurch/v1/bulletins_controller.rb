@@ -1,9 +1,25 @@
 class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   before_action :authenticate_user!, except: [:show, :sunday]
+  before_action :set_signing_expiry, only: :sign
 
   def sunday
     params[:id] = fetch_sunday_bulletin_id.to_s
     show
+  end
+
+  def sign
+    render json: {
+      acl: 'public-read',
+      awsAccessKeyId: 'brokennnz',
+      bucket: 'mcac-staging',
+      'Cache-Control' => 'max-age=630720000, public',
+      'Content-Type' => params[:type],
+      expires: @expiry,
+      key: "bulletins/#{params[:name]}",
+      policy: policy,
+      signature: signature,
+      success_action_status: '201'
+    }, status: :ok
   end
 
   private
@@ -13,5 +29,38 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
                          order('published_at DESC').
                          pluck(:id).
                          first
+  end
+
+  def policy(options = {})
+    Base64.strict_encode64(
+      {
+        expiration: @expiry,
+        conditions: [
+          { bucket: 'mcac-staging' },
+          { acl: 'public-read' },
+          { expires: @expiry },
+          { success_action_status: '201' },
+          [ 'starts-with', '$key', '' ],
+          [ 'starts-with', '$Content-Type', '' ],
+          [ 'starts-with', '$Cache-Control', '' ],
+          [ 'content-length-range', 0, 524288000 ]
+        ]
+      }.to_json
+    )
+  end
+
+  def signature
+    secret = 'broken'
+    Base64.strict_encode64(
+      OpenSSL::HMAC.digest(
+        OpenSSL::Digest::Digest.new('sha1'),
+        secret,
+        policy({ secret_access_key: secret })
+      )
+    )
+  end
+
+  def set_signing_expiry
+    @expiry = 30.minutes.from_now
   end
 end

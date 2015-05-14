@@ -6,7 +6,11 @@ Basechurch::Engine.routes.draw do
 
   namespace :v1, defaults: { format: 'json' } do
     jsonapi_resources :groups
-    jsonapi_resources :bulletins
+
+    jsonapi_resources :bulletins do
+      get 'sign', on: :collection
+    end
+
     jsonapi_resources :users
     jsonapi_resources :announcements
     jsonapi_resources :posts
