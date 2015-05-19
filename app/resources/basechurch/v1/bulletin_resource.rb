@@ -4,7 +4,7 @@ class Basechurch::V1::BulletinResource < JSONAPI::Resource
              :name,
              :service_order,
              :banner_url
-             
+
   attribute :published_at, format: :iso8601
 
   has_one :group

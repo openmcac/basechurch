@@ -38,7 +38,7 @@ RSpec.describe Basechurch::Bulletin, :type => :model do
 
     it "requires a valid banner url" do
       expect(build(:bulletin, banner_url: "hello_COD")).to_not be_valid
-      expect(build(:bulletin, banner_url: "http://something.com" )).to be_valid
+      expect(build(:bulletin, banner_url: "http://something.com")).to be_valid
     end
 
     it 'requires a valid date' do
