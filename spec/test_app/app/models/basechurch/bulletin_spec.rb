@@ -32,6 +32,15 @@ RSpec.describe Basechurch::Bulletin, :type => :model do
   end
 
   context "validation" do
+    it "has a valid default factory" do
+      expect(build(:bulletin)).to be_valid
+    end
+
+    it "requires a valid banner url" do
+      expect(build(:bulletin, banner_url: "hello_COD")).to_not be_valid
+      expect(build(:bulletin, banner_url: "http://something.com")).to be_valid
+    end
+
     it 'requires a valid date' do
       expect(build(:bulletin, published_at: '')).to_not be_valid
     end
