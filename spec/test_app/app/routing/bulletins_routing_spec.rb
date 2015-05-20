@@ -37,13 +37,13 @@ describe 'routes for bulletins', type: :routing do
     end
   end
 
-  describe 'GET /v1/bulletins/sign' do
+  describe "GET /v1/bulletins/sign" do
     let(:sign) { get "/v1/bulletins/sign" }
 
-    it 'routes to bulletins#sign)' do
-      expect(sign).to route_to(controller: 'basechurch/v1/bulletins',
-                               action: 'sign',
-                               format: 'json')
+    it "routes to bulletins#sign)" do
+      expect(sign).to route_to(controller: "basechurch/v1/bulletins",
+                               action: "sign",
+                               format: "json")
     end
   end
 end

@@ -10,10 +10,11 @@ class RandomFilename
   end
 
   private
+
   def file_extension(file_type)
     case file_type
-    when 'image/jpeg', 'image/jpg'
-      'jpg'
+    when "image/jpeg", "image/jpg"
+      "jpg"
     end
   end
 end

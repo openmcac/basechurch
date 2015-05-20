@@ -9,16 +9,16 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
 
   def sign
     render json: {
-      acl: 'public-read',
+      acl: "public-read",
       awsAccessKeyId: Rails.application.secrets.aws_access_key_id,
       bucket: AwsSettings.bucket,
-      'Cache-Control' => 'max-age=630720000, public',
-      'Content-Type' => params[:type],
+      "Cache-Control" => "max-age=630720000, public",
+      "Content-Type" => params[:type],
       expires: @expiry,
       key: "bulletins/#{RandomFilename.new(params[:type]).generate}",
       policy: encoded_policy,
       signature: signature,
-      success_action_status: '201'
+      success_action_status: "201"
     }, status: :ok
   end
 
@@ -40,13 +40,13 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
       expiration: @expiry,
       conditions: [
         { bucket: AwsSettings.bucket },
-        { acl: 'public-read' },
+        { acl: "public-read" },
         { expires: @expiry },
-        { success_action_status: '201' },
-        ['starts-with', '$key', ''],
-        ['starts-with', '$Content-Type', ''],
-        ['starts-with', '$Cache-Control', ''],
-        ['content-length-range', 0, 524288000]
+        { success_action_status: "201" },
+        ["starts-with", "$key", ""],
+        ["starts-with", "$Content-Type", ""],
+        ["starts-with", "$Cache-Control", ""],
+        ["content-length-range", 0, 524288000]
       ]
     }
   end
@@ -54,7 +54,7 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   def signature
     Base64.strict_encode64(
       OpenSSL::HMAC.digest(
-        OpenSSL::Digest::Digest.new('sha1'),
+        OpenSSL::Digest::Digest.new("sha1"),
         Rails.application.secrets.aws_secret_access_key,
         encoded_policy
       )
