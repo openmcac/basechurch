@@ -16,3 +16,7 @@
 /spec/test_app/log/*.log
 /spec/test_app/tmp
 /tmp
+
+production-secrets.yml
+development-secrets.yml
+staging-secrets.yml

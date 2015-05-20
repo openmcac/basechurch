@@ -145,4 +145,54 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
     it_behaves_like 'an authenticated action'
   end
+
+  describe "#sign" do
+    context "when unauthenticated" do
+      before do
+        get :sign, name: "myfile.jpg", size: 12343, type: "image/jpeg"
+      end
+
+      it "requires authentication" do
+        expect(response.status).to eq(302)
+      end
+    end
+
+    context "with a signed in user" do
+      let(:policy) do
+        "eyJleHBpcmF0aW9uIjoiMjAxMy0wNS0xNFQwMjo0ODoyNi4wMDBaIiwiY29uZGl0a" +
+          "W9ucyI6W3siYnVja2V0IjoibWNhYy10ZXN0In0seyJhY2wiOiJwdWJsaWMtcmVhZC" +
+          "J9LHsiZXhwaXJlcyI6IjIwMTMtMDUtMTRUMDI6NDg6MjYuMDAwWiJ9LHsic3VjY2V" +
+          "zc19hY3Rpb25fc3RhdHVzIjoiMjAxIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCIi" +
+          "XSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsIiJdLFsic3RhcnRzLXdpd" +
+          "GgiLCIkQ2FjaGUtQ29udHJvbCIsIiJdLFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLD" +
+          "AsNTI0Mjg4MDAwXV19"
+      end
+
+      before { sign_in user }
+
+      before do
+        allow_any_instance_of(RandomFilename).
+          to receive(:generate).and_return("random.jpg")
+
+        Timecop.freeze(DateTime.iso8601("2013-05-13T22:18:26-04:00")) do
+          get :sign, name: "myfile.jpg", size: 12343, type: "image/jpeg"
+        end
+      end
+
+      it "responds with values to post to s3" do
+        json = JSON.parse(response.body)
+        expect(json["acl"]).to eq "public-read"
+        expect(json["awsAccessKeyId"]).
+          to eq Rails.application.secrets.aws_access_key_id
+        expect(json["bucket"]).to eq "mcac-test"
+        expect(json["Cache-Control"]).to eq "max-age=630720000, public"
+        expect(json["Content-Type"]).to eq "image/jpeg"
+        expect(json["expires"]).to eq "2013-05-14T02:48:26.000Z"
+        expect(json["key"]).to eq "bulletins/random.jpg"
+        expect(json["policy"]).to eq policy
+        expect(json["signature"]).to eq "IS1HheFL3YkG/kr0hMyzwphOmNM="
+        expect(json["success_action_status"]).to eq "201"
+      end
+    end
+  end
 end
