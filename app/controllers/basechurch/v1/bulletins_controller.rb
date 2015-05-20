@@ -11,7 +11,7 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
     render json: {
       acl: 'public-read',
       awsAccessKeyId: Rails.application.secrets.aws_access_key_id,
-      bucket: 'mcac-staging',
+      bucket: AwsSettings.bucket,
       'Cache-Control' => 'max-age=630720000, public',
       'Content-Type' => params[:type],
       expires: @expiry,
@@ -39,7 +39,7 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
     {
       expiration: @expiry,
       conditions: [
-        { bucket: 'mcac-staging' },
+        { bucket: AwsSettings.bucket },
         { acl: 'public-read' },
         { expires: @expiry },
         { success_action_status: '201' },

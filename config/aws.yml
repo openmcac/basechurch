@@ -1,0 +1,17 @@
+defaults: &defaults
+
+development:
+  <<: *defaults
+  bucket: mcac-dev
+
+test:
+  <<: *defaults
+  bucket: mcac-test
+
+staging:
+  <<: *defaults
+  bucket: mcac-staging
+
+production:
+  <<: *defaults
+  bucket: mcac
