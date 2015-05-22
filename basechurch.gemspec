@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
   s.add_dependency "jsonapi-resources", "~> 0.1.1", ">= 0.1.1"
   s.add_dependency "rails", "~> 4.1.8", ">= 4.1.8"
   s.add_dependency "rails-api", "~> 0.3", ">= 0.3.1"
-  s.add_dependency "settingslogic", "~> 2.0.8", ">= 2.0.8"
   s.add_dependency "travis", "~> 1.5", ">= 1.5.0"
   s.add_dependency "validate_url", "~> 1.0", ">= 1.0.0"
 end
