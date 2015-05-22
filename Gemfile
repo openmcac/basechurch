@@ -35,6 +35,7 @@ group :development, :test do
   gem 'pry-remote'
   gem 'marco-polo'
   gem 'sqlite3'
+  gem "settingslogic"
 end
 
 group :staging do
