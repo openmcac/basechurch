@@ -3,7 +3,8 @@ class Basechurch::V1::BulletinResource < JSONAPI::Resource
              :description,
              :name,
              :service_order,
-             :banner_url
+             :banner_url,
+             :sermon_notes
 
   attribute :published_at, format: :iso8601
 
