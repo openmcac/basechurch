@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Basechurch::V1::BulletinResource, :type => :resource do
-  let(:bulletin) { create(:bulletin, banner_url: "http://something.com") }
+  let(:bulletin) do
+    create(:bulletin,
+           banner_url: "http://something.com",
+           sermon_notes: "these are sermon notes")
+  end
   let(:resource) { Basechurch::V1::BulletinResource.new(bulletin) }
   let(:group_resource) { Basechurch::V1::GroupResource.new(bulletin.group) }
 
@@ -13,7 +17,7 @@ RSpec.describe Basechurch::V1::BulletinResource, :type => :resource do
   its(:published_at) { is_expected.to eq(bulletin.published_at) }
   its(:service_order) { is_expected.to eq(bulletin.service_order) }
   its(:banner_url) { is_expected.to eq(bulletin.banner_url) }
-
+  its(:sermon_notes) { is_expected.to eq(bulletin.sermon_notes) }
 
   describe "#group" do
     subject { resource.group.id }
