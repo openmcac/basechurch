@@ -15,7 +15,7 @@ class RandomFilename
     case file_type
     when "image/jpeg", "image/jpg"
       "jpg"
-    when "audio/mpeg", "audio/mpeg3"
+    when "audio/mpeg", "audio/mpeg3", "audio/mp3"
       "mp3"
     end
   end
