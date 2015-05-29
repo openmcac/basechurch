@@ -2,6 +2,7 @@ class Basechurch::Bulletin < ActiveRecord::Base
   belongs_to :group
   has_many :announcements
 
+  validates :audio_url, url: { allow_blank: true }
   validates :banner_url, url: { allow_blank: true }
   validates :group, presence: true
   validates :published_at, presence: true

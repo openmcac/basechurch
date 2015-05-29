@@ -11,5 +11,23 @@ describe RandomFilename do
 
       it { is_expected.to eq "uuid.jpg" }
     end
+
+    context "when file type is audio/mpeg" do
+      let(:file_type) { "audio/mpeg" }
+
+      it { is_expected.to eq "uuid.mp3" }
+    end
+
+    context "when file type is audio/mpeg3" do
+      let(:file_type) { "audio/mpeg3" }
+
+      it { is_expected.to eq "uuid.mp3" }
+    end
+
+    context "when file type is audio/mp3" do
+      let(:file_type) { "audio/mp3" }
+
+      it { is_expected.to eq "uuid.mp3" }
+    end
   end
 end

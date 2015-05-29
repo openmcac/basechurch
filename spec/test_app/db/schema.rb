@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150525002323) do
+ActiveRecord::Schema.define(version: 20150527041615) do
 
   create_table "basechurch_announcements", force: true do |t|
     t.integer  "post_id"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20150525002323) do
     t.integer  "group_id"
     t.string   "banner_url"
     t.text     "sermon_notes"
+    t.string   "audio_url"
   end
 
   create_table "basechurch_groups", force: true do |t|

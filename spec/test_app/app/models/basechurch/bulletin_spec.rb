@@ -31,14 +31,26 @@ RSpec.describe Basechurch::Bulletin, :type => :model do
     end
   end
 
+  shared_examples_for "an optional url" do
+    it "requires a valid url" do
+      expect(build(:bulletin, key => "hello_COD")).to_not be_valid
+      expect(build(:bulletin, key => "http://something.com")).to be_valid
+    end
+  end
+
   context "validation" do
     it "has a valid default factory" do
       expect(build(:bulletin)).to be_valid
     end
 
-    it "requires a valid banner url" do
-      expect(build(:bulletin, banner_url: "hello_COD")).to_not be_valid
-      expect(build(:bulletin, banner_url: "http://something.com")).to be_valid
+    describe "#banner_url" do
+      let(:key) { :banner_url }
+      it_behaves_like "an optional url"
+    end
+
+    describe "#audio_url" do
+      let(:key) { :audio_url }
+      it_behaves_like "an optional url"
     end
 
     it 'requires a valid date' do
