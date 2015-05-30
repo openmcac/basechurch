@@ -6,7 +6,7 @@ describe Basechurch::V1::PostsController, type: :controller do
   end
 
   let!(:users) { create_list(:user, 3) }
-  let(:logged_user) { create(:user) }
+  let(:user) { create(:user) }
 
   let(:all_attributes) do
     {
@@ -65,10 +65,10 @@ describe Basechurch::V1::PostsController, type: :controller do
     context 'with an authenticated user' do
       before do
         request.headers['Content-Type'] = 'application/vnd.api+json'
-        request.headers['X-User-Email'] = logged_user.email
-        request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+        request.headers['X-User-Email'] = user.email
+        request.headers['X-User-Token'] = user.session_api_key.access_token
         allow_any_instance_of(Basechurch::V1::PostResource).
-            to receive(:context).and_return(current_user: logged_user)
+            to receive(:context).and_return(current_user: user)
       end
 
       it 'creates a new post' do
@@ -79,7 +79,7 @@ describe Basechurch::V1::PostsController, type: :controller do
         subject { Basechurch::Post.last }
         before { perform_action }
 
-        its(:author) { should == logged_user }
+        its(:author) { should == user }
         its(:content) { should == post_params[:posts][:content] }
         its(:group) { should == group }
         its(:title) { should == post_params[:posts][:title] }
@@ -107,17 +107,17 @@ describe Basechurch::V1::PostsController, type: :controller do
     context 'with an authenticated user' do
       before do
         request.headers['Content-Type'] = 'application/vnd.api+json'
-        request.headers['X-User-Email'] = logged_user.email
-        request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+        request.headers['X-User-Email'] = user.email
+        request.headers['X-User-Token'] = user.session_api_key.access_token
         allow_any_instance_of(Basechurch::V1::PostResource).
-            to receive(:context).and_return(current_user: logged_user)
+            to receive(:context).and_return(current_user: user)
       end
 
       context 'with an updated post' do
         subject { post_to_update.reload }
         before { perform_action }
 
-        its(:editor) { should == logged_user }
+        its(:editor) { should == user }
         its(:content) { should == post_params[:posts][:content] }
         its(:group) { should == group }
         its(:title) { should == post_params[:posts][:title] }
@@ -161,10 +161,10 @@ describe Basechurch::V1::PostsController, type: :controller do
       context 'with invalid parameters' do
         before do
           request.headers['Content-Type'] = 'application/vnd.api+json'
-          request.headers['X-User-Email'] = logged_user.email
-          request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+          request.headers['X-User-Email'] = user.email
+          request.headers['X-User-Token'] = user.session_api_key.access_token
           allow_any_instance_of(Basechurch::V1::PostResource).
-              to receive(:context).and_return(current_user: logged_user)
+              to receive(:context).and_return(current_user: user)
         end
 
         let(:invalid_attributes) { valid_attributes }
@@ -222,10 +222,10 @@ describe Basechurch::V1::PostsController, type: :controller do
 
         before do
           request.headers['Content-Type'] = 'application/vnd.api+json'
-          request.headers['X-User-Email'] = logged_user.email
-          request.headers['X-User-Token'] = logged_user.session_api_key.access_token
+          request.headers['X-User-Email'] = user.email
+          request.headers['X-User-Token'] = user.session_api_key.access_token
           allow_any_instance_of(Basechurch::V1::PostResource).
-              to receive(:context).and_return(current_user: logged_user)
+              to receive(:context).and_return(current_user: user)
         end
 
         context "where published_at is not iso8601 compliant" do
@@ -242,5 +242,10 @@ describe Basechurch::V1::PostsController, type: :controller do
         end
       end
     end
+  end
+
+  describe "s3 signing" do
+    let(:directory) { "posts" }
+    it_behaves_like "a request that returns a signature to upload to s3"
   end
 end
