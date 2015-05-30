@@ -13,7 +13,10 @@ Basechurch::Engine.routes.draw do
 
     jsonapi_resources :users
     jsonapi_resources :announcements
-    jsonapi_resources :posts
+
+    jsonapi_resources :posts do
+      get "sign", on: :collection
+    end
 
     get '/sunday', to: 'bulletins#sunday'
   end
