@@ -5,7 +5,8 @@ class Basechurch::V1::PostResource < JSONAPI::Resource
   attributes :content,
              :id,
              :slug,
-             :title;
+             :title,
+             :group_slug
 
   attribute :published_at, format: :iso8601
   attribute :updated_at, format: :iso8601
@@ -27,6 +28,10 @@ class Basechurch::V1::PostResource < JSONAPI::Resource
     else
       return super(records, filter, value)
     end
+  end
+
+  def group_slug
+    model.group.slug
   end
 
   def tags
