@@ -10,6 +10,7 @@ RSpec.describe Basechurch::V1::PostResource, :type => :resource do
   its(:id) { is_expected.to eq(post.id) }
   its(:content) { is_expected.to eq(post.content) }
   its(:published_at) { is_expected.to eq(post.published_at) }
+  its(:group_slug) { is_expected.to eq(post.group.slug) }
 
   describe "#group" do
     subject { resource.group.id }
