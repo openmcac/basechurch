@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-describe 'routes for posts', type: :routing do
+describe "routes for posts", type: :routing do
   routes { Basechurch::Engine.routes }
 
   describe "GET /v1/posts/sign" do

@@ -64,11 +64,11 @@ describe Basechurch::V1::PostsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
-        request.headers['Content-Type'] = 'application/vnd.api+json'
-        request.headers['X-User-Email'] = user.email
-        request.headers['X-User-Token'] = user.session_api_key.access_token
+        request.headers["Content-Type"] = "application/vnd.api+json"
+        request.headers["X-User-Email"] = user.email
+        request.headers["X-User-Token"] = user.session_api_key.access_token
         allow_any_instance_of(Basechurch::V1::PostResource).
-            to receive(:context).and_return(current_user: user)
+          to receive(:context).and_return(current_user: user)
       end
 
       it 'creates a new post' do
@@ -106,11 +106,11 @@ describe Basechurch::V1::PostsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
-        request.headers['Content-Type'] = 'application/vnd.api+json'
-        request.headers['X-User-Email'] = user.email
-        request.headers['X-User-Token'] = user.session_api_key.access_token
+        request.headers["Content-Type"] = "application/vnd.api+json"
+        request.headers["X-User-Email"] = user.email
+        request.headers["X-User-Token"] = user.session_api_key.access_token
         allow_any_instance_of(Basechurch::V1::PostResource).
-            to receive(:context).and_return(current_user: user)
+          to receive(:context).and_return(current_user: user)
       end
 
       context 'with an updated post' do
@@ -160,11 +160,11 @@ describe Basechurch::V1::PostsController, type: :controller do
 
       context 'with invalid parameters' do
         before do
-          request.headers['Content-Type'] = 'application/vnd.api+json'
-          request.headers['X-User-Email'] = user.email
-          request.headers['X-User-Token'] = user.session_api_key.access_token
+          request.headers["Content-Type"] = "application/vnd.api+json"
+          request.headers["X-User-Email"] = user.email
+          request.headers["X-User-Token"] = user.session_api_key.access_token
           allow_any_instance_of(Basechurch::V1::PostResource).
-              to receive(:context).and_return(current_user: user)
+            to receive(:context).and_return(current_user: user)
         end
 
         let(:invalid_attributes) { valid_attributes }
@@ -221,11 +221,11 @@ describe Basechurch::V1::PostsController, type: :controller do
         let(:perform_action) { put :update, invalid_attributes }
 
         before do
-          request.headers['Content-Type'] = 'application/vnd.api+json'
-          request.headers['X-User-Email'] = user.email
-          request.headers['X-User-Token'] = user.session_api_key.access_token
+          request.headers["Content-Type"] = "application/vnd.api+json"
+          request.headers["X-User-Email"] = user.email
+          request.headers["X-User-Token"] = user.session_api_key.access_token
           allow_any_instance_of(Basechurch::V1::PostResource).
-              to receive(:context).and_return(current_user: user)
+            to receive(:context).and_return(current_user: user)
         end
 
         context "where published_at is not iso8601 compliant" do
