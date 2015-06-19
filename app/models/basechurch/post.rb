@@ -12,6 +12,7 @@ class Basechurch::Post < ActiveRecord::Base
   validates :editor, presence: true, unless: :new_record?
   validates :group, presence: true
   validates :display_published_at, iso8601: true
+  validates :banner_url, url: { allow_blank: true }
 
   acts_as_taggable
 

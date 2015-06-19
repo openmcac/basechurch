@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527041615) do
+ActiveRecord::Schema.define(version: 20150530024856) do
 
   create_table "basechurch_announcements", force: true do |t|
     t.integer  "post_id"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20150527041615) do
     t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "banner_url"
   end
 
   add_index "basechurch_posts", ["author_id"], name: "index_basechurch_posts_on_author_id"

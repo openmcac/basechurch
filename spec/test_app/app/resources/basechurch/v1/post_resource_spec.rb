@@ -12,6 +12,11 @@ RSpec.describe Basechurch::V1::PostResource, :type => :resource do
   its(:published_at) { is_expected.to eq(post.published_at) }
   its(:group_slug) { is_expected.to eq(post.group.slug) }
 
+  context "with a banner_url" do
+    let(:post) { create(:post, banner_url: "http://example.com/test.png") }
+    its(:banner_url) { is_expected.to eq(post.banner_url) }
+  end
+
   describe "#group" do
     subject { resource.group.id }
     it { is_expected.to eq(group_resource.id) }

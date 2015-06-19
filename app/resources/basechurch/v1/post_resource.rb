@@ -2,8 +2,9 @@ class Basechurch::V1::PostResource < JSONAPI::Resource
   before_create :set_author_as_current_user
   before_update :set_editor_as_current_user
 
-  attributes :content,
-             :id,
+  attributes :id,
+             :banner_url,
+             :content,
              :slug,
              :title,
              :group_slug

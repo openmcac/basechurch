@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Basechurch::Post, :type => :model do
+  shared_examples_for "an optional url" do
+    it "requires a valid url" do
+      expect(build(:post, key => "hello_COD")).to_not be_valid
+      expect(build(:post, key => "http://something.com")).to be_valid
+    end
+  end
+
   context 'validations' do
     it 'requires content' do
       expect(build(:post, content: '')).to_not be_valid
@@ -16,6 +23,11 @@ RSpec.describe Basechurch::Post, :type => :model do
 
     it 'requires a group' do
       expect(build(:post, group: nil)).to_not be_valid
+    end
+
+    context "with a banner url" do
+      let(:key) { :banner_url }
+      it_behaves_like "an optional url"
     end
 
     context 'when updating a post' do
