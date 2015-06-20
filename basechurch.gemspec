@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "devise", "~> 3.4", ">= 3.4.1"
   s.add_dependency "friendly_id", "~> 5.0", ">= 5.0.0"
   s.add_dependency "jbuilder", "~> 2.2", ">= 2.2.6"
-  s.add_dependency "jsonapi-resources", "~> 0.1.1", ">= 0.1.1"
+  s.add_dependency "jsonapi-resources", "~> 0.4.2", ">= 0.4.2"
   s.add_dependency "rails", "~> 4.1.8", ">= 4.1.8"
   s.add_dependency "rails-api", "~> 0.3", ">= 0.3.1"
   s.add_dependency "travis", "~> 1.5", ">= 1.5.0"
