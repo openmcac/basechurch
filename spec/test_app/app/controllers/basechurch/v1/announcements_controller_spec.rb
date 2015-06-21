@@ -7,11 +7,18 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
   let(:valid_attributes) do
     {
-      announcements: {
-        description: Forgery(:lorem_ipsum).words(10),
-        links: {
-          bulletin: bulletin.id.to_s,
-          post: announcement_post.id.to_s
+      data: {
+        type: "announcements",
+        attributes: {
+          description: Forgery(:lorem_ipsum).words(10)
+        },
+        relationships: {
+          bulletin: {
+            data: { type: "bulletins", id: bulletin.id.to_s }
+          },
+          post: {
+            data: { type: "posts", id: announcement_post.id.to_s }
+          }
         }
       }
     }
@@ -19,14 +26,18 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
   shared_examples_for 'a response containing an announcement' do
     it 'returns an announcement' do
-      body = JSON.parse(response.body)
+      data = JSON.parse(response.body)["data"]
+      attributes = data["attributes"]
 
-      expect(body['announcements']['id']).to eq(announcement.id.to_s)
-      expect(body['announcements']['description']).to eq(announcement.description)
-      expect(body['announcements']['position']).to eq(announcement.position)
-      expect(body['announcements']['url']).to eq(announcement.url)
-      expect(body['announcements']['links']['bulletin']).to eq(announcement.bulletin_id.to_s)
-      expect(body['announcements']['links']['post']).to eq(announcement.post_id.to_s)
+      expect(data["id"]).to eq announcement.id.to_s
+      expect(data["type"]).to eq "announcements"
+      expect(attributes['description']).to eq announcement.description
+      expect(attributes['position']).to eq announcement.position
+      expect(attributes['url']).to eq announcement.url
+
+      bulletin_data = data["relationships"]["bulletin"]["data"]
+      expect(bulletin_data["id"]).to eq announcement.bulletin_id.to_s
+      expect(bulletin_data["type"]).to eq "bulletins"
     end
   end
 
@@ -63,7 +74,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
       context 'with invalid parameters' do
         let(:invalid_params) do
-          post_params[:announcements][:description] = ''
+          post_params[:data][:attributes][:description] = ''
           post_params
         end
 
@@ -101,7 +112,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
         let!(:announcement_after) { bulletin.announcements[1] }
 
         let(:post_params) do
-          valid_attributes[:announcements][:position] = expected_position
+          valid_attributes[:data][:attributes][:position] = expected_position
           valid_attributes
         end
 
@@ -140,7 +151,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
     it_behaves_like 'a response containing an announcement'
   end
 
-  describe 'PUT /announcements/:id' do
+  describe 'PATCH /announcements/:id' do
     let(:bulletin) do
       create(:bulletin_with_announcements, announcements_count: 1)
     end
@@ -148,16 +159,20 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
     let(:announcement) { bulletin.announcements.first }
     let(:description) { Forgery(:lorem_ipsum).words(90) }
 
-    let(:put_params) do
+    let(:patch_params) do
       {
-        id: announcement.id,
-        announcements: {
-          description: description
+        id: announcement.id.to_s,
+        data: {
+          type: "announcements",
+          id: announcement.id.to_s,
+          attributes: {
+            description: description
+          }
         }
       }
     end
 
-    let(:perform_action) { put :update, put_params }
+    let(:perform_action) { patch :update, patch_params }
 
     it_behaves_like 'an authenticated action'
 
@@ -186,11 +201,15 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
         let(:position) { 3 }
 
-        let(:put_params) do
+        let(:patch_params) do
           {
-            id: bulletin.announcements[1].id,
-            announcements: {
-              position: position
+            id: bulletin.announcements[1].id.to_s,
+            data: {
+              type: "announcements",
+              id: bulletin.announcements[1].id.to_s,
+              attributes: {
+                position: position
+              }
             }
           }
         end

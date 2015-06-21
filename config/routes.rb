@@ -8,6 +8,8 @@ Basechurch::Engine.routes.draw do
     jsonapi_resources :groups
 
     jsonapi_resources :bulletins do
+      jsonapi_relationships
+
       get "sign", on: :collection
     end
 
