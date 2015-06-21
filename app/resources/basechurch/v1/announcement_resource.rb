@@ -1,5 +1,5 @@
 class Basechurch::V1::AnnouncementResource < JSONAPI::Resource
-  attributes :id, :description, :position, :url
+  attributes :description, :position, :url
 
   has_one :bulletin
   has_one :post

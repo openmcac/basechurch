@@ -1,6 +1,5 @@
 class Basechurch::V1::BulletinResource < JSONAPI::Resource
-  attributes :id,
-             :description,
+  attributes :description,
              :name,
              :service_order,
              :banner_url,

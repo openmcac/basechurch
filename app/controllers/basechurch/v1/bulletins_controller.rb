@@ -1,8 +1,8 @@
 class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   before_action :authenticate_user!, except: [:show, :sunday]
+  prepend_before_action :imitate_show_action, only: :sunday
 
   def sunday
-    params[:id] = fetch_sunday_bulletin_id.to_s
     show
   end
 
@@ -12,6 +12,12 @@ class Basechurch::V1::BulletinsController < Basechurch::ApplicationController
   end
 
   private
+
+  def imitate_show_action
+    params[:id] = fetch_sunday_bulletin_id.to_s
+    params[:action] = "show"
+  end
+
   def fetch_sunday_bulletin_id
     Basechurch::Bulletin.english_service.
                          where('published_at <= ?', DateTime.now).
