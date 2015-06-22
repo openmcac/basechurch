@@ -31,9 +31,9 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
       expect(data["id"]).to eq announcement.id.to_s
       expect(data["type"]).to eq "announcements"
-      expect(attributes['description']).to eq announcement.description
-      expect(attributes['position']).to eq announcement.position
-      expect(attributes['url']).to eq announcement.url
+      expect(attributes["description"]).to eq announcement.description
+      expect(attributes["position"]).to eq announcement.position
+      expect(attributes["url"]).to eq announcement.url
 
       bulletin_data = data["relationships"]["bulletin"]["data"]
       expect(bulletin_data["id"]).to eq announcement.bulletin_id.to_s
@@ -74,7 +74,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
 
       context 'with invalid parameters' do
         let(:invalid_params) do
-          post_params[:data][:attributes][:description] = ''
+          post_params[:data][:attributes][:description] = ""
           post_params
         end
 
@@ -151,7 +151,7 @@ RSpec.describe Basechurch::V1::AnnouncementsController, type: :controller do
     it_behaves_like 'a response containing an announcement'
   end
 
-  describe 'PATCH /announcements/:id' do
+  describe "PATCH /announcements/:id" do
     let(:bulletin) do
       create(:bulletin_with_announcements, announcements_count: 1)
     end

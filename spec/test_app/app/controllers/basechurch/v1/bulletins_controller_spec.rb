@@ -78,7 +78,8 @@ describe Basechurch::V1::BulletinsController, type: :controller do
       expect(attributes["bannerUrl"]).to eq bulletin.banner_url
       expect(attributes["description"]).to eq bulletin.description
       expect(attributes["name"]).to eq bulletin.name
-      expect(attributes["publishedAt"]).to eq bulletin.published_at.to_time.localtime("+00:00").iso8601
+      expect(attributes["publishedAt"]).
+        to eq bulletin.published_at.to_time.localtime("+00:00").iso8601
       expect(attributes["sermonNotes"]).to eq bulletin.sermon_notes
       expect(attributes["serviceOrder"]).to eq bulletin.service_order
 
@@ -120,7 +121,7 @@ describe Basechurch::V1::BulletinsController, type: :controller do
     it_behaves_like 'a response containing a bulletin'
   end
 
-  describe 'POST /bulletins' do
+  describe "POST /bulletins" do
     let(:perform_action) { post :create, valid_attributes }
 
     context 'with an authenticated user' do
@@ -153,7 +154,7 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:data][:attributes][:publishedAt] = 'sdafasdfdsa'
+            invalid_attributes[:data][:attributes][:publishedAt] = "sdafasdfdsa"
             perform_action
           end
 
