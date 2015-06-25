@@ -14,7 +14,7 @@ describe Basechurch::V1::GroupsController, type: :controller do
       expect(data["type"]).to eq "groups"
       expect(attributes["name"]).to eq group.name
       expect(attributes["slug"]).to eq group.slug
-      expect(attributes["createdAt"]).to eq "2001-02-02T21:05:06+00:00"
+      expect(attributes["created-at"]).to eq "2001-02-02T21:05:06+00:00"
     end
   end
 end

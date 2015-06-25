@@ -12,10 +12,10 @@ describe Basechurch::V1::BulletinsController, type: :controller do
       data: {
         type: "bulletins",
         attributes: {
-          publishedAt: DateTime.now.to_time.iso8601,
+          :"published-at" => DateTime.now.to_time.iso8601,
           name: Forgery(:lorem_ipsum).title,
           description: Forgery(:lorem_ipsum).words(10),
-          serviceOrder: Forgery(:lorem_ipsum).words(10),
+          :"service-order" => Forgery(:lorem_ipsum).words(10),
         },
         relationships: {
           group: {
@@ -29,10 +29,10 @@ describe Basechurch::V1::BulletinsController, type: :controller do
   let(:full_bulletin) do
     b = all_attributes[:data][:attributes]
     create(:bulletin,
-           published_at: DateTime.iso8601(b[:publishedAt]),
+           published_at: DateTime.iso8601(b[:"published-at"]),
            name: b[:name],
            description: b[:description],
-           service_order: b[:serviceOrder],
+           service_order: b[:"service-order"],
            group: sunday_service)
   end
 
@@ -41,7 +41,7 @@ describe Basechurch::V1::BulletinsController, type: :controller do
       data: {
         type: "bulletins",
         attributes: {
-          publishedAt: DateTime.now.to_time.iso8601,
+          :"published-at" => DateTime.now.to_time.iso8601,
         },
         relationships: {
           group: {
@@ -78,10 +78,10 @@ describe Basechurch::V1::BulletinsController, type: :controller do
       expect(attributes["bannerUrl"]).to eq bulletin.banner_url
       expect(attributes["description"]).to eq bulletin.description
       expect(attributes["name"]).to eq bulletin.name
-      expect(attributes["publishedAt"]).
+      expect(attributes["published-at"]).
         to eq bulletin.published_at.to_time.localtime("+00:00").iso8601
       expect(attributes["sermonNotes"]).to eq bulletin.sermon_notes
-      expect(attributes["serviceOrder"]).to eq bulletin.service_order
+      expect(attributes["service-order"]).to eq bulletin.service_order
 
       group_data = data["relationships"]["group"]["data"]
       expect(group_data["type"]).to eq "groups"
@@ -134,7 +134,7 @@ describe Basechurch::V1::BulletinsController, type: :controller do
       context 'with minimum params required' do
         let(:post_params) { valid_attributes }
         let(:bulletin) do
-          isoDate = valid_attributes[:data][:attributes][:publishedAt]
+          isoDate = valid_attributes[:data][:attributes][:"published-at"]
           create(:bulletin,
                  published_at: DateTime.iso8601(isoDate),
                  group: sunday_service)
@@ -154,7 +154,7 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:data][:attributes][:publishedAt] = "sdafasdfdsa"
+            invalid_attributes[:data][:attributes][:"published-at"] = "sdafasdfdsa"
             perform_action
           end
 

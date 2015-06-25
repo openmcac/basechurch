@@ -11,7 +11,7 @@ describe Basechurch::V1::PostsController, type: :controller do
         type: "posts",
         attributes: {
           content: Forgery(:lorem_ipsum).words(10),
-          publishedAt: DateTime.now.to_time.iso8601,
+          :"published-at" => DateTime.now.to_time.iso8601,
           tags: ["tag1", "tag2", "tag3"],
           title: Forgery(:lorem_ipsum).title
         },
@@ -57,7 +57,7 @@ describe Basechurch::V1::PostsController, type: :controller do
       expect(attributes["slug"]).to eq expected_post.slug
       expect(attributes["tags"]).to eq expected_post.tag_list
       expect(attributes["title"]).to eq expected_post.title
-      expect(attributes["publishedAt"]).to eq expected_post.published_at.to_time.localtime("+00:00").iso8601
+      expect(attributes["published-at"]).to eq expected_post.published_at.to_time.localtime("+00:00").iso8601
 
       expect(group_data["id"]).to eq expected_post.group_id.to_s
       expect(group_data["type"]).to eq "groups"
@@ -66,7 +66,7 @@ describe Basechurch::V1::PostsController, type: :controller do
       expect(author_data["type"]).to eq "users"
 
       if expected_post.updated_at
-        expect(attributes["updatedAt"]).to eq expected_post.updated_at.to_time.localtime("+00:00").iso8601
+        expect(attributes["updated-at"]).to eq expected_post.updated_at.to_time.localtime("+00:00").iso8601
       end
 
       if expected_post.editor
@@ -190,7 +190,7 @@ describe Basechurch::V1::PostsController, type: :controller do
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:posts][:publishedAt] = "sdafasdfdsa"
+            invalid_attributes[:posts][:"published-at"] = "sdafasdfdsa"
             perform_action
           end
 
@@ -226,7 +226,7 @@ describe Basechurch::V1::PostsController, type: :controller do
         let(:expected_tags) { post_params[:data][:attributes][:tags] }
 
         let(:expected_published_at) do
-          DateTime.iso8601(post_params[:data][:attributes][:publishedAt])
+          DateTime.iso8601(post_params[:data][:attributes][:"published-at"])
         end
 
         it_behaves_like 'an action to update a post'
@@ -251,7 +251,7 @@ describe Basechurch::V1::PostsController, type: :controller do
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:data][:attributes][:publishedAt] = "sdafasdfdsa"
+            invalid_attributes[:data][:attributes][:"published-at"] = "sdafasdfdsa"
             perform_action
           end
 
