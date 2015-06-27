@@ -71,7 +71,8 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
       expect(data["id"]).to be_present
       expect(data["type"]).to eq "bulletins"
-      expect(data["links"]["self"]).to be_present
+      expect(data["links"]["self"]).
+        to start_with "http://test.host/api/v1/bulletins/"
 
       attributes = data["attributes"]
       expect(attributes["audioUrl"]).to eq bulletin.audio_url
