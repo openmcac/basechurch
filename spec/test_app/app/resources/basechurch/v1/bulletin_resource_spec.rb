@@ -29,9 +29,11 @@ RSpec.describe Basechurch::V1::BulletinResource, :type => :resource do
   describe 'apply_filter' do
     let(:records) { Basechurch::Bulletin.all }
     let(:group) { create(:group) }
+    let(:options) { {} }
 
     subject do
-      Basechurch::V1::BulletinResource.apply_filter(records, filter, value)
+      Basechurch::V1::BulletinResource.
+        apply_filter(records, filter, value, options)
     end
 
     context 'when filter is something else' do

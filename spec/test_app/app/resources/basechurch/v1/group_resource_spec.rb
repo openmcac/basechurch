@@ -12,8 +12,10 @@ RSpec.describe Basechurch::V1::GroupResource, :type => :resource do
   its(:created_at) { is_expected.to eq(group.created_at) }
 
   describe 'apply_filter' do
+    let(:options) { {} }
+
     subject do
-      Basechurch::V1::GroupResource.apply_filter(records, filter, value)
+      Basechurch::V1::GroupResource.apply_filter(records, filter, value, options)
     end
 
     context 'when filter is something else' do

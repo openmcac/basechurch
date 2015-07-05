@@ -21,12 +21,12 @@ class Basechurch::V1::PostResource < JSONAPI::Resource
   filter :group
 
   private
-  def self.apply_filter(records, filter, value)
+  def self.apply_filter(records, filter, value, options)
     case filter
     when :group
       records.where(group_id: value)
     else
-      return super(records, filter, value)
+      return super(records, filter, value, options)
     end
   end
 

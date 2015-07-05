@@ -9,7 +9,7 @@ class Basechurch::V1::AnnouncementResource < JSONAPI::Resource
   filter :latest_for_group
   filter :defaults_for_bulletin
 
-  def self.apply_filter(records, filter, value)
+  def self.apply_filter(records, filter, value, options)
     case filter
     when :latest_for_group
       records.where('basechurch_announcements.bulletin_id = ?',
@@ -18,7 +18,7 @@ class Basechurch::V1::AnnouncementResource < JSONAPI::Resource
       records.where('basechurch_announcements.bulletin_id = ?',
                     self.get_previous_bulletin(value))
     else
-      return super(records, filter, value)
+      return super(records, filter, value, options)
     end
   end
 
