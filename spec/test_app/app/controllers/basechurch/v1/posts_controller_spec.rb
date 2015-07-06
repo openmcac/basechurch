@@ -57,7 +57,8 @@ describe Basechurch::V1::PostsController, type: :controller do
       expect(attributes["slug"]).to eq expected_post.slug
       expect(attributes["tags"]).to eq expected_post.tag_list
       expect(attributes["title"]).to eq expected_post.title
-      expect(attributes["published-at"]).to eq expected_post.published_at.to_time.localtime("+00:00").iso8601
+      expect(attributes["published-at"]).
+        to eq expected_post.published_at.to_time.localtime("+00:00").iso8601
 
       expect(group_data["id"]).to eq expected_post.group_id.to_s
       expect(group_data["type"]).to eq "groups"
@@ -66,7 +67,8 @@ describe Basechurch::V1::PostsController, type: :controller do
       expect(author_data["type"]).to eq "users"
 
       if expected_post.updated_at
-        expect(attributes["updated-at"]).to eq expected_post.updated_at.to_time.localtime("+00:00").iso8601
+        expect(attributes["updated-at"]).
+          to eq expected_post.updated_at.to_time.localtime("+00:00").iso8601
       end
 
       if expected_post.editor
@@ -251,7 +253,8 @@ describe Basechurch::V1::PostsController, type: :controller do
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:data][:attributes][:"published-at"] = "sdafasdfdsa"
+            attributes = invalid_attributes[:data][:attributes]
+            attributes[:"published-at"] = "sdafasdfdsa"
             perform_action
           end
 

@@ -135,9 +135,9 @@ describe Basechurch::V1::BulletinsController, type: :controller do
       context 'with minimum params required' do
         let(:post_params) { valid_attributes }
         let(:bulletin) do
-          isoDate = valid_attributes[:data][:attributes][:"published-at"]
+          iso_date = valid_attributes[:data][:attributes][:"published-at"]
           create(:bulletin,
-                 published_at: DateTime.iso8601(isoDate),
+                 published_at: DateTime.iso8601(iso_date),
                  group: sunday_service)
         end
 
@@ -155,7 +155,8 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:data][:attributes][:"published-at"] = "sdafasdfdsa"
+            attributes = invalid_attributes[:data][:attributes]
+            attributes[:"published-at"] = "sdafasdfdsa"
             perform_action
           end
 

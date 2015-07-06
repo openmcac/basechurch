@@ -15,7 +15,8 @@ RSpec.describe Basechurch::V1::GroupResource, :type => :resource do
     let(:options) { {} }
 
     subject do
-      Basechurch::V1::GroupResource.apply_filter(records, filter, value, options)
+      Basechurch::V1::GroupResource.
+        apply_filter(records, filter, value, options)
     end
 
     context 'when filter is something else' do
