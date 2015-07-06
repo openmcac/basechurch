@@ -1,6 +1,5 @@
 class Basechurch::V1::BulletinResource < JSONAPI::Resource
-  attributes :id,
-             :description,
+  attributes :description,
              :name,
              :service_order,
              :banner_url,
@@ -17,14 +16,14 @@ class Basechurch::V1::BulletinResource < JSONAPI::Resource
   filter :latest_for_group
   filter :group
 
-  def self.apply_filter(records, filter, value)
+  def self.apply_filter(records, filter, value, options)
     case filter
     when :group
       records.where(group_id: value)
     when :latest_for_group
       records.latest.where(group_id: value).limit(1)
     else
-      return super(records, filter, value)
+      return super(records, filter, value, options)
     end
   end
 end

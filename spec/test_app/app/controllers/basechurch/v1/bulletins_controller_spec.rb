@@ -9,34 +9,44 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
   let(:all_attributes) do
     {
-      bulletins: {
-        publishedAt: DateTime.now.to_time.iso8601,
-        name: Forgery(:lorem_ipsum).title,
-        description: Forgery(:lorem_ipsum).words(10),
-        serviceOrder: Forgery(:lorem_ipsum).words(10),
-        links: {
-          group: sunday_service.id.to_s
+      data: {
+        type: "bulletins",
+        attributes: {
+          :"published-at" => DateTime.now.to_time.iso8601,
+          name: Forgery(:lorem_ipsum).title,
+          description: Forgery(:lorem_ipsum).words(10),
+          :"service-order" => Forgery(:lorem_ipsum).words(10),
+        },
+        relationships: {
+          group: {
+            data: { type: "groups", id: sunday_service.id.to_s }
+          }
         }
       }
     }
   end
 
   let(:full_bulletin) do
-    b = all_attributes[:bulletins]
+    b = all_attributes[:data][:attributes]
     create(:bulletin,
-           published_at: DateTime.iso8601(b[:publishedAt]),
+           published_at: DateTime.iso8601(b[:"published-at"]),
            name: b[:name],
            description: b[:description],
-           service_order: b[:serviceOrder],
+           service_order: b[:"service-order"],
            group: sunday_service)
   end
 
   let(:valid_attributes) do
     {
-      bulletins: {
-        publishedAt: DateTime.now.to_time.iso8601,
-        links: {
-          group: sunday_service.id.to_s
+      data: {
+        type: "bulletins",
+        attributes: {
+          :"published-at" => DateTime.now.to_time.iso8601,
+        },
+        relationships: {
+          group: {
+            data: { type: "groups", id: sunday_service.id.to_s }
+          }
         }
       }
     }
@@ -57,16 +67,29 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
   shared_examples_for 'a response containing a bulletin' do
     it 'returns a bulletin' do
-      body = JSON.parse(response.body)
+      data = JSON.parse(response.body)["data"]
 
-      expect(body['bulletins']['id']).to be_present
-      expect(body['bulletins']['name']).to eq(bulletin.name)
-      expect(body['bulletins']['description']).to eq(bulletin.description)
-      expect(body['bulletins']['publishedAt']).to eq(bulletin.published_at.to_time.localtime('+00:00').iso8601)
-      expect(body['bulletins']['serviceOrder']).to eq(bulletin.service_order)
-      expect(body['bulletins']['links']['group']).to eq(bulletin.group.id.to_s)
-      expect(body['bulletins']['links']['announcements']).
-          to eq(bulletin.announcements.map { |a| a.id.to_s })
+      expect(data["id"]).to be_present
+      expect(data["type"]).to eq "bulletins"
+      expect(data["links"]["self"]).
+        to start_with "http://test.host/api/v1/bulletins/"
+
+      attributes = data["attributes"]
+      expect(attributes["audioUrl"]).to eq bulletin.audio_url
+      expect(attributes["bannerUrl"]).to eq bulletin.banner_url
+      expect(attributes["description"]).to eq bulletin.description
+      expect(attributes["name"]).to eq bulletin.name
+      expect(attributes["published-at"]).
+        to eq bulletin.published_at.to_time.localtime("+00:00").iso8601
+      expect(attributes["sermonNotes"]).to eq bulletin.sermon_notes
+      expect(attributes["service-order"]).to eq bulletin.service_order
+
+      group_data = data["relationships"]["group"]["data"]
+      expect(group_data["type"]).to eq "groups"
+      expect(group_data["id"]).to eq bulletin.group.id.to_s
+
+      announcements_data = data["relationships"]["announcements"]
+      expect(announcements_data).not_to be_empty
     end
   end
 
@@ -99,7 +122,7 @@ describe Basechurch::V1::BulletinsController, type: :controller do
     it_behaves_like 'a response containing a bulletin'
   end
 
-  describe 'POST /:group_slug/bulletins' do
+  describe "POST /bulletins" do
     let(:perform_action) { post :create, valid_attributes }
 
     context 'with an authenticated user' do
@@ -112,9 +135,9 @@ describe Basechurch::V1::BulletinsController, type: :controller do
       context 'with minimum params required' do
         let(:post_params) { valid_attributes }
         let(:bulletin) do
-          isoDate = valid_attributes[:bulletins][:publishedAt]
+          iso_date = valid_attributes[:data][:attributes][:"published-at"]
           create(:bulletin,
-                 published_at: DateTime.iso8601(isoDate),
+                 published_at: DateTime.iso8601(iso_date),
                  group: sunday_service)
         end
 
@@ -132,7 +155,8 @@ describe Basechurch::V1::BulletinsController, type: :controller do
 
         context "where published_at is not iso8601 compliant" do
           before do
-            invalid_attributes[:bulletins][:publishedAt] = 'sdafasdfdsa'
+            attributes = invalid_attributes[:data][:attributes]
+            attributes[:"published-at"] = "sdafasdfdsa"
             perform_action
           end
 

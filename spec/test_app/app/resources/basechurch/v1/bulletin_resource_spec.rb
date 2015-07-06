@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Basechurch::V1::BulletinResource, :type => :resource do
   let(:bulletin) do
-    create(:bulletin,
+    create(:bulletin_with_announcements,
            banner_url: "http://banner.com",
            audio_url: "http://audio.com",
            sermon_notes: "these are sermon notes")
@@ -29,9 +29,11 @@ RSpec.describe Basechurch::V1::BulletinResource, :type => :resource do
   describe 'apply_filter' do
     let(:records) { Basechurch::Bulletin.all }
     let(:group) { create(:group) }
+    let(:options) { {} }
 
     subject do
-      Basechurch::V1::BulletinResource.apply_filter(records, filter, value)
+      Basechurch::V1::BulletinResource.
+        apply_filter(records, filter, value, options)
     end
 
     context 'when filter is something else' do

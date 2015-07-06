@@ -1,5 +1,5 @@
 class Basechurch::V1::UserResource < JSONAPI::Resource
-  attributes :id, :name, :email, :api_key
+  attributes :name, :email, :api_key
 
   model_name 'Basechurch::User'
 

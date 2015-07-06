@@ -7,6 +7,7 @@ module Basechurch
     respond_to :json
 
     before_action :authenticate_user_from_token!
+    before_action :set_cors_headers, if: "Rails.env.development?"
 
     private
     def authenticate_user_from_token!
@@ -34,6 +35,19 @@ module Basechurch
 
     def user_from_token
       @user_from_token ||= fetch_user_from_token
+    end
+
+    def resource_serializer_klass
+      @resource_serializer_klass ||= Basechurch::ResourceSerializer
+    end
+
+    def set_cors_headers
+      headers["Access-Control-Allow-Origin"] = "*"
+      headers["Access-Control-Allow-Headers"] =
+        "X-AUTH-TOKEN, X-API-VERSION, X-Requested-With, Content-Type, Accept, Origin"
+      headers["Access-Control-Allow-Methods"] =
+        "POST, GET, PUT, DELETE, OPTIONS"
+      headers["Access-Control-Max-Age"] = "1728000"
     end
   end
 end
