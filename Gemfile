@@ -38,6 +38,8 @@ group :development, :test do
   gem "settingslogic"
 end
 
+gem "jsonapi-resources", github: "thewatts/jsonapi-resources", branch: "nw-engines"
+
 group :staging do
   gem 'pg'
 end

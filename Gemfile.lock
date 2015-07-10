@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/thewatts/jsonapi-resources.git
+  revision: dfdb76585e397614dcd4f66c5c2d3eb6d152e611
+  branch: nw-engines
+  specs:
+    jsonapi-resources (0.4.4)
+      rails (>= 4.0)
+
 PATH
   remote: .
   specs:
@@ -8,7 +16,6 @@ PATH
       devise (~> 3.4, >= 3.4.1)
       friendly_id (~> 5.0, >= 5.0.0)
       jbuilder (~> 2.2, >= 2.2.6)
-      jsonapi-resources (~> 0.4.2, >= 0.4.2)
       rails (~> 4.1.8, >= 4.1.8)
       rails-api (~> 0.3, >= 0.3.1)
       travis (~> 1.5, >= 1.5.0)
@@ -122,8 +129,6 @@ GEM
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     json (1.8.2)
-    jsonapi-resources (0.4.2)
-      rails (>= 4.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (2.8.5)
@@ -283,6 +288,7 @@ DEPENDENCIES
   factory_girl_rails
   forgery
   guard-rspec
+  jsonapi-resources!
   marco-polo
   pg
   pry-nav

@@ -37,10 +37,6 @@ module Basechurch
       @user_from_token ||= fetch_user_from_token
     end
 
-    def resource_serializer_klass
-      @resource_serializer_klass ||= Basechurch::ResourceSerializer
-    end
-
     def set_cors_headers
       headers["Access-Control-Allow-Origin"] = "*"
       headers["Access-Control-Allow-Headers"] =
