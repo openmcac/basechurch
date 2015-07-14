@@ -10,6 +10,8 @@ RSpec.describe Basechurch::V1::GroupResource, :type => :resource do
   its(:name) { is_expected.to eq(group.name) }
   its(:slug) { is_expected.to eq(group.slug) }
   its(:created_at) { is_expected.to eq(group.created_at) }
+  its(:about) { is_expected.to eq(group.about) }
+  its(:banner_url) { is_expected.to eq(group.banner_url) }
 
   describe 'apply_filter' do
     let(:options) { {} }

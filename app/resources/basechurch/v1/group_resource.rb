@@ -1,5 +1,5 @@
 class Basechurch::V1::GroupResource < JSONAPI::Resource
-  attributes :name, :slug
+  attributes :name, :slug, :created_at, :about, :banner_url
   attribute :created_at, format: :iso8601
 
   model_name 'Basechurch::Group'
