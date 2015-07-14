@@ -19,6 +19,13 @@ RSpec.describe Basechurch::Group, :type => :model do
     end
   end
 
+  describe "#banner_url" do
+    it "requires a valid url" do
+      expect(build(:group, banner_url: "hello_COD")).to_not be_valid
+      expect(build(:post, banner_url: "http://something.com")).to be_valid
+    end
+  end
+
   describe '#slug' do
     context 'with a custom slug' do
       let(:custom_slug) { 'custom-slug' }
