@@ -25,9 +25,18 @@ RSpec.describe Basechurch::Post, :type => :model do
       expect(build(:post, group: nil)).to_not be_valid
     end
 
-    context "with a banner url" do
-      let(:key) { :banner_url }
-      it_behaves_like "an optional url"
+    context "with a banner" do
+      let(:post) { create(:post) }
+      let!(:banner) do
+        create(:attachment,
+               element_id: post.id,
+               element_type: "Basechurch::Post",
+               element_key: "banner")
+      end
+
+      it "has a banner" do
+        expect(post.banner).to eq banner
+      end
     end
 
     context 'when updating a post' do
@@ -55,6 +64,27 @@ RSpec.describe Basechurch::Post, :type => :model do
 
     it 'populates #published_at with a DateTime equivalent' do
       expect(post.published_at.to_i).to eq(published_at.to_i)
+    end
+  end
+
+  context "#after_save" do
+    let(:banner_url) { "http://test.com/example.png" }
+    let(:post) { create(:post, banner_url: banner_url) }
+
+    it "saves an attachment from the banner_url provided" do
+      expect(post.banner.url).to eq banner_url
+    end
+
+    context "when updating the banner url" do
+      it "updates the banner object" do
+        banner_id = post.banner.id
+        post.banner_url = "http://test.com/new.png"
+        post.editor = create(:user)
+        post.save!
+
+        expect(post.banner.id).to eq banner_id
+        expect(post.banner.url).to eq "http://test.com/new.png"
+      end
     end
   end
 

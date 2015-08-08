@@ -16,11 +16,15 @@ class Basechurch::Post < ActiveRecord::Base
 
   acts_as_taggable
 
-  before_save :populate_published_at
+  has_attachment :banner
 
-  attr_accessor :display_published_at
+  before_save :populate_published_at
+  after_save :save_banner
+
+  attr_accessor :display_published_at, :banner_url
 
   private
+
   def populate_published_at
     self.published_at = published_at_or_now
   end
@@ -40,5 +44,10 @@ class Basechurch::Post < ActiveRecord::Base
   def shorten(str)
     max_words = 10
     str.split[0..(max_words - 1)].join(' ')
+  end
+
+  def save_banner
+    return unless banner_url
+    (banner || build_banner).update_attribute(:url, banner_url)
   end
 end
