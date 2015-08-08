@@ -2,7 +2,9 @@ module HasAttachment
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def has_attachment(field)
+    def has_attachment(field, options)
+      field = field.to_sym
+
       define_method(field) do
         Basechurch::Attachment.find_by(element_id: id,
                                        element_type: self.class.name,
@@ -14,6 +16,17 @@ module HasAttachment
                                    element_type: self.class.name,
                                    element_key: field)
       end
+
+      define_method("save_#{field}") do
+        url = self.send("#{field}_url")
+        return unless url
+        (self.send(field) || self.send("build_#{field}")).
+          update_attribute(:url, url)
+      end
+
+      attr_accessor "#{field}_url"
+      validates "#{field}_url".to_sym, url: options
+      after_save "save_#{field}"
     end
   end
 end

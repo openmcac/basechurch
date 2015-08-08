@@ -12,16 +12,14 @@ class Basechurch::Post < ActiveRecord::Base
   validates :editor, presence: true, unless: :new_record?
   validates :group, presence: true
   validates :display_published_at, iso8601: true
-  validates :banner_url, url: { allow_blank: true }
 
   acts_as_taggable
 
-  has_attachment :banner
+  has_attachment :banner, allow_blank: true
 
   before_save :populate_published_at
-  after_save :save_banner
 
-  attr_accessor :display_published_at, :banner_url
+  attr_accessor :display_published_at
 
   private
 
@@ -44,10 +42,5 @@ class Basechurch::Post < ActiveRecord::Base
   def shorten(str)
     max_words = 10
     str.split[0..(max_words - 1)].join(' ')
-  end
-
-  def save_banner
-    return unless banner_url
-    (banner || build_banner).update_attribute(:url, banner_url)
   end
 end

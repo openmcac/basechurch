@@ -25,6 +25,11 @@ RSpec.describe Basechurch::Post, :type => :model do
       expect(build(:post, group: nil)).to_not be_valid
     end
 
+    context "with a banner url" do
+      let(:key) { :banner_url }
+      it_behaves_like "an optional url"
+    end
+
     context "with a banner" do
       let(:post) { create(:post) }
       let!(:banner) do
