@@ -5,7 +5,11 @@ Basechurch::Engine.routes.draw do
              controllers: { sessions: 'sessions' }
 
   namespace :v1, defaults: { format: 'json' } do
-    jsonapi_resources :groups
+    jsonapi_resources :groups do
+      jsonapi_relationships
+
+      get "sign", on: :collection
+    end
 
     jsonapi_resources :bulletins do
       jsonapi_relationships

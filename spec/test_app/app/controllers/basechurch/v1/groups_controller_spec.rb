@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe Basechurch::V1::GroupsController, type: :controller do
+  let(:user) { create(:user) }
+
   describe 'GET /groups/:id' do
     let(:group) do
       create(:group, created_at: DateTime.iso8601('2001-02-03T04:05:06+07:00'))
@@ -16,5 +18,10 @@ describe Basechurch::V1::GroupsController, type: :controller do
       expect(attributes["slug"]).to eq group.slug
       expect(attributes["created-at"]).to eq "2001-02-02T21:05:06+00:00"
     end
+  end
+
+  describe "s3 signing" do
+    let(:directory) { "groups" }
+    it_behaves_like "a request that returns a signature to upload to s3"
   end
 end
