@@ -18,10 +18,9 @@ module HasAttachment
       end
 
       define_method("save_#{field}") do
-        url = self.send("#{field}_url")
+        url = send("#{field}_url")
         return unless url
-        (self.send(field) || self.send("build_#{field}")).
-          update_attribute(:url, url)
+        (send(field) || send("build_#{field}")).update_attribute(:url, url)
       end
 
       attr_accessor "#{field}_url"
