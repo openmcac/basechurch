@@ -5,18 +5,18 @@ namespace :attachments do
       Basechurch::Attachment.new(element_id: p.id,
                                  element_type: p.class.name,
                                  element_key: "banner",
-                                 path: p.banner_url)
+                                 url: p.banner_url)
     end
 
     Basechurch::Bulletin.find_each do |b|
       Basechurch::Attachment.new(element_id: b.id,
                                  element_type: b.class.name,
                                  element_key: "banner",
-                                 path: b.banner_url)
+                                 url: b.banner_url)
       Basechurch::Attachment.new(element_id: b.id,
                                  element_type: b.class.name,
                                  element_key: "audio",
-                                 path: b.audio_url)
+                                 url: b.audio_url)
     end
   end
 end
