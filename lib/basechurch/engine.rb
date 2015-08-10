@@ -1,10 +1,11 @@
 require "jsonapi-resources"
-require 'acts-as-taggable-on'
-require 'acts_as_list'
-require 'devise'
-require 'friendly_id'
-require 'validate_url'
-require 'rails-api'
+require "acts-as-taggable-on"
+require "acts_as_list"
+require "devise"
+require "friendly_id"
+require "validate_url"
+require "rails-api"
+require "has_attachment"
 
 module Basechurch
   class Engine < ::Rails::Engine

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150530024856) do
+ActiveRecord::Schema.define(version: 20150808025204) do
 
   create_table "basechurch_announcements", force: true do |t|
     t.integer  "post_id"
@@ -37,6 +37,15 @@ ActiveRecord::Schema.define(version: 20150530024856) do
   add_index "basechurch_api_keys", ["access_token"], name: "index_basechurch_api_keys_on_access_token", unique: true
   add_index "basechurch_api_keys", ["user_id"], name: "index_basechurch_api_keys_on_user_id"
 
+  create_table "basechurch_attachments", force: true do |t|
+    t.integer  "element_id"
+    t.string   "element_type"
+    t.string   "element_key"
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "basechurch_bulletins", force: true do |t|
     t.datetime "published_at"
     t.string   "name"
@@ -45,9 +54,7 @@ ActiveRecord::Schema.define(version: 20150530024856) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
-    t.string   "banner_url"
     t.text     "sermon_notes"
-    t.string   "audio_url"
   end
 
   create_table "basechurch_groups", force: true do |t|
@@ -56,6 +63,8 @@ ActiveRecord::Schema.define(version: 20150530024856) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
+    t.text     "about"
+    t.string   "banner_url"
   end
 
   add_index "basechurch_groups", ["slug"], name: "index_basechurch_groups_on_slug", unique: true
@@ -70,7 +79,6 @@ ActiveRecord::Schema.define(version: 20150530024856) do
     t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "banner_url"
   end
 
   add_index "basechurch_posts", ["author_id"], name: "index_basechurch_posts_on_author_id"

@@ -12,15 +12,17 @@ class Basechurch::Post < ActiveRecord::Base
   validates :editor, presence: true, unless: :new_record?
   validates :group, presence: true
   validates :display_published_at, iso8601: true
-  validates :banner_url, url: { allow_blank: true }
 
   acts_as_taggable
+
+  has_attachment :banner, allow_blank: true
 
   before_save :populate_published_at
 
   attr_accessor :display_published_at
 
   private
+
   def populate_published_at
     self.published_at = published_at_or_now
   end

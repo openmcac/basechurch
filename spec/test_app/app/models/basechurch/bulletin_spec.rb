@@ -31,26 +31,9 @@ RSpec.describe Basechurch::Bulletin, :type => :model do
     end
   end
 
-  shared_examples_for "an optional url" do
-    it "requires a valid url" do
-      expect(build(:bulletin, key => "hello_COD")).to_not be_valid
-      expect(build(:bulletin, key => "http://something.com")).to be_valid
-    end
-  end
-
   context "validation" do
     it "has a valid default factory" do
       expect(build(:bulletin)).to be_valid
-    end
-
-    describe "#banner_url" do
-      let(:key) { :banner_url }
-      it_behaves_like "an optional url"
-    end
-
-    describe "#audio_url" do
-      let(:key) { :audio_url }
-      it_behaves_like "an optional url"
     end
 
     it 'requires a valid date' do
@@ -60,5 +43,21 @@ RSpec.describe Basechurch::Bulletin, :type => :model do
     it 'requires a group' do
       expect(build(:bulletin, group: nil)).to_not be_valid
     end
+  end
+
+  context "#banner" do
+    let(:field) { "banner" }
+    let(:factory_name) { :bulletin }
+    let(:class_name) { "Basechurch::Bulletin" }
+    let(:update_attributes) { {} }
+    it_behaves_like "an attachment"
+  end
+
+  context "#audio" do
+    let(:field) { "audio" }
+    let(:factory_name) { :bulletin }
+    let(:class_name) { "Basechurch::Bulletin" }
+    let(:update_attributes) { {} }
+    it_behaves_like "an attachment"
   end
 end
