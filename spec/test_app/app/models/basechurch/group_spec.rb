@@ -19,11 +19,12 @@ RSpec.describe Basechurch::Group, :type => :model do
     end
   end
 
-  describe "#banner_url" do
-    it "requires a valid url" do
-      expect(build(:group, banner_url: "hello_COD")).to_not be_valid
-      expect(build(:post, banner_url: "http://something.com")).to be_valid
-    end
+  context "#banner" do
+    let(:field) { "banner" }
+    let(:factory_name) { :group }
+    let(:class_name) { "Basechurch::Group" }
+    let(:update_attributes) { {} }
+    it_behaves_like "an attachment"
   end
 
   describe '#slug' do
