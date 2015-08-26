@@ -10,39 +10,25 @@ module HasAttachment
     private
 
     def define_field_methods(field)
-      define_accessor(field)
-      define_build(field)
-      define_save(field)
+      define_url_accessor(field)
     end
 
-    def define_accessor(field)
-      define_method(field) do
-        Basechurch::Attachment.find_by(attachable_id: id,
-                                       attachable_type: self.class.name,
-                                       key: field)
+    def define_url_accessor(field)
+      define_method("#{field}_url") do
+        send(field.to_sym).try(:url)
       end
-    end
 
-    def define_build(field)
-      define_method("build_#{field}") do
-        Basechurch::Attachment.new(attachable_id: id,
-                                   attachable_type: self.class.name,
-                                   key: field)
-      end
-    end
-
-    def define_save(field)
-      define_method("save_#{field}") do
-        url = send("#{field}_url")
-        return unless url
-        (send(field) || send("build_#{field}")).update_attribute(:url, url)
+      define_method("#{field}_url=") do |url|
+        (send(field.to_sym) || send("build_#{field}", key: field)).url = url
       end
     end
 
     def set_field_class_methods(field, options)
-      attr_accessor "#{field}_url".to_sym
-      validates "#{field}_url".to_sym, url: options
-      after_save "save_#{field}".to_sym
+      has_one field.to_sym,
+              -> { where(key: field) },
+              as: :attachable,
+              class_name: "Basechurch::Attachment"
+      validates_associated field.to_sym
     end
   end
 end
