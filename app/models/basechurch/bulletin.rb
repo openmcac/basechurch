@@ -5,8 +5,8 @@ class Basechurch::Bulletin < ActiveRecord::Base
   validates :group, presence: true
   validates :published_at, presence: true
 
-  has_attachment :banner, allow_blank: true
-  has_attachment :audio, allow_blank: true
+  has_attachment :banner
+  has_attachment :audio
 
   scope :english_service, -> { where(group_id: 1) }
   scope :latest, -> do
