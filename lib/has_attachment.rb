@@ -17,17 +17,17 @@ module HasAttachment
 
     def define_accessor(field)
       define_method(field) do
-        Basechurch::Attachment.find_by(element_id: id,
-                                       element_type: self.class.name,
-                                       element_key: field)
+        Basechurch::Attachment.find_by(attachable_id: id,
+                                       attachable_type: self.class.name,
+                                       key: field)
       end
     end
 
     def define_build(field)
       define_method("build_#{field}") do
-        Basechurch::Attachment.new(element_id: id,
-                                   element_type: self.class.name,
-                                   element_key: field)
+        Basechurch::Attachment.new(attachable_id: id,
+                                   attachable_type: self.class.name,
+                                   key: field)
       end
     end
 

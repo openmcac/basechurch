@@ -22,13 +22,13 @@ shared_examples_for "an attachment" do
     let(:model) { create(factory_name) }
     let!(:attachment) do
       create(:attachment,
-             element_id: model.id,
-             element_type: class_name,
-             element_key: field)
+             attachable_id: model.id,
+             attachable_type: class_name,
+             key: field)
     end
 
     it "has an attachment" do
-      expect(model.send(field)).to eq attachment
+      expect(model.reload.send(field)).to eq attachment
     end
   end
 
