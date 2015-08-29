@@ -15,7 +15,7 @@ class Basechurch::Post < ActiveRecord::Base
 
   acts_as_taggable
 
-  has_attachment :banner, allow_blank: true
+  has_attachment :banner
 
   before_save :populate_published_at
 

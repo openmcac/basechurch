@@ -2,47 +2,48 @@ module HasAttachment
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def has_attachment(field, options)
-      define_field_methods(field)
-      set_field_class_methods(field, options)
+    def has_attachment(field)
+      define_url_accessor(field)
+      define_orphan_destroyer(field)
+      set_field_class_methods(field)
     end
 
     private
 
-    def define_field_methods(field)
-      define_accessor(field)
-      define_build(field)
-      define_save(field)
+    def define_url_accessor(field)
+      define_url_reader(field)
+      define_url_writer(field)
     end
 
-    def define_accessor(field)
-      define_method(field) do
-        Basechurch::Attachment.find_by(element_id: id,
-                                       element_type: self.class.name,
-                                       element_key: field)
+    def define_url_reader(field)
+      define_method("#{field}_url") do
+        send(field.to_sym).try(:url)
       end
     end
 
-    def define_build(field)
-      define_method("build_#{field}") do
-        Basechurch::Attachment.new(element_id: id,
-                                   element_type: self.class.name,
-                                   element_key: field)
+    def define_url_writer(field)
+      define_method("#{field}_url=") do |url|
+        (send(field.to_sym) || send("build_#{field}", key: field)).url = url
       end
     end
 
-    def define_save(field)
-      define_method("save_#{field}") do
-        url = send("#{field}_url")
-        return unless url
-        (send(field) || send("build_#{field}")).update_attribute(:url, url)
+    def define_orphan_destroyer(field)
+      define_method("destroy_orphaned_#{field}") do
+        attachable = send(field.to_sym)
+        attachable.mark_for_destruction if attachable && attachable.url.blank?
       end
     end
 
-    def set_field_class_methods(field, options)
-      attr_accessor "#{field}_url".to_sym
-      validates "#{field}_url".to_sym, url: options
-      after_save "save_#{field}".to_sym
+    def set_field_class_methods(field)
+      has_one field.to_sym,
+              -> { where(key: field) },
+              as: :attachable,
+              class_name: "Basechurch::Attachment",
+              autosave: true
+
+      validates_associated field.to_sym
+
+      before_save "destroy_orphaned_#{field}".to_sym
     end
   end
 end

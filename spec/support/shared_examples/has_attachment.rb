@@ -11,6 +11,20 @@ shared_examples_for "an attachment" do
       expect(build(factory_name, key => "hello_COD")).to_not be_valid
       expect(build(factory_name, key => "http://something.com")).to be_valid
     end
+
+    it "does not always have a url" do
+      expect(build(factory_name).send(key)).to be_nil
+    end
+
+    context "when it has a url" do
+      subject(:attachable) { create(factory_name, key => "http://something.com") }
+
+      it "clears the attachment when assigning empty url" do
+        attachable.send("#{key}=", "")
+        expect { attachable.save!(validate: false) }.
+          to change { Basechurch::Attachment.count }.by(-1)
+      end
+    end
   end
 
   context "with a url" do
@@ -22,13 +36,13 @@ shared_examples_for "an attachment" do
     let(:model) { create(factory_name) }
     let!(:attachment) do
       create(:attachment,
-             element_id: model.id,
-             element_type: class_name,
-             element_key: field)
+             attachable_id: model.id,
+             attachable_type: class_name,
+             key: field)
     end
 
     it "has an attachment" do
-      expect(model.send(field)).to eq attachment
+      expect(model.reload.send(field)).to eq attachment
     end
   end
 
