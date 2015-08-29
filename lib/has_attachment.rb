@@ -4,6 +4,7 @@ module HasAttachment
   module ClassMethods
     def has_attachment(field)
       define_url_accessor(field)
+      define_orphan_destroyer(field)
       set_field_class_methods(field)
     end
 
@@ -26,12 +27,23 @@ module HasAttachment
       end
     end
 
+    def define_orphan_destroyer(field)
+      define_method("destroy_orphaned_#{field}") do
+        attachable = send(field.to_sym)
+        attachable.mark_for_destruction if attachable && attachable.url.blank?
+      end
+    end
+
     def set_field_class_methods(field)
       has_one field.to_sym,
               -> { where(key: field) },
               as: :attachable,
-              class_name: "Basechurch::Attachment"
+              class_name: "Basechurch::Attachment",
+              autosave: true
+
       validates_associated field.to_sym
+
+      before_save "destroy_orphaned_#{field}".to_sym
     end
   end
 end
