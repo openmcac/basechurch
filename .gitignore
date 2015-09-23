@@ -11,10 +11,9 @@
 
 /coverage
 
-/spec/test_app/db/*.sqlite3
-/spec/test_app/db/*.sqlite3-journal
-/spec/test_app/log/*.log
-/spec/test_app/tmp
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/log/*.log
 /tmp
 
 production-secrets.yml
