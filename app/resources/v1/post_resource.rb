@@ -16,8 +16,6 @@ class V1::PostResource < JSONAPI::Resource
   has_one :editor, class_name: 'User'
   has_one :group
 
-  model_name 'Post'
-
   filter :group
 
   private

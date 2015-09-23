@@ -11,8 +11,6 @@ class V1::BulletinResource < JSONAPI::Resource
   has_one :group
   has_many :announcements
 
-  model_name 'Bulletin'
-
   filter :latest_for_group
   filter :group
 
