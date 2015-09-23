@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe V1::BulletinResource, type: :resource do
+RSpec.describe Api::V1::BulletinResource, type: :resource do
   let(:bulletin) do
     create(:bulletin_with_announcements,
            banner_url: "http://banner.com",
            audio_url: "http://audio.com",
            sermon_notes: "these are sermon notes")
   end
-  let(:resource) { V1::BulletinResource.new(bulletin) }
-  let(:group_resource) { V1::GroupResource.new(bulletin.group) }
+  let(:resource) { Api::V1::BulletinResource.new(bulletin) }
+  let(:group_resource) { Api::V1::GroupResource.new(bulletin.group) }
 
   subject { resource }
 
@@ -32,7 +32,7 @@ RSpec.describe V1::BulletinResource, type: :resource do
     let(:options) { {} }
 
     subject do
-      V1::BulletinResource.apply_filter(records, filter, value, options)
+      Api::V1::BulletinResource.apply_filter(records, filter, value, options)
     end
 
     context 'when filter is something else' do

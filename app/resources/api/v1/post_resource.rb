@@ -1,4 +1,4 @@
-class V1::PostResource < JSONAPI::Resource
+class Api::V1::PostResource < JSONAPI::Resource
   before_create :set_author_as_current_user
   before_update :set_editor_as_current_user
 

@@ -1,4 +1,4 @@
-class V1::GroupResource < JSONAPI::Resource
+class Api::V1::GroupResource < JSONAPI::Resource
   attributes :name, :slug
   attribute :created_at, format: :iso8601
 

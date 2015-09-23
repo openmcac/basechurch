@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe V1::GroupsController, type: :controller do
+describe Api::V1::GroupsController, type: :controller do
   let(:user) { create(:user) }
 
   describe 'GET /groups/:id' do

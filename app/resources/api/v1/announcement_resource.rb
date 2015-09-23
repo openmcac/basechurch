@@ -1,4 +1,4 @@
-class V1::AnnouncementResource < JSONAPI::Resource
+class Api::V1::AnnouncementResource < JSONAPI::Resource
   attributes :description, :position, :url
 
   has_one :bulletin

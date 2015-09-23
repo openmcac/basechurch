@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe V1::PostResource, type: :resource do
+RSpec.describe Api::V1::PostResource, type: :resource do
   let(:post) { create(:post) }
-  let(:resource) { V1::PostResource.new(post) }
-  let(:group_resource) { V1::GroupResource.new(post.group) }
+  let(:resource) { Api::V1::PostResource.new(post) }
+  let(:group_resource) { Api::V1::GroupResource.new(post.group) }
 
   subject { resource }
 
@@ -28,7 +28,7 @@ RSpec.describe V1::PostResource, type: :resource do
     let(:options) { {} }
 
     subject do
-      V1::PostResource.apply_filter(records, filter, value, options)
+      Api::V1::PostResource.apply_filter(records, filter, value, options)
     end
 
     context 'when filter is :group' do

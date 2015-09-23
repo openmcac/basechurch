@@ -1,4 +1,4 @@
-class V1::BulletinResource < JSONAPI::Resource
+class Api::V1::BulletinResource < JSONAPI::Resource
   attributes :description,
              :name,
              :service_order,

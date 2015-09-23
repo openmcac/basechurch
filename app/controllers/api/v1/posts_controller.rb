@@ -1,4 +1,4 @@
-class V1::PostsController < ApplicationController
+class Api::V1::PostsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
 
   def sign

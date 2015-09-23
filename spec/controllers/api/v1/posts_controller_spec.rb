@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe V1::PostsController, type: :controller do
+describe Api::V1::PostsController, type: :controller do
   let(:group) { create(:group) }
 
   let(:user) { create(:user) }
@@ -87,7 +87,7 @@ describe V1::PostsController, type: :controller do
         request.headers["Content-Type"] = "application/vnd.api+json"
         request.headers["X-User-Email"] = user.email
         request.headers["X-User-Token"] = user.session_api_key.access_token
-        allow_any_instance_of(V1::PostResource).
+        allow_any_instance_of(Api::V1::PostResource).
           to receive(:context).and_return(current_user: user)
       end
 
@@ -129,7 +129,7 @@ describe V1::PostsController, type: :controller do
         request.headers["Content-Type"] = "application/vnd.api+json"
         request.headers["X-User-Email"] = user.email
         request.headers["X-User-Token"] = user.session_api_key.access_token
-        allow_any_instance_of(V1::PostResource).
+        allow_any_instance_of(Api::V1::PostResource).
           to receive(:context).and_return(current_user: user)
       end
 
@@ -183,7 +183,7 @@ describe V1::PostsController, type: :controller do
           request.headers["Content-Type"] = "application/vnd.api+json"
           request.headers["X-User-Email"] = user.email
           request.headers["X-User-Token"] = user.session_api_key.access_token
-          allow_any_instance_of(V1::PostResource).
+          allow_any_instance_of(Api::V1::PostResource).
             to receive(:context).and_return(current_user: user)
         end
 
@@ -247,7 +247,7 @@ describe V1::PostsController, type: :controller do
           request.headers["Content-Type"] = "application/vnd.api+json"
           request.headers["X-User-Email"] = user.email
           request.headers["X-User-Token"] = user.session_api_key.access_token
-          allow_any_instance_of(V1::PostResource).
+          allow_any_instance_of(Api::V1::PostResource).
             to receive(:context).and_return(current_user: user)
         end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe V1::AnnouncementResource, type: :resource do
+RSpec.describe Api::V1::AnnouncementResource, type: :resource do
   let(:group) { create(:group) }
   let(:bulletin) { create(:bulletin_with_announcements, group: group) }
   let(:records) { Announcement.all }
@@ -9,7 +9,7 @@ RSpec.describe V1::AnnouncementResource, type: :resource do
   describe 'apply_filter' do
     context 'when filter is something else' do
       subject do
-        V1::AnnouncementResource.apply_filter(records, filter, value, options)
+        Api::V1::AnnouncementResource.apply_filter(records, filter, value, options)
       end
 
       let(:filter) { 'description' }
@@ -22,7 +22,7 @@ RSpec.describe V1::AnnouncementResource, type: :resource do
 
     context 'when filter is :latest_for_group' do
       subject do
-        V1::AnnouncementResource.apply_filter(records, filter, value, options)
+        Api::V1::AnnouncementResource.apply_filter(records, filter, value, options)
       end
 
       let(:filter) { :latest_for_group }
@@ -43,7 +43,7 @@ RSpec.describe V1::AnnouncementResource, type: :resource do
 
     context 'when filter is :defaults_for_bulletin' do
       subject do
-        V1::AnnouncementResource.apply_filter(records, filter, value, options)
+        Api::V1::AnnouncementResource.apply_filter(records, filter, value, options)
       end
 
       let(:filter) { :defaults_for_bulletin }

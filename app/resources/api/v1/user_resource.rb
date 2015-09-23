@@ -1,4 +1,4 @@
-class V1::UserResource < JSONAPI::Resource
+class Api::V1::UserResource < JSONAPI::Resource
   attributes :name, :email, :api_key
 
   def api_key

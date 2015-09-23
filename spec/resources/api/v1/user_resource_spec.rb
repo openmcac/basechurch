@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe V1::UserResource, type: :resource do
+RSpec.describe Api::V1::UserResource, type: :resource do
   let(:user) { create(:user) }
-  let(:resource) { V1::UserResource.new(user) }
+  let(:resource) { Api::V1::UserResource.new(user) }
 
   subject { resource }
 
