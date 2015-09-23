@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Bulletin, :type => :model do
+RSpec.describe Bulletin, type: :model do
   context 'scopes' do
     context "english service bulletins" do
       let!(:group) { create('group', name: 'English Service', id: 1) }

@@ -4,8 +4,6 @@ class V1::AnnouncementResource < JSONAPI::Resource
   has_one :bulletin
   has_one :post
 
-  model_name 'Announcement'
-
   filter :latest_for_group
   filter :defaults_for_bulletin
 
@@ -25,10 +23,9 @@ class V1::AnnouncementResource < JSONAPI::Resource
 private
   def self.get_previous_bulletin(bulletin_id)
     bulletin = Bulletin.where(id: bulletin_id).first
-    Bulletin.latest.
-             where('published_at < ?', bulletin.published_at).
-             where(group_id: bulletin.group_id).
-             first
+    Bulletin.latest.where('published_at < ?', bulletin.published_at).
+                    where(group_id: bulletin.group_id).
+                    first
   end
 
   def self.get_latest_bulletin!(group_id)

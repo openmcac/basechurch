@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe V1::AnnouncementResource, :type => :resource do
+RSpec.describe V1::AnnouncementResource, type: :resource do
   let(:group) { create(:group) }
   let(:bulletin) { create(:bulletin_with_announcements, group: group) }
   let(:records) { Announcement.all }

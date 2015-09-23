@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe V1::GroupResource, :type => :resource do
+RSpec.describe V1::GroupResource, type: :resource do
   let(:group) { create(:group) }
   let(:records) { Group.all }
 

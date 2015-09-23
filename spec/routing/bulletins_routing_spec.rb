@@ -18,9 +18,9 @@ describe 'routes for bulletins', type: :routing do
 
     it 'routes to bulletins#sunday' do
       expect(show_sunday_bulletin).
-          to route_to(controller: 'v1/bulletins',
-                      action: 'sunday',
-                      format: 'json')
+        to route_to(controller: 'v1/bulletins',
+                    action: 'sunday',
+                    format: 'json')
     end
   end
 
@@ -45,4 +45,3 @@ describe 'routes for bulletins', type: :routing do
     end
   end
 end
-

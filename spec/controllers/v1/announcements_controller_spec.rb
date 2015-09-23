@@ -190,7 +190,7 @@ RSpec.describe V1::AnnouncementsController, type: :controller do
 
         it 'updates the description of the specified announcement' do
           expect(Announcement.find(announcement.id).description).
-              to eq(description)
+            to eq(description)
         end
       end
 
@@ -234,7 +234,7 @@ RSpec.describe V1::AnnouncementsController, type: :controller do
         it 'fails as expected' do
           # it doesn't update the announcement description
           expect { perform_action }.
-              to_not change { Announcement.find(announcement.id).description }
+            to_not change { Announcement.find(announcement.id).description }
 
           expect(response.code).to eq('422')
         end

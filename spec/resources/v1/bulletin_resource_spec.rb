@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe V1::BulletinResource, :type => :resource do
+RSpec.describe V1::BulletinResource, type: :resource do
   let(:bulletin) do
     create(:bulletin_with_announcements,
            banner_url: "http://banner.com",

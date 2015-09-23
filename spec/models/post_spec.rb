@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Post, :type => :model do
+RSpec.describe Post, type: :model do
   context "#banner" do
     let(:field) { "banner" }
     let(:factory_name) { :post }

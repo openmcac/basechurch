@@ -251,8 +251,7 @@ Devise.setup do |config|
   #     mount MyEngine, at: '/my_engine'
   #
   # The router that invoked `devise_for`, in the example above, would be:
-  # config.router_name = :basechurch
-  config.parent_controller = 'ApplicationController'
+  config.parent_controller = "ApplicationController"
 
   #
   # When using omniauth, Devise cannot automatically set Omniauth path,

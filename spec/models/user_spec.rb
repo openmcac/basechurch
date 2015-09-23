@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe User, :type => :model do
+RSpec.describe User, type: :model do
   let(:user) { create(:user) }
 
   describe '#session_api_key' do

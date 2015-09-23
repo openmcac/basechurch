@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Basechurch::Announcement, :type => :model do
+RSpec.describe Announcement, type: :model do
   describe 'validations' do
     context 'with valid params' do
       it 'is valid' do

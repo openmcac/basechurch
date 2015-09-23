@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe V1::PostResource, :type => :resource do
+RSpec.describe V1::PostResource, type: :resource do
   let(:post) { create(:post) }
   let(:resource) { V1::PostResource.new(post) }
   let(:group_resource) { V1::GroupResource.new(post.group) }

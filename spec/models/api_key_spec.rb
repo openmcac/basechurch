@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApiKey, :type => :model do
+RSpec.describe ApiKey, type: :model do
   context '#before_create' do
     let(:api_key) { create(:api_key) }
 
