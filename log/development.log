@@ -1,0 +1,1475 @@
+DEPRECATION WARNING: The configuration option `config.serve_static_assets` has been renamed to `config.serve_static_files` to clarify its role (it merely enables serving everything in the `public` folder and is unrelated to the asset pipeline). The `serve_static_assets` alias will be removed in Rails 5.0. Please migrate your configuration files accordingly. (called from block in tsort_each at /Users/achan/.rbenv/versions/2.1.5/lib/ruby/2.1.0/tsort.rb:226)
+  [1m[36m (1.7ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.8ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateUsers (20141104023408)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/achan/repos/basechurch/db/migrate/20141104023408_create_users.rb:7)
+  [1m[35m (0.4ms)[0m  CREATE TABLE "basechurch_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar, "name" varchar, "created_at" datetime, "updated_at" datetime) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20141104023408"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+Migrating to AddDeviseToUsers (20141104042834)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "basechurch_users" ADD "encrypted_password" varchar DEFAULT '' NOT NULL
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "basechurch_users" ADD "reset_password_token" varchar[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "basechurch_users" ADD "reset_password_sent_at" datetime
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "basechurch_users" ADD "remember_created_at" datetime[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "basechurch_users" ADD "sign_in_count" integer DEFAULT 0 NOT NULL
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "basechurch_users" ADD "current_sign_in_at" datetime[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "basechurch_users" ADD "last_sign_in_at" datetime
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "basechurch_users" ADD "current_sign_in_ip" varchar[0m
+  [1m[35m (0.2ms)[0m  ALTER TABLE "basechurch_users" ADD "last_sign_in_ip" varchar
+  [1m[36m (0.9ms)[0m  [1mCREATE UNIQUE INDEX "index_basechurch_users_on_email" ON "basechurch_users" ("email")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE UNIQUE INDEX "index_basechurch_users_on_reset_password_token" ON "basechurch_users" ("reset_password_token")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141104042834"]]
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20141104050710)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar) [0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar, "tagger_id" integer, "tagger_type" varchar, "context" varchar(128), "created_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_tag_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_tag_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141104050710"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+Migrating to AddMissingUniqueIndices (20141104050711)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mCREATE UNIQUE INDEX "index_tags_on_name" ON "tags" ("name")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_tag_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_tag_id' AND type='index'
+[0m
+  [1m[35m (0.3ms)[0m  DROP INDEX "index_taggings_on_tag_id"
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  DROP INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context"
+  [1m[36m (0.2ms)[0m  [1mCREATE UNIQUE INDEX "taggings_idx" ON "taggings" ("tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141104050711"]]
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+Migrating to AddTaggingsCounterCacheToTags (20141104050712)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mALTER TABLE "tags" ADD "taggings_count" integer DEFAULT 0[0m
+  [1m[35mActsAsTaggableOn::Tag Load (0.1ms)[0m  SELECT  "tags".* FROM "tags"  ORDER BY "tags"."id" ASC LIMIT 1000
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20141104050712"]]
+  [1m[35m (0.7ms)[0m  commit transaction
+Migrating to AddMissingTaggableIndex (20141104050713)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='taggings_idx' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='taggings_idx' AND type='index'
+
+  [1m[36m (0.5ms)[0m  [1mCREATE  INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141104050713"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+Migrating to CreateGroups (20141104050852)
+  [1m[35m (0.1ms)[0m  begin transaction
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/achan/repos/basechurch/db/migrate/20141104050852_create_groups.rb:7)
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "basechurch_groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "banner" varchar, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141104050852"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+Migrating to CreateBulletins (20141107023441)
+  [1m[35m (0.1ms)[0m  begin transaction
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/achan/repos/basechurch/db/migrate/20141107023441_create_bulletins.rb:9)
+  [1m[36m (0.6ms)[0m  [1mCREATE TABLE "basechurch_bulletins" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "date" datetime, "name" varchar, "description" varchar, "service_order" text, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141107023441"]]
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+Migrating to AddGroupIdToBulletins (20141107024218)
+  [1m[35m (0.4ms)[0m  begin transaction
+  [1m[36m (1.1ms)[0m  [1mALTER TABLE "basechurch_bulletins" ADD "group_id" integer[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141107024218"]]
+  [1m[36m (1.2ms)[0m  [1mcommit transaction[0m
+Migrating to RenameDateColumn (20141115220442)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mCREATE TEMPORARY TABLE "abasechurch_bulletins" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "published_at" datetime, "name" varchar, "description" varchar, "service_order" text, "created_at" datetime, "updated_at" datetime, "group_id" integer) [0m
+  [1m[35m (0.0ms)[0m  SELECT * FROM "basechurch_bulletins"
+  [1m[36m (0.7ms)[0m  [1mDROP TABLE "basechurch_bulletins"[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "basechurch_bulletins" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "published_at" datetime, "name" varchar, "description" varchar, "service_order" text, "created_at" datetime, "updated_at" datetime, "group_id" integer) 
+  [1m[36m (0.0ms)[0m  [1mSELECT * FROM "abasechurch_bulletins"[0m
+  [1m[35m (0.3ms)[0m  DROP TABLE "abasechurch_bulletins"
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20141115220442"]]
+  [1m[35m (0.9ms)[0m  commit transaction
+Migrating to CreateApiKeys (20141122193506)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "basechurch_api_keys" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "access_token" varchar, "scope" varchar, "expired_at" datetime, "created_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_basechurch_api_keys_on_user_id" ON "basechurch_api_keys" ("user_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1mCREATE UNIQUE INDEX "index_basechurch_api_keys_on_access_token" ON "basechurch_api_keys" ("access_token")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141122193506"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+Migrating to CreatePosts (20141127050515)
+  [1m[35m (0.1ms)[0m  begin transaction
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/achan/repos/basechurch/db/migrate/20141127050515_create_posts.rb:12)
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "basechurch_posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "group_id" integer, "author_id" integer, "editor_id" integer, "slug" varchar, "title" varchar, "content" text, "published_at" datetime, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_basechurch_posts_on_group_id" ON "basechurch_posts" ("group_id")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_basechurch_posts_on_author_id" ON "basechurch_posts" ("author_id")
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_basechurch_posts_on_editor_id" ON "basechurch_posts" ("editor_id")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141127050515"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+Migrating to CreateFriendlyIdSlugs (20141130222902)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mCREATE TABLE "friendly_id_slugs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "slug" varchar NOT NULL, "sluggable_id" integer NOT NULL, "sluggable_type" varchar(50), "scope" varchar, "created_at" datetime) [0m
+  [1m[35m (0.2ms)[0m  CREATE  INDEX "index_friendly_id_slugs_on_sluggable_id" ON "friendly_id_slugs" ("sluggable_id")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_friendly_id_slugs_on_slug_and_sluggable_type" ON "friendly_id_slugs" ("slug", "sluggable_type")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1mCREATE UNIQUE INDEX "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope" ON "friendly_id_slugs" ("slug", "sluggable_type", "scope")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_friendly_id_slugs_on_sluggable_type" ON "friendly_id_slugs" ("sluggable_type")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141130222902"]]
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+Migrating to CreateAnnouncements (20141216021608)
+  [1m[35m (0.1ms)[0m  begin transaction
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/achan/repos/basechurch/db/migrate/20141216021608_create_announcements.rb:9)
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "basechurch_announcements" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "post_id" integer, "bulletin_id" integer, "description" text, "position" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_basechurch_announcements_on_post_id" ON "basechurch_announcements" ("post_id")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m  CREATE  INDEX "index_basechurch_announcements_on_bulletin_id" ON "basechurch_announcements" ("bulletin_id")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20141216021608"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+Migrating to AddSlugToBasechurchGroups (20141227065555)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  ALTER TABLE "basechurch_groups" ADD "slug" varchar
+  [1m[36m (0.4ms)[0m  [1mCREATE UNIQUE INDEX "index_basechurch_groups_on_slug" ON "basechurch_groups" ("slug")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20141227065555"]]
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+Migrating to AddUrlToAnnouncements (20150506020938)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.5ms)[0m  [1mALTER TABLE "basechurch_announcements" ADD "url" varchar[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150506020938"]]
+  [1m[36m (1.2ms)[0m  [1mcommit transaction[0m
+Migrating to AddBannerUrlToBulletins (20150517033542)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.7ms)[0m  [1mALTER TABLE "basechurch_bulletins" ADD "banner_url" varchar[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150517033542"]]
+  [1m[36m (1.4ms)[0m  [1mcommit transaction[0m
+Migrating to AddSermonNotesToBulletins (20150525002323)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (1.1ms)[0m  [1mALTER TABLE "basechurch_bulletins" ADD "sermon_notes" text[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150525002323"]]
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+Migrating to AddAudioUrlToBulletins (20150527041615)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.5ms)[0m  [1mALTER TABLE "basechurch_bulletins" ADD "audio_url" varchar[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150527041615"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+Migrating to AddBannerUrlToPost (20150530024856)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.5ms)[0m  [1mALTER TABLE "basechurch_posts" ADD "banner_url" varchar[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150530024856"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+Migrating to CreateAttachments (20150807030656)
+  [1m[35m (0.1ms)[0m  begin transaction
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/achan/repos/basechurch/db/migrate/20150807030656_create_attachments.rb:9)
+  [1m[36m (0.5ms)[0m  [1mCREATE TABLE "basechurch_attachments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "element_id" integer, "element_type" varchar, "element_key" varchar, "url" varchar, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_basechurch_attachments_on_element_id" ON "basechurch_attachments" ("element_id")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_attachments_on_element_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_attachments_on_element_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m  CREATE  INDEX "index_basechurch_attachments_on_element_type" ON "basechurch_attachments" ("element_type")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_attachments_on_element_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_attachments_on_element_type' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_attachments_on_element_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_attachments_on_element_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_basechurch_attachments_on_element_key" ON "basechurch_attachments" ("element_key")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_attachments_on_element_key' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_attachments_on_element_key' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_attachments_on_element_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_attachments_on_element_type' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_attachments_on_element_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_attachments_on_element_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_basechurch_attachments_on_url" ON "basechurch_attachments" ("url")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150807030656"]]
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+Migrating to RemoveBannerUrlFromPost (20150808012750)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mCREATE TEMPORARY TABLE "abasechurch_posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "group_id" integer, "author_id" integer, "editor_id" integer, "slug" varchar, "title" varchar, "content" text, "published_at" datetime, "created_at" datetime, "updated_at" datetime, "banner_url" varchar) [0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "tindex_abasechurch_posts_on_editor_id" ON "abasechurch_posts" ("editor_id")[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "tindex_abasechurch_posts_on_author_id" ON "abasechurch_posts" ("author_id")
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "tindex_abasechurch_posts_on_group_id" ON "abasechurch_posts" ("group_id")[0m
+  [1m[35m (0.0ms)[0m  SELECT * FROM "basechurch_posts"
+  [1m[36m (0.3ms)[0m  [1mDROP TABLE "basechurch_posts"[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "basechurch_posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "group_id" integer, "author_id" integer, "editor_id" integer, "slug" varchar, "title" varchar, "content" text, "published_at" datetime, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='tindex_abasechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='tindex_abasechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='tindex_abasechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='tindex_abasechurch_posts_on_author_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='tindex_abasechurch_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='tindex_abasechurch_posts_on_editor_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_basechurch_posts_on_group_id" ON "basechurch_posts" ("group_id")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m  CREATE  INDEX "index_basechurch_posts_on_author_id" ON "basechurch_posts" ("author_id")
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_basechurch_posts_on_editor_id" ON "basechurch_posts" ("editor_id")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "abasechurch_posts"
+  [1m[36m (0.2ms)[0m  [1mDROP TABLE "abasechurch_posts"[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150808012750"]]
+  [1m[36m (1.4ms)[0m  [1mcommit transaction[0m
+Migrating to RemoveBannerUrlAndAudioUrlFromBulletins (20150808025204)
+  [1m[35m (0.3ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mCREATE TEMPORARY TABLE "abasechurch_bulletins" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "published_at" datetime, "name" varchar, "description" varchar, "service_order" text, "created_at" datetime, "updated_at" datetime, "group_id" integer, "banner_url" varchar, "sermon_notes" text, "audio_url" varchar) [0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "basechurch_bulletins"
+  [1m[36m (0.5ms)[0m  [1mDROP TABLE "basechurch_bulletins"[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "basechurch_bulletins" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "published_at" datetime, "name" varchar, "description" varchar, "service_order" text, "created_at" datetime, "updated_at" datetime, "group_id" integer, "sermon_notes" text, "audio_url" varchar) 
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "abasechurch_bulletins"[0m
+  [1m[35m (0.1ms)[0m  DROP TABLE "abasechurch_bulletins"
+  [1m[36m (0.1ms)[0m  [1mCREATE TEMPORARY TABLE "abasechurch_bulletins" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "published_at" datetime, "name" varchar, "description" varchar, "service_order" text, "created_at" datetime, "updated_at" datetime, "group_id" integer, "sermon_notes" text, "audio_url" varchar) [0m
+  [1m[35m (0.0ms)[0m  SELECT * FROM "basechurch_bulletins"
+  [1m[36m (0.4ms)[0m  [1mDROP TABLE "basechurch_bulletins"[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "basechurch_bulletins" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "published_at" datetime, "name" varchar, "description" varchar, "service_order" text, "created_at" datetime, "updated_at" datetime, "group_id" integer, "sermon_notes" text) 
+  [1m[36m (0.0ms)[0m  [1mSELECT * FROM "abasechurch_bulletins"[0m
+  [1m[35m (0.1ms)[0m  DROP TABLE "abasechurch_bulletins"
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150808025204"]]
+  [1m[35m (1.0ms)[0m  commit transaction
+Migrating to RemoveAttachments (20150825021220)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  DROP TABLE "basechurch_attachments"
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150825021220"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+Migrating to CreateBasechurchAttachments (20150826021028)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+DEPRECATION WARNING: `#timestamps` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Users/achan/repos/basechurch/db/migrate/20150826021028_create_basechurch_attachments.rb:8)
+  [1m[35m (0.4ms)[0m  CREATE TABLE "basechurch_attachments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "key" varchar, "url" varchar, "attachable_id" integer, "attachable_type" varchar, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "attachments_polymorphic_keys_index" ON "basechurch_attachments" ("attachable_type", "attachable_id")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150826021028"]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='attachments_polymorphic_keys_index' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='attachments_polymorphic_keys_index' AND type='index'
+[0m
+  [1m[35m (0.3ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_type' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='taggings_idx' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='taggings_idx' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_tags_on_name' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_tags_on_name' AND type='index'
+
+DEPRECATION WARNING: The configuration option `config.serve_static_assets` has been renamed to `config.serve_static_files` to clarify its role (it merely enables serving everything in the `public` folder and is unrelated to the asset pipeline). The `serve_static_assets` alias will be removed in Rails 5.0. Please migrate your configuration files accordingly. (called from block in tsort_each at /Users/achan/.rbenv/versions/2.1.5/lib/ruby/2.1.0/tsort.rb:226)
+DEPRECATION WARNING: The configuration option `config.serve_static_assets` has been renamed to `config.serve_static_files` to clarify its role (it merely enables serving everything in the `public` folder and is unrelated to the asset pipeline). The `serve_static_assets` alias will be removed in Rails 5.0. Please migrate your configuration files accordingly. (called from block in tsort_each at /Users/achan/.rbenv/versions/2.1.5/lib/ruby/2.1.0/tsort.rb:226)
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to RenameBasechurchTables (20150913035436)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.7ms)[0m  [1mALTER TABLE "basechurch_announcements" RENAME TO "announcements"[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_announcements_on_bulletin_id" ON "announcements" ("bulletin_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_bulletin_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+
+  [1m[36m (1.0ms)[0m  [1mDROP INDEX "index_basechurch_announcements_on_bulletin_id"[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_announcements_on_post_id" ON "announcements" ("post_id")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_announcements_on_post_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_announcements_on_post_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  DROP INDEX "index_basechurch_announcements_on_post_id"
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "basechurch_api_keys" RENAME TO "api_keys"[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE UNIQUE INDEX "index_api_keys_on_access_token" ON "api_keys" ("access_token")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_access_token' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  DROP INDEX "index_basechurch_api_keys_on_access_token"
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_api_keys_on_user_id" ON "api_keys" ("user_id")[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_api_keys_on_user_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_api_keys_on_user_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mDROP INDEX "index_basechurch_api_keys_on_user_id"[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "basechurch_attachments" RENAME TO "attachments"
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='attachments_polymorphic_keys_index' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='attachments_polymorphic_keys_index' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m  ALTER TABLE "basechurch_bulletins" RENAME TO "bulletins"
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "basechurch_groups" RENAME TO "groups"[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE UNIQUE INDEX "index_groups_on_slug" ON "groups" ("slug")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_groups_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_groups_on_slug' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_groups_on_slug' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  DROP INDEX "index_basechurch_groups_on_slug"
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "basechurch_posts" RENAME TO "posts"[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_posts_on_editor_id" ON "posts" ("editor_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_editor_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  DROP INDEX "index_basechurch_posts_on_editor_id"
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_posts_on_author_id" ON "posts" ("author_id")[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_author_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  DROP INDEX "index_basechurch_posts_on_author_id"
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_posts_on_group_id" ON "posts" ("group_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_group_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  DROP INDEX "index_basechurch_posts_on_group_id"
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "basechurch_users" RENAME TO "users"[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  DROP INDEX "index_basechurch_users_on_reset_password_token"
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_basechurch_users_on_email' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mDROP INDEX "index_basechurch_users_on_email"[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150913035436"]]
+  [1m[36m (1.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_announcements_on_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_announcements_on_post_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_announcements_on_bulletin_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_api_keys_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_api_keys_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_api_keys_on_access_token' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='attachments_polymorphic_keys_index' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='attachments_polymorphic_keys_index' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_type' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_slug_and_sluggable_type' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_friendly_id_slugs_on_sluggable_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_groups_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_groups_on_slug' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_group_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_group_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_author_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_posts_on_editor_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='taggings_idx' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='taggings_idx' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_tags_on_name' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_tags_on_name' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+

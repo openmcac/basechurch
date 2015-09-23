@@ -1,4 +1,3 @@
-require 'support/request_helpers'
 require "codeclimate-test-reporter"
 require 'coveralls'
 

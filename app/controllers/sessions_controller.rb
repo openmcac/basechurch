@@ -6,9 +6,9 @@ class SessionsController < Devise::SessionsController
     sign_in(resource_name, resource)
     yield resource if block_given?
     user =
-      Basechurch::V1::UserResource.find_by_key(resource.id, context: context)
+      V1::UserResource.find_by_key(resource.id, context: context)
 
-    render json: JSONAPI::ResourceSerializer.new(Basechurch::V1::UserResource).
+    render json: JSONAPI::ResourceSerializer.new(V1::UserResource).
                                              serialize_to_hash(user)
   end
 end

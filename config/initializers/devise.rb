@@ -4,7 +4,7 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  # config.secret_key = '90dbfa956c0deeaad5cc1683d993e0d2de68b2b81d987e10ff57556c34adf7f75b0ddd45f3d276d1c0ce7d31e4c5209756e085d01c0f4b997f3b4c1c10c49103'
+  config.secret_key = '90dbfa956c0deeaad5cc1683d993e0d2de68b2b81d987e10ff57556c34adf7f75b0ddd45f3d276d1c0ce7d31e4c5209756e085d01c0f4b997f3b4c1c10c49103'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -251,8 +251,8 @@ Devise.setup do |config|
   #     mount MyEngine, at: '/my_engine'
   #
   # The router that invoked `devise_for`, in the example above, would be:
-  config.router_name = :basechurch
-  config.parent_controller = 'Basechurch::ApplicationController'
+  # config.router_name = :basechurch
+  config.parent_controller = 'ApplicationController'
 
   #
   # When using omniauth, Devise cannot automatically set Omniauth path,

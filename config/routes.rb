@@ -1,7 +1,7 @@
-Basechurch::Engine.routes.draw do
+Rails.application.routes.draw do
   resources :api_keys, except: [:new, :edit]
   devise_for :users,
-             class_name: 'Basechurch::User',
+             class_name: 'User',
              controllers: { sessions: 'sessions' }
 
   namespace :v1, defaults: { format: 'json' } do

@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :group, class: Basechurch::Group do
+  factory :group do
     name Forgery(:lorem_ipsum).title
   end
 end

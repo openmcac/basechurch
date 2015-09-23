@@ -3,7 +3,6 @@ source "https://rubygems.org"
 # Declare your gem's dependencies in basechurch.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
-gemspec
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
@@ -41,3 +40,15 @@ end
 group :staging do
   gem 'pg'
 end
+
+gem "acts-as-taggable-on", "~> 3.5.0"
+gem "acts_as_list", "~> 0"
+gem "bcrypt-ruby", "~> 3.1.2"
+gem "devise", "~> 3.4.1"
+gem "friendly_id", "~> 5.0.0"
+gem "jbuilder", "~> 2.2.6"
+gem "jsonapi-resources", "~> 0.4.2"
+gem "rails", "~> 4.2.4"
+gem "rails-api", "~> 0.3.1"
+gem "travis", "~> 1.5.0"
+gem "validate_url", "~> 1.0.0"
