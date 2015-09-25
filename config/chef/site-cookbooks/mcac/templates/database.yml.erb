@@ -1,0 +1,8 @@
+<%= node['stage'] %>:
+  adapter: postgresql
+  encoding: unicode
+  database: <%= node['app'] %>_<%= node['stage'] %>
+  pool: 5
+  host: localhost
+  username: <%= node['db']['user']['name'] %>
+  password: <%= node['db']['user']['password'] %>
