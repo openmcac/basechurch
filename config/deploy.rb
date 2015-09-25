@@ -3,7 +3,7 @@ set :deploy_user, 'deploy'
 
 # setup repo details
 set :scm, :git
-set :repo_url, 'git@github.com:openmcac/website.git'
+set :repo_url, 'git@github.com:openmcac/basechurch.git'
 
 # setup rbenv.
 set :rbenv_type, '~/.rbenv'
