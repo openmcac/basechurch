@@ -4,6 +4,7 @@ set :deploy_user, 'deploy'
 # setup repo details
 set :scm, :git
 set :repo_url, 'git@github.com:openmcac/basechurch.git'
+set :branch, fetch(:branch, "master")
 
 # setup rbenv.
 set :rbenv_type, '~/.rbenv'

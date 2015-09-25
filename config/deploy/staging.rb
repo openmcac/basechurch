@@ -1,5 +1,4 @@
 set :stage, :staging
-set :branch, "master"
 
 # This is used in the Nginx VirtualHost to specify which domains
 # the app should appear on. If you don't yet have DNS setup, you'll
