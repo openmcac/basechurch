@@ -23,8 +23,8 @@ bundle exec knife solo cook root@$IP
 # upload key for user
 ssh-copy-id -i ~/.ssh/id_rsa.pub $USER@$IP
 
-# upload app
-cd ../.. && bundle exec cap $STAGE deploy
-
-# restart nginx
-ssh -t $USER@$IP 'sudo service nginx restart'
+# # upload app
+# cd ../.. && bundle exec cap $STAGE deploy
+# 
+# # restart nginx
+# ssh -t $USER@$IP 'sudo service nginx restart'
