@@ -11,6 +11,12 @@
 
 /coverage
 
+/bin
+
+db/*.sqlite3
+db/*.sqlite3-journal
+log/*.log
+app/tmp
 /spec/test_app/db/*.sqlite3
 /spec/test_app/db/*.sqlite3-journal
 /spec/test_app/log/*.log
