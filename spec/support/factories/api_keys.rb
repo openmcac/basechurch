@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :api_key, class: Basechurch::ApiKey do
+  factory :api_key do
     user
     scope Forgery('lorem_ipsum').word
   end

@@ -2,7 +2,7 @@
 #
 # field: "banner"
 # factory_name: :post
-# class_name: "Basechurch::Post"
+# class_name: "Post"
 # update_attributes: { editor: create(:user) }
 
 shared_examples_for "an attachment" do
@@ -22,7 +22,7 @@ shared_examples_for "an attachment" do
       it "clears the attachment when assigning empty url" do
         attachable.send("#{key}=", "")
         expect { attachable.save!(validate: false) }.
-          to change { Basechurch::Attachment.count }.by(-1)
+          to change { Attachment.count }.by(-1)
       end
     end
   end

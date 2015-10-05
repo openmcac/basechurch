@@ -1,9 +1,9 @@
 FactoryGirl.define do
-  factory :bulletin, class: Basechurch::Bulletin do
+  factory :bulletin do
     group
     published_at DateTime.now
 
-    factory :bulletin_with_announcements, class: Basechurch::Bulletin do
+    factory :bulletin_with_announcements do
       transient do
         announcements_count 3
       end
