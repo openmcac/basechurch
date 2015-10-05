@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :user, controllers: { sessions: "sessions" }
+  devise_for :users, controllers: { sessions: "sessions" }
 
   devise_scope :user do
     post "api/users/sign_in", to: "sessions#create"
