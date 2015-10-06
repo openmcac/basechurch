@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20150913035436) do
     t.datetime "updated_at"
   end
 
-  add_index "attachments", ["attachable_type", "attachable_id"], name: "attachments_polymorphic_keys_index"
+  add_index "attachments", ["attachable_id", "attachable_type"], name: "attachments_polymorphic_keys_index"
 
   create_table "bulletins", force: true do |t|
     t.datetime "published_at"
