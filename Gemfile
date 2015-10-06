@@ -35,7 +35,6 @@ group :development, :test do
   gem "pry-nav"
   gem "pry-rails"
   gem "pry-remote"
-  gem "settingslogic"
   gem "sqlite3"
 end
 
@@ -56,6 +55,7 @@ gem "jsonapi-resources", "~> 0.4.2"
 gem "rack-rewrite", "~> 1.5.0"
 gem "rails", "~> 4.1.13"
 gem "rails-api", "~> 0.3.1"
+gem "settingslogic"
 gem "travis", "~> 1.5.0"
 gem "unicorn"
 gem "validate_url", "~> 1.0.0"
