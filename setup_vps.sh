@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # check for correct number of arguments
-if [ $# -ne 3 ]; then
-  echo "Usage: $0 <user> <ip> <stage>"
+if [ $# -ne 4 ]; then
+  echo "Usage: $0 <user> <ip> <stage> <branch>"
   exit 1
 fi
 
@@ -10,6 +10,7 @@ fi
 USER=$1
 IP=$2
 STAGE=$3
+BRANCH=$4
 
 # upload key for root
 ssh-copy-id -i ~/.ssh/id_rsa.pub root@$IP
@@ -23,8 +24,8 @@ bundle exec knife solo cook root@$IP
 # upload key for user
 ssh-copy-id -i ~/.ssh/id_rsa.pub $USER@$IP
 
-# # upload app
-# cd ../.. && bundle exec cap $STAGE deploy
-# 
-# # restart nginx
-# ssh -t $USER@$IP 'sudo service nginx restart'
+# upload app
+cd ../.. && bundle exec cap $STAGE deploy BRANCH=$BRANCH
+
+# restart nginx
+ssh -t $USER@$IP 'sudo service nginx restart'

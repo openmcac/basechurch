@@ -36,3 +36,7 @@ bash 'install ruby' do
   EOH
   not_if { File.exists?(version_path) && `cat #{version_path}`.chomp.split[0] == node['ruby']['version'] }
 end
+
+log "ruby installed" do
+  message "installed ruby: #{node["ruby"]["version"]} for #{node["user"]["name"]}"
+end
