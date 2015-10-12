@@ -54,9 +54,10 @@ RSpec.describe Api::V1::AnnouncementsController, type: :controller do
       let(:announcement) { Announcement.last }
 
       before do
-        request.headers['Content-Type'] = 'application/vnd.api+json'
-        request.headers['X-User-Email'] = user.email
-        request.headers['X-User-Token'] = user.session_api_key.access_token
+        auth_headers =
+          user.create_new_auth_token.
+               merge("Content-Type" => "application/vnd.api+json")
+        @request.headers.merge!(auth_headers)
       end
 
       it 'works as expected' do
@@ -119,9 +120,10 @@ RSpec.describe Api::V1::AnnouncementsController, type: :controller do
         it_behaves_like 'an action to create an announcement'
 
         it 'shifts the announcements appropriately' do
-          request.headers['Content-Type'] = 'application/vnd.api+json'
-          request.headers['X-User-Email'] = user.email
-          request.headers['X-User-Token'] = user.session_api_key.access_token
+          auth_headers =
+            user.create_new_auth_token.
+                 merge("Content-Type" => "application/vnd.api+json")
+          @request.headers.merge!(auth_headers)
 
           post :create, post_params
 
@@ -178,9 +180,10 @@ RSpec.describe Api::V1::AnnouncementsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
-        request.headers['Content-Type'] = 'application/vnd.api+json'
-        request.headers['X-User-Email'] = user.email
-        request.headers['X-User-Token'] = user.session_api_key.access_token
+        auth_headers =
+          user.create_new_auth_token.
+               merge("Content-Type" => "application/vnd.api+json")
+        @request.headers.merge!(auth_headers)
       end
 
       context 'with minimum params required' do
@@ -255,9 +258,10 @@ RSpec.describe Api::V1::AnnouncementsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
-        request.headers['Content-Type'] = 'application/vnd.api+json'
-        request.headers['X-User-Email'] = user.email
-        request.headers['X-User-Token'] = user.session_api_key.access_token
+        auth_headers =
+          user.create_new_auth_token.
+               merge("Content-Type" => "application/vnd.api+json")
+        @request.headers.merge!(auth_headers)
       end
 
       it 'deletes the announcement specified' do

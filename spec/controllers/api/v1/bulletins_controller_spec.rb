@@ -127,9 +127,10 @@ describe Api::V1::BulletinsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
-        request.headers['Content-Type'] = 'application/vnd.api+json'
-        request.headers['X-User-Email'] = user.email
-        request.headers['X-User-Token'] = user.session_api_key.access_token
+        auth_headers =
+          user.create_new_auth_token.
+               merge("Content-Type" => "application/vnd.api+json")
+        @request.headers.merge!(auth_headers)
       end
 
       context 'with minimum params required' do

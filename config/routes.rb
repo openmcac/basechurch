@@ -1,14 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { sessions: "sessions" }
-
-  devise_scope :user do
-    post "api/users/sign_in", to: "sessions#create"
-  end
+  mount_devise_token_auth_for 'User', at: 'api/auth'
 
   resources :api_keys, except: [:new, :edit]
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+
       jsonapi_resources :groups do
         jsonapi_relationships
 

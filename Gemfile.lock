@@ -103,6 +103,9 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    devise_token_auth (0.1.30)
+      devise (~> 3.3)
+      rails (~> 4.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
     domain_name (0.5.24)
@@ -159,6 +162,7 @@ GEM
     json (1.8.3)
     jsonapi-resources (0.4.4)
       rails (>= 4.0)
+    jwt (1.5.1)
     kgio (2.10.0)
     knife-solo (0.4.3)
       chef (>= 10.12)
@@ -184,6 +188,7 @@ GEM
     mixlib-log (1.6.0)
     mixlib-shellout (2.1.0)
     multi_json (1.11.2)
+    multi_xml (0.5.5)
     multipart-post (1.2.0)
     nenv (0.2.0)
     net-http-persistent (2.9.4)
@@ -201,6 +206,12 @@ GEM
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    oauth2 (1.0.0)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (~> 1.2)
     ohai (8.5.1)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)
@@ -213,6 +224,14 @@ GEM
       rake (~> 10.1)
       systemu (~> 2.6.4)
       wmi-lite (~> 1.0)
+    omniauth (1.2.2)
+      hashie (>= 1.2, < 4)
+      rack (~> 1.0)
+    omniauth-facebook (2.0.1)
+      omniauth-oauth2 (~> 1.2)
+    omniauth-oauth2 (1.3.1)
+      oauth2 (~> 1.0)
+      omniauth (~> 1.2)
     orm_adapter (0.5.0)
     parser (2.2.2.6)
       ast (>= 1.1, < 3.0)
@@ -385,6 +404,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   coveralls
   devise (~> 3.4.1)
+  devise_token_auth
   factory_girl_rails
   forgery
   friendly_id (~> 5.0.0)
@@ -393,6 +413,7 @@ DEPENDENCIES
   jsonapi-resources (~> 0.4.2)
   knife-solo (~> 0.4.2)
   marco-polo
+  omniauth-facebook
   pg
   pry-nav
   pry-rails

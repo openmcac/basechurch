@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include DeviseTokenAuth::Concerns::User
   has_many :api_keys
 
   # Include default devise modules. Others available are:
