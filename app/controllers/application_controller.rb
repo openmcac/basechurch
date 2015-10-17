@@ -1,7 +1,4 @@
-class ApplicationController < JSONAPI::ResourceController
-  include ActionController::MimeResponds
-  include ActionController::ImplicitRender
-  include ActionController::StrongParameters
+class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
 
   respond_to :json
@@ -9,6 +6,7 @@ class ApplicationController < JSONAPI::ResourceController
   before_action :set_cors_headers, if: "Rails.env.development?"
 
   private
+
   def context
     {
       current_user: current_user

@@ -29,5 +29,7 @@ module Basechurch
         rack_env['PATH_INFO'] !~ /^\/api.*$/
       })
     end
+
+    config.middleware.insert_before(ActionDispatch::ParamsParser, "SelectiveStack")
   end
 end
