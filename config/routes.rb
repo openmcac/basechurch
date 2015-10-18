@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for "User", at: "api/auth", controllers: {
-    registrations: "registrations"
+    registrations: "registrations",
+    sessions: "sessions"
   }
 
   resources :api_keys, except: [:new, :edit]
