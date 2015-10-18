@@ -1,5 +1,4 @@
-class Api::V1::PostsController < ApplicationController
-  include DeviseTokenAuth::Concerns::SetUserByToken
+class Api::V1::PostsController < ApplicationResourceController
   before_action :authenticate_user!, except: [:show]
 
   def sign

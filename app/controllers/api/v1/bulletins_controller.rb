@@ -1,4 +1,4 @@
-class Api::V1::BulletinsController < ApplicationController
+class Api::V1::BulletinsController < ApplicationResourceController
   before_action :authenticate_user!, except: [:show, :sunday]
   prepend_before_action :imitate_show_action, only: :sunday
 
