@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20150913035436) do
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url"
+    t.string   "url",         limit: nil
   end
 
   add_index "announcements", ["bulletin_id"], name: "index_announcements_on_bulletin_id"
@@ -28,8 +28,8 @@ ActiveRecord::Schema.define(version: 20150913035436) do
 
   create_table "api_keys", force: true do |t|
     t.integer  "user_id"
-    t.string   "access_token"
-    t.string   "scope"
+    t.string   "access_token", limit: nil
+    t.string   "scope",        limit: nil
     t.datetime "expired_at"
     t.datetime "created_at"
   end
@@ -38,10 +38,10 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   add_index "api_keys", ["user_id"], name: "index_api_keys_on_user_id"
 
   create_table "attachments", force: true do |t|
-    t.string   "key"
-    t.string   "url"
+    t.string   "key",             limit: nil
+    t.string   "url",             limit: nil
     t.integer  "attachable_id"
-    t.string   "attachable_type"
+    t.string   "attachable_type", limit: nil
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 20150913035436) do
 
   create_table "bulletins", force: true do |t|
     t.datetime "published_at"
-    t.string   "name"
-    t.string   "description"
+    t.string   "name",          limit: nil
+    t.string   "description",   limit: nil
     t.text     "service_order"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -60,10 +60,10 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   end
 
   create_table "friendly_id_slugs", force: true do |t|
-    t.string   "slug",                      null: false
-    t.integer  "sluggable_id",              null: false
+    t.string   "slug",           limit: nil, null: false
+    t.integer  "sluggable_id",               null: false
     t.string   "sluggable_type", limit: 50
-    t.string   "scope"
+    t.string   "scope",          limit: nil
     t.datetime "created_at"
   end
 
@@ -73,11 +73,11 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "groups", force: true do |t|
-    t.string   "name"
-    t.string   "banner"
+    t.string   "name",       limit: nil
+    t.string   "banner",     limit: nil
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug"
+    t.string   "slug",       limit: nil
     t.text     "about"
   end
 
@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(version: 20150913035436) do
     t.integer  "group_id"
     t.integer  "author_id"
     t.integer  "editor_id"
-    t.string   "slug"
-    t.string   "title"
+    t.string   "slug",         limit: nil
+    t.string   "title",        limit: nil
     t.text     "content"
     t.datetime "published_at"
     t.datetime "created_at"
@@ -102,9 +102,9 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
-    t.string   "taggable_type"
+    t.string   "taggable_type", limit: nil
     t.integer  "tagger_id"
-    t.string   "tagger_type"
+    t.string   "tagger_type",   limit: nil
     t.string   "context",       limit: 128
     t.datetime "created_at"
   end
@@ -113,26 +113,26 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
 
   create_table "tags", force: true do |t|
-    t.string  "name"
-    t.integer "taggings_count", default: 0
+    t.string  "name",           limit: nil
+    t.integer "taggings_count",             default: 0
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true
 
   create_table "users", force: true do |t|
-    t.string   "email"
-    t.string   "name"
+    t.string   "email",                  limit: nil
+    t.string   "name",                   limit: nil
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+    t.string   "encrypted_password",     limit: nil, default: "", null: false
+    t.string   "reset_password_token",   limit: nil
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: nil
+    t.string   "last_sign_in_ip",        limit: nil
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
