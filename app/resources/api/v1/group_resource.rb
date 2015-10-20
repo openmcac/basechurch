@@ -2,6 +2,8 @@ class Api::V1::GroupResource < JSONAPI::Resource
   attributes :name, :slug, :about, :banner_url
   attribute :created_at, format: :iso8601
 
+  has_many :posts
+
   filter :slug
 
   def banner_url

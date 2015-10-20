@@ -1,6 +1,8 @@
 class Group < ActiveRecord::Base
   extend FriendlyId
 
+  has_many :posts
+
   validates :name, presence: true
   validates :slug, uniqueness: { case_sensitive: false },
                    format: { with: /\A([a-zA-Z0-9-])+\z/i },
