@@ -1,5 +1,5 @@
 class AddAboutAndBannerUrlToGroups < ActiveRecord::Migration
   def change
-    add_column :groups, :about, :text
+    add_column :basechurch_groups, :about, :text
   end
 end
