@@ -269,6 +269,7 @@ GEM
       json
       websocket (~> 1.0)
     rack (1.6.4)
+    rack-cors (0.4.0)
     rack-rewrite (1.5.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -443,6 +444,7 @@ DEPENDENCIES
   pry-nav
   pry-rails
   pry-remote
+  rack-cors
   rack-rewrite (~> 1.5.0)
   rails (~> 4.2.4)
   rails-api (~> 0.3.1)

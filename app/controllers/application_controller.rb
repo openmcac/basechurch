@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   respond_to :json
 
-  before_action :set_cors_headers, if: "Rails.env.development?"
+  # before_action :set_cors_headers, if: "Rails.env.development?"
 
   private
 
