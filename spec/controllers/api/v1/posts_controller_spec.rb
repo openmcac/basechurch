@@ -84,9 +84,10 @@ describe Api::V1::PostsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
-        request.headers["Content-Type"] = "application/vnd.api+json"
-        request.headers["X-User-Email"] = user.email
-        request.headers["X-User-Token"] = user.session_api_key.access_token
+        auth_headers =
+          user.create_new_auth_token.
+               merge("Content-Type" => "application/vnd.api+json")
+        @request.headers.merge!(auth_headers)
         allow_any_instance_of(Api::V1::PostResource).
           to receive(:context).and_return(current_user: user)
       end
@@ -126,9 +127,10 @@ describe Api::V1::PostsController, type: :controller do
 
     context 'with an authenticated user' do
       before do
-        request.headers["Content-Type"] = "application/vnd.api+json"
-        request.headers["X-User-Email"] = user.email
-        request.headers["X-User-Token"] = user.session_api_key.access_token
+        auth_headers =
+          user.create_new_auth_token.
+               merge("Content-Type" => "application/vnd.api+json")
+        @request.headers.merge!(auth_headers)
         allow_any_instance_of(Api::V1::PostResource).
           to receive(:context).and_return(current_user: user)
       end
@@ -180,9 +182,10 @@ describe Api::V1::PostsController, type: :controller do
 
       context 'with invalid parameters' do
         before do
-          request.headers["Content-Type"] = "application/vnd.api+json"
-          request.headers["X-User-Email"] = user.email
-          request.headers["X-User-Token"] = user.session_api_key.access_token
+          auth_headers =
+            user.create_new_auth_token.
+                 merge("Content-Type" => "application/vnd.api+json")
+          @request.headers.merge!(auth_headers)
           allow_any_instance_of(Api::V1::PostResource).
             to receive(:context).and_return(current_user: user)
         end
@@ -244,9 +247,10 @@ describe Api::V1::PostsController, type: :controller do
         let(:perform_action) { put :update, invalid_attributes }
 
         before do
-          request.headers["Content-Type"] = "application/vnd.api+json"
-          request.headers["X-User-Email"] = user.email
-          request.headers["X-User-Token"] = user.session_api_key.access_token
+          auth_headers =
+            user.create_new_auth_token.
+                 merge("Content-Type" => "application/vnd.api+json")
+          @request.headers.merge!(auth_headers)
           allow_any_instance_of(Api::V1::PostResource).
             to receive(:context).and_return(current_user: user)
         end

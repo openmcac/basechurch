@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20150913035436) do
 
-  create_table "announcements", force: true do |t|
+  create_table "announcements", force: :cascade do |t|
     t.integer  "post_id"
     t.integer  "bulletin_id"
     t.text     "description"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   add_index "announcements", ["bulletin_id"], name: "index_announcements_on_bulletin_id"
   add_index "announcements", ["post_id"], name: "index_announcements_on_post_id"
 
-  create_table "api_keys", force: true do |t|
+  create_table "api_keys", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "access_token"
     t.string   "scope"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   add_index "api_keys", ["access_token"], name: "index_api_keys_on_access_token", unique: true
   add_index "api_keys", ["user_id"], name: "index_api_keys_on_user_id"
 
-  create_table "attachments", force: true do |t|
+  create_table "attachments", force: :cascade do |t|
     t.string   "key"
     t.string   "url"
     t.integer  "attachable_id"
@@ -46,9 +46,9 @@ ActiveRecord::Schema.define(version: 20150913035436) do
     t.datetime "updated_at"
   end
 
-  add_index "attachments", ["attachable_id", "attachable_type"], name: "attachments_polymorphic_keys_index"
+  add_index "attachments", ["attachable_type", "attachable_id"], name: "attachments_polymorphic_keys_index"
 
-  create_table "bulletins", force: true do |t|
+  create_table "bulletins", force: :cascade do |t|
     t.datetime "published_at"
     t.string   "name"
     t.string   "description"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20150913035436) do
     t.text     "sermon_notes"
   end
 
-  create_table "friendly_id_slugs", force: true do |t|
+  create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
     t.string   "sluggable_type", limit: 50
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
 
-  create_table "groups", force: true do |t|
+  create_table "groups", force: :cascade do |t|
     t.string   "name"
     t.string   "banner"
     t.datetime "created_at"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20150913035436) do
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true
 
-  create_table "posts", force: true do |t|
+  create_table "posts", force: :cascade do |t|
     t.integer  "group_id"
     t.integer  "author_id"
     t.integer  "editor_id"
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   add_index "posts", ["editor_id"], name: "index_posts_on_editor_id"
   add_index "posts", ["group_id"], name: "index_posts_on_group_id"
 
-  create_table "taggings", force: true do |t|
+  create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
     t.string   "taggable_type"
@@ -112,18 +112,16 @@ ActiveRecord::Schema.define(version: 20150913035436) do
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
   add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
 
-  create_table "tags", force: true do |t|
+  create_table "tags", force: :cascade do |t|
     t.string  "name"
     t.integer "taggings_count", default: 0
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true
 
-  create_table "users", force: true do |t|
-    t.string   "email"
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "users", force: :cascade do |t|
+    t.string   "provider",                            null: false
+    t.string   "uid",                    default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -133,9 +131,21 @@ ActiveRecord::Schema.define(version: 20150913035436) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
+    t.string   "name"
+    t.string   "nickname"
+    t.string   "image"
+    t.string   "email"
+    t.text     "tokens"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["email"], name: "index_users_on_email"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
 
 end

@@ -29,5 +29,17 @@ module Basechurch
         rack_env['PATH_INFO'] !~ /^\/api.*$/
       })
     end
+
+    config.middleware.insert_before(ActionDispatch::ParamsParser, "SelectiveStack")
+
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource '*',
+          headers: :any,
+          expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+          methods: [:get, :post, :options, :delete, :put]
+      end
+    end
   end
 end

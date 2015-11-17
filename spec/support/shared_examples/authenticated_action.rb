@@ -6,7 +6,7 @@ shared_examples_for 'an authenticated action' do
     perform_action
   end
 
-  it 'returns a 302 status code' do
-    expect(response.status).to eq(302)
+  it 'returns a 401 status code' do
+    expect(response.status).to eq(401)
   end
 end

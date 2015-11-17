@@ -1,4 +1,4 @@
-class Api::V1::GroupsController < ApplicationController
+class Api::V1::GroupsController < ApplicationResourceController
   before_action :authenticate_user!, except: [:index, :show, :get_related_resources]
 
   def sign

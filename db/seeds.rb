@@ -1,5 +1,7 @@
 group = Group.create(name: 'English Service')
-user = User.create(email: 'test@example.com', password: 'password')
+user = User.create(email: 'test@example.com',
+                   password: 'password',
+                   provider: "email")
 bulletin = Bulletin.create(published_at: DateTime.now,
                            group: group,
                            name: 'Sunday Service',

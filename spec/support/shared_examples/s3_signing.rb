@@ -8,7 +8,7 @@ shared_examples_for "a request that returns a signature to upload to s3" do
       end
 
       it "requires authentication" do
-        expect(response.status).to eq(302)
+        expect(response.status).to eq(401)
       end
     end
 
@@ -16,7 +16,8 @@ shared_examples_for "a request that returns a signature to upload to s3" do
       let(:signed_hash) { { "random" => "hash" } }
 
       before do
-        sign_in user
+        auth_headers = user.create_new_auth_token
+        @request.headers.merge!(auth_headers)
 
         allow_any_instance_of(S3Signer).to receive(:sign).
           with(type: "image/jpeg", directory: directory).
