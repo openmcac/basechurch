@@ -1,11 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::PostResource, type: :resource do
-  let(:post) { create(:post) }
-  let(:resource) { Api::V1::PostResource.new(post) }
-  let(:group_resource) { Api::V1::GroupResource.new(post.group) }
+  let(:post) { create(:post ) }
+  let(:resource) { Api::V1::PostResource.new(post, nil) }
+  let(:group_resource) { Api::V1::GroupResource.new(post.group, nil) }
 
   subject { resource }
+
+  before do
+    post.tag_list.add("tag1")
+    post.tag_list.add("tag2")
+  end
 
   its(:id) { is_expected.to eq(post.id) }
   its(:content) { is_expected.to eq(post.content) }

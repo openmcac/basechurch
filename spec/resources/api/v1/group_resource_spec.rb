@@ -4,7 +4,7 @@ RSpec.describe Api::V1::GroupResource, type: :resource do
   let(:group) { create(:group) }
   let(:records) { Group.all }
 
-  subject { Api::V1::GroupResource.new(group) }
+  subject { Api::V1::GroupResource.new(group, nil) }
 
   its(:id) { is_expected.to eq(group.id) }
   its(:name) { is_expected.to eq(group.name) }

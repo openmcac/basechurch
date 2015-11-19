@@ -84,12 +84,8 @@ describe Api::V1::BulletinsController, type: :controller do
       expect(attributes["sermonNotes"]).to eq bulletin.sermon_notes
       expect(attributes["service-order"]).to eq bulletin.service_order
 
-      group_data = data["relationships"]["group"]["data"]
-      expect(group_data["type"]).to eq "groups"
-      expect(group_data["id"]).to eq bulletin.group.id.to_s
-
-      announcements_data = data["relationships"]["announcements"]
-      expect(announcements_data).not_to be_empty
+      expect(data["relationships"]).to have_key("group")
+      expect(data["relationships"]).to have_key("announcements")
     end
   end
 

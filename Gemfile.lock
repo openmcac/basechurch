@@ -171,7 +171,7 @@ GEM
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     json (1.8.3)
-    jsonapi-resources (0.4.4)
+    jsonapi-resources (0.6.1)
       rails (>= 4.0)
     jwt (1.5.1)
     kgio (2.10.0)
@@ -436,7 +436,7 @@ DEPENDENCIES
   friendly_id (~> 5.0.0)
   guard-rspec
   jbuilder (~> 2.2.6)
-  jsonapi-resources (~> 0.4.2)
+  jsonapi-resources (~> 0.6.1)
   knife-solo (~> 0.4.2)
   marco-polo
   omniauth-facebook

@@ -34,10 +34,7 @@ RSpec.describe Api::V1::AnnouncementsController, type: :controller do
       expect(attributes["description"]).to eq announcement.description
       expect(attributes["position"]).to eq announcement.position
       expect(attributes["url"]).to eq announcement.url
-
-      bulletin_data = data["relationships"]["bulletin"]["data"]
-      expect(bulletin_data["id"]).to eq announcement.bulletin_id.to_s
-      expect(bulletin_data["type"]).to eq "bulletins"
+      expect(data["relationships"]).to have_key "bulletin"
     end
   end
 

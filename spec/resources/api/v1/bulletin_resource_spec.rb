@@ -7,8 +7,8 @@ RSpec.describe Api::V1::BulletinResource, type: :resource do
            audio_url: "http://audio.com",
            sermon_notes: "these are sermon notes")
   end
-  let(:resource) { Api::V1::BulletinResource.new(bulletin) }
-  let(:group_resource) { Api::V1::GroupResource.new(bulletin.group) }
+  let(:resource) { Api::V1::BulletinResource.new(bulletin, nil) }
+  let(:group_resource) { Api::V1::GroupResource.new(bulletin.group, nil) }
 
   subject { resource }
 

@@ -60,20 +60,13 @@ describe Api::V1::PostsController, type: :controller do
       expect(attributes["published-at"]).
         to eq expected_post.published_at.to_time.localtime("+00:00").iso8601
 
-      expect(group_data["id"]).to eq expected_post.group_id.to_s
-      expect(group_data["type"]).to eq "groups"
-
-      expect(author_data["id"]).to eq expected_post.author_id.to_s
-      expect(author_data["type"]).to eq "users"
+      expect(data["relationships"]).to have_key("group")
+      expect(data["relationships"]).to have_key("author")
+      expect(data["relationships"]).to have_key("editor")
 
       if expected_post.updated_at
         expect(attributes["updated-at"]).
           to eq expected_post.updated_at.to_time.localtime("+00:00").iso8601
-      end
-
-      if expected_post.editor
-        expect(editor_data["id"]).to eq expected_post.editor_id.to_s
-        expect(editor_data["type"]).to eq "users"
       end
     end
   end
@@ -88,8 +81,6 @@ describe Api::V1::PostsController, type: :controller do
           user.create_new_auth_token.
                merge("Content-Type" => "application/vnd.api+json")
         @request.headers.merge!(auth_headers)
-        allow_any_instance_of(Api::V1::PostResource).
-          to receive(:context).and_return(current_user: user)
       end
 
       it 'creates a new post' do
@@ -131,8 +122,6 @@ describe Api::V1::PostsController, type: :controller do
           user.create_new_auth_token.
                merge("Content-Type" => "application/vnd.api+json")
         @request.headers.merge!(auth_headers)
-        allow_any_instance_of(Api::V1::PostResource).
-          to receive(:context).and_return(current_user: user)
       end
 
       context 'with an updated post' do
@@ -186,8 +175,6 @@ describe Api::V1::PostsController, type: :controller do
             user.create_new_auth_token.
                  merge("Content-Type" => "application/vnd.api+json")
           @request.headers.merge!(auth_headers)
-          allow_any_instance_of(Api::V1::PostResource).
-            to receive(:context).and_return(current_user: user)
         end
 
         let(:invalid_attributes) { valid_attributes }
@@ -251,8 +238,6 @@ describe Api::V1::PostsController, type: :controller do
             user.create_new_auth_token.
                  merge("Content-Type" => "application/vnd.api+json")
           @request.headers.merge!(auth_headers)
-          allow_any_instance_of(Api::V1::PostResource).
-            to receive(:context).and_return(current_user: user)
         end
 
         context "where published_at is not iso8601 compliant" do
