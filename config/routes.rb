@@ -1,34 +1,39 @@
-Basechurch::Engine.routes.draw do
+Rails.application.routes.draw do
+  mount_devise_token_auth_for "User", at: "api/auth", controllers: {
+    registrations: "registrations",
+    sessions: "sessions"
+  }
+
   resources :api_keys, except: [:new, :edit]
-  devise_for :users,
-             class_name: 'Basechurch::User',
-             controllers: { sessions: 'sessions' }
 
-  namespace :v1, defaults: { format: 'json' } do
-    jsonapi_resources :groups do
-      jsonapi_relationships
+  namespace :api, defaults: { format: 'json' } do
+    namespace :v1 do
 
-      get "sign", on: :collection
+      jsonapi_resources :groups do
+        jsonapi_relationships
+
+        get "sign", on: :collection
+      end
+
+      jsonapi_resources :bulletins do
+        jsonapi_relationships
+
+        get "sign", on: :collection
+      end
+
+      jsonapi_resources :users
+
+      jsonapi_resources :announcements do
+        jsonapi_relationships
+      end
+
+      jsonapi_resources :posts do
+        jsonapi_relationships
+
+        get "sign", on: :collection
+      end
+
+      get '/sunday', to: 'bulletins#sunday'
     end
-
-    jsonapi_resources :bulletins do
-      jsonapi_relationships
-
-      get "sign", on: :collection
-    end
-
-    jsonapi_resources :users
-
-    jsonapi_resources :announcements do
-      jsonapi_relationships
-    end
-
-    jsonapi_resources :posts do
-      jsonapi_relationships
-
-      get "sign", on: :collection
-    end
-
-    get '/sunday', to: 'bulletins#sunday'
   end
 end

@@ -1,0 +1,28 @@
+{
+  "run_list": [
+    "recipe[mcac]",
+    "recipe[mcac::users]",
+    "recipe[mcac::postgres]",
+    "recipe[mcac::rbenv]",
+    "recipe[mcac::redis]",
+    "recipe[mcac::nginx]",
+    "recipe[mcac::app]"
+  ],
+  "domain": "staging.mcac.church",
+  "group": "deploy",
+  "stage": "staging",
+  "user": {
+    "name": "deploy",
+    "password": "$1$OOMKcMDd$u072Yqwscq/ZytQVBaitx0"
+  },
+  "db": {
+    "root_password": "Finchley13",
+    "user": {
+      "name": "mcac",
+      "password": "Finchley13"
+    }
+  },
+  "unicorn": {
+    "worker_count": "2"
+  }
+}

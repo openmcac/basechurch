@@ -4,7 +4,7 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  # config.secret_key = '90dbfa956c0deeaad5cc1683d993e0d2de68b2b81d987e10ff57556c34adf7f75b0ddd45f3d276d1c0ce7d31e4c5209756e085d01c0f4b997f3b4c1c10c49103'
+  # config.secret_key = 'ba6949dc182a2360e6b4b5954ed79f3478a37639e51390cd9e6f8f51c89097a031ca6215f5628ecb61d1f32ec5c906f472f58791b85ad3740062b89dd103daa6'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -61,7 +61,7 @@ Devise.setup do |config|
   # :database      = Support basic authentication with authentication key + password
   # config.http_authenticatable = false
 
-  # If http headers should be returned for AJAX requests. True by default.
+  # If 401 status code should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
 
   # The realm used in Http Basic Authentication. 'Application' by default.
@@ -97,7 +97,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = '95cedd0f51d3b740ce40ed634ffc852a96f57a953f453ea34b1040d770a273df0616a5ee8eb5261e334d30bea6a91466e6353b461cd5a4a5921217737c222288'
+  # config.pepper = '005602f01d38ec9dfc6e7322b8debf075bdfbb73140b2ed8a7c7071c24c88401412e87fbfd61c24d81cb687eadbca3b8c719401320068a7961bac284bcc14bce'
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -179,7 +179,7 @@ Devise.setup do |config|
   # config.unlock_in = 1.hour
 
   # Warn on the last attempt before the account is locked.
-  # config.last_attempt_warning = false
+  # config.last_attempt_warning = true
 
   # ==> Configuration for :recoverable
   #
@@ -251,9 +251,7 @@ Devise.setup do |config|
   #     mount MyEngine, at: '/my_engine'
   #
   # The router that invoked `devise_for`, in the example above, would be:
-  config.router_name = :basechurch
-  config.parent_controller = 'Basechurch::ApplicationController'
-
+  # config.router_name = :my_engine
   #
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:

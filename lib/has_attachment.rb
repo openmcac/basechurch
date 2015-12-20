@@ -38,7 +38,7 @@ module HasAttachment
       has_one field.to_sym,
               -> { where(key: field) },
               as: :attachable,
-              class_name: "Basechurch::Attachment",
+              class_name: "Attachment",
               autosave: true
 
       validates_associated field.to_sym
