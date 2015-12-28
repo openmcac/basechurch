@@ -42,6 +42,10 @@ group :staging do
   gem "pg"
 end
 
+group :assets do
+  gem "uglifier"
+end
+
 gem "acts-as-taggable-on", "~> 3.5.0"
 gem "acts_as_list", "~> 0"
 gem "bcrypt-ruby", "~> 3.1.2"
