@@ -9,7 +9,7 @@ set :repo_url, 'git@github.com:openmcac/basechurch'
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
 # Replace the sample value with the name of your application here:
-set :deploy_to, '~/apps/mcac_production'
+set :deploy_to, '/u/apps/mcac_production'
 
 # Use agent forwarding for SSH so you can deploy with the SSH key on your workstation.
 set :ssh_options, {
@@ -19,7 +19,7 @@ set :ssh_options, {
 # Default value for :pty is false
 set :pty, true
 
-set :linked_files, %w{config/database.yml .rbenv-vars .ruby-version}
+set :linked_files, %w{config/database.yml config/secrets.yml .rbenv-vars .ruby-version}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 set :default_env, { path: "/opt/rbenv/shims:$PATH" }
