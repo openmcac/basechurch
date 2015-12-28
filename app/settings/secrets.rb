@@ -1,4 +1,4 @@
 class Secrets < Settingslogic
-  source "#{Rails.root}/config/#{Rails.env}-secrets.yml"
+  source "#{Rails.root}/config/secrets.yml"
   namespace Rails.env
 end
