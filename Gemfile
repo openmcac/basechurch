@@ -38,8 +38,9 @@ group :development, :test do
   gem "sqlite3"
 end
 
-group :staging do
+group :staging, :production do
   gem "pg"
+  gem "passenger"
 end
 
 group :assets do
