@@ -6,7 +6,7 @@ set :repo_url, 'git@github.com:openmcac/basechurch'
 
 # Default branch is :master
 # Uncomment the following line to have Capistrano ask which branch to deploy.
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
 # Replace the sample value with the name of your application here:
 set :deploy_to, '/u/apps/mcac_production'
