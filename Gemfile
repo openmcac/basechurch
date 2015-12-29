@@ -16,7 +16,7 @@ group :development do
   gem "knife-solo", "~> 0.4.2"
   gem "rubocop", require: false
   gem "spring"
-
+  gem "capistrano3-unicorn"
 end
 
 group :test do
@@ -40,7 +40,6 @@ end
 
 group :staging, :production do
   gem "pg"
-  gem "passenger"
 end
 
 group :assets do

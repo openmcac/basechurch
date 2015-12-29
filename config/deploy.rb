@@ -19,22 +19,20 @@ set :ssh_options, {
 # Default value for :pty is false
 set :pty, true
 
-set :linked_files, %w{config/database.yml config/secrets.yml .rbenv-vars .ruby-version}
+set :linked_files, %w{config/database.yml config/secrets.yml .rbenv-vars .ruby-version config/unicorn.rb}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 set :default_env, { path: "/opt/rbenv/shims:$PATH" }
 
 set :keep_releases, 5
 
-namespace :deploy do
+set :unicorn_config_path, "#{current_path}/config/unicorn.rb"
+set :bundle_bins, fetch(:bundle_bins, []).push("unicorn")
 
-  desc 'Restart application'
+namespace :deploy do
   task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      execute :touch, release_path.join('tmp/restart.txt')
-    end
+    invoke 'unicorn:restart'
   end
 
-  after :publishing, :restart
-
+  after 'deploy:publishing', 'restart'
 end
