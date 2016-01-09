@@ -7,7 +7,9 @@ class LandingController < ApplicationController
                 elsif fetch_revision
                   "basechurch:index:#{fetch_revision}"
                 else
-                  Sidekiq.redis { |r| "basechurch:index:#{r.get("mcac:index:current")}" }
+                  Sidekiq.redis do |r|
+                    "basechurch:index:#{r.get("basechurch:index:current")}"
+                  end
                 end
     index = Sidekiq.redis { |r| r.get(index_key) }
     render text: process_index(index), layout: false
