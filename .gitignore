@@ -21,3 +21,6 @@ production-secrets.yml
 development-secrets.yml
 staging-secrets.yml
 public
+
+dump.rdb
+config/secrets.yml
