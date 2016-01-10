@@ -33,5 +33,7 @@ class LandingController < ApplicationController
       index.sub!("/ember-cli-live-reload",
                  "http://localhost:4200/ember-cli-live-reload")
     end
+
+    index
   end
 end
