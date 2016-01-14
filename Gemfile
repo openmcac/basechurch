@@ -36,6 +36,7 @@ group :development, :test do
   gem "pry-rails"
   gem "pry-remote"
   gem "sqlite3"
+  gem "travis", "~> 1.5.0"
 end
 
 group :staging, :production do
@@ -65,6 +66,5 @@ gem "rails", "~> 4.2.4"
 gem "rails-api", "~> 0.3.1"
 gem "settingslogic"
 gem "sidekiq"
-gem "travis", "~> 1.5.0"
 gem "unicorn"
 gem "validate_url", "~> 1.0.0"
