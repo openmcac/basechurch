@@ -36,4 +36,6 @@ Rails.application.routes.draw do
       get '/sunday', to: 'bulletins#sunday'
     end
   end
+
+  get "/(*path)" => "landing#index", as: :root, format: :html
 end

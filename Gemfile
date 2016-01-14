@@ -16,7 +16,7 @@ group :development do
   gem "knife-solo", "~> 0.4.2"
   gem "rubocop", require: false
   gem "spring"
-
+  gem "capistrano3-unicorn"
 end
 
 group :test do
@@ -36,29 +36,35 @@ group :development, :test do
   gem "pry-rails"
   gem "pry-remote"
   gem "sqlite3"
+  gem "travis", "~> 1.5.0"
 end
 
-group :staging do
+group :staging, :production do
   gem "pg"
+end
+
+group :assets do
+  gem "uglifier"
 end
 
 gem "acts-as-taggable-on", "~> 3.5.0"
 gem "acts_as_list", "~> 0"
 gem "bcrypt-ruby", "~> 3.1.2"
+gem "capistrano", "~> 3.4.0"
 gem "capistrano-bundler"
-gem "capistrano-rails", "~> 1.1.0"
+gem "capistrano-rails", "~> 1.1.5"
 gem "capistrano-rbenv", "~> 2.0"
 gem "devise", "~> 3.5.2"
+gem "devise_token_auth", "~> 0.1.36"
 gem "friendly_id", "~> 5.0.0"
 gem "jbuilder", "~> 2.2.6"
 gem "jsonapi-resources", "~> 0.6.1"
+gem "omniauth-facebook"
 gem "rack-cors", require: "rack/cors"
 gem "rack-rewrite", "~> 1.5.0"
 gem "rails", "~> 4.2.4"
 gem "rails-api", "~> 0.3.1"
 gem "settingslogic"
-gem "travis", "~> 1.5.0"
+gem "sidekiq"
 gem "unicorn"
 gem "validate_url", "~> 1.0.0"
-gem "devise_token_auth", "~> 0.1.36"
-gem "omniauth-facebook"

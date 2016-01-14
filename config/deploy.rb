@@ -1,87 +1,38 @@
+# config valid only for current version of Capistrano
+lock '3.4.0'
+
 set :application, 'mcac'
-set :deploy_user, 'deploy'
+set :repo_url, 'git@github.com:openmcac/basechurch'
 
-# setup repo details
-set :scm, :git
-set :repo_url, 'git@github.com:openmcac/basechurch.git'
-set :branch, ENV["BRANCH"] || "master"
+# Default branch is :master
+# Uncomment the following line to have Capistrano ask which branch to deploy.
+ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
-# setup rbenv.
-set :rbenv_type, '~/.rbenv'
-set :rbenv_ruby, '2.2.3'
-set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+# Replace the sample value with the name of your application here:
+set :deploy_to, '/u/apps/mcac_production'
 
-# how many old releases do we want to keep, not much
-set :keep_releases, 3
+# Use agent forwarding for SSH so you can deploy with the SSH key on your workstation.
+set :ssh_options, {
+  forward_agent: true
+}
 
-# files we want symlinking to specific entries in shared
-linked_files = %w{config/database.yml config/unicorn.rb}
-linked_files << "config/#{fetch(:stage)}-secrets.yml"
-set :linked_files, linked_files
+# Default value for :pty is false
+set :pty, true
 
-# dirs we want symlinking to shared
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_files, %w{config/database.yml config/secrets.yml .rbenv-vars .ruby-version config/unicorn.rb}
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-# what specs should be run before deployment is allowed to
-# continue, see lib/capistrano/tasks/run_tests.cap
-set :tests, []
+set :default_env, { path: "/opt/rbenv/shims:$PATH" }
 
-# which config files should be copied by deploy:setup_config
-# see documentation in lib/capistrano/tasks/setup_config.cap
-# for details of operations
-set(:config_files, %w(
-  nginx.conf
-  log_rotation
-  monit
-))
+set :keep_releases, 5
 
-# which config files should be made executable after copying
-# by deploy:setup_config
-set(:executable_config_files, %w(
-))
-
-
-# files which need to be symlinked to other parts of the
-# filesystem. For example nginx virtualhosts, log rotation
-# init scripts etc. The full_app_name variable isn't
-# available at this point so we use a custom template {{}}
-# tag and then add it at run time.
-set(:symlinks, [
-  {
-    source: "log_rotation",
-   link: "/etc/logrotate.d/{{full_app_name}}"
-  },
-  {
-    source: "monit",
-    link: "/etc/monit/conf.d/{{full_app_name}}.conf"
-  }
-])
-
-# this:
-# http://www.capistranorb.com/documentation/getting-started/flow/
-# is worth reading for a quick overview of what tasks are called
-# and when for `cap stage deploy`
+set :unicorn_config_path, "#{current_path}/config/unicorn.rb"
+set :bundle_bins, fetch(:bundle_bins, []).push("unicorn")
 
 namespace :deploy do
-  # make sure we're deploying what we think we're deploying
-  before :deploy, "deploy:check_revision"
-  # only allow a deploy with passing tests to deployed
-  before :deploy, "deploy:run_tests"
-  # compile assets locally then rsync
-  # after 'deploy:symlink:shared', 'deploy:compile_assets_locally'
-  after :finishing, 'deploy:cleanup'
+  task :restart do
+    invoke 'unicorn:restart'
+  end
 
-  # reload nginx to it will pick up any modified vhosts from
-  # setup_config
-  after 'deploy:setup_config', 'nginx:reload'
-
-  # Restart monit so it will pick up any monit configurations
-  # we've added
-  after 'deploy:setup_config', 'monit:restart'
-
-  # As of Capistrano 3.1, the `deploy:restart` task is not called
-  # automatically.
-  after 'deploy:publishing', 'deploy:restart'
+  after 'deploy:publishing', 'restart'
 end
-
