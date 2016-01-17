@@ -8,8 +8,35 @@ class Bulletin < ActiveRecord::Base
   has_attachment :banner
   has_attachment :audio
 
-  scope :english_service, -> { where(group_id: 1) }
+  scope :english_service, -> { for_group(1) }
+  scope :for_group, -> (group_id) { where(group_id: group_id) }
   scope :latest, -> do
-    where('published_at <= ?', DateTime.now).order('published_at DESC')
+    published.order('published_at DESC')
+  end
+
+  scope :published, -> { where('published_at <= ?', DateTime.now) }
+
+  def self.next(bulletin)
+    return nil unless bulletin.published?
+
+    published.
+      where("published_at > ?", bulletin.published_at).
+      where(group_id: bulletin.group_id).
+      order(:published_at).
+      limit(1).
+      first
+  end
+
+  def self.previous(bulletin)
+    published.
+      where("published_at < ?", bulletin.published_at).
+      where(group_id: bulletin.group_id).
+      order("published_at DESC").
+      limit(1).
+      first
+  end
+
+  def published?
+    published_at <= DateTime.now
   end
 end

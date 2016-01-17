@@ -1,9 +1,9 @@
 class Api::V1::BulletinsController < ApplicationResourceController
-  before_action :authenticate_user!, except: [:show, :sunday]
-  prepend_before_action :imitate_show_action, only: :sunday
+  before_action :authenticate_user!, except: [:show, :sunday, :next, :previous]
+  before_action :fetch_bulletin, only: [:next, :previous]
 
   def sunday
-    show
+    render_bulletin Bulletin.english_service.latest.first
   end
 
   def sign
@@ -11,18 +11,32 @@ class Api::V1::BulletinsController < ApplicationResourceController
            status: :ok
   end
 
-  private
+  def next
+    next_bulletin = Bulletin.next(@bulletin) ||
+      Bulletin.for_group(@bulletin.group_id).published.first
 
-  def imitate_show_action
-    params[:id] = fetch_sunday_bulletin_id.to_s
-    params[:action] = "show"
+    render_bulletin(next_bulletin)
   end
 
-  def fetch_sunday_bulletin_id
-    Bulletin.english_service.
-             where('published_at <= ?', DateTime.now).
-             order('published_at DESC').
-             pluck(:id).
-             first
+  def previous
+    previous_bulletin = Bulletin.previous(@bulletin) ||
+      Bulletin.for_group(@bulletin.group_id).latest.first
+
+    render_bulletin(previous_bulletin)
+  end
+
+  private
+
+  def render_bulletin(bulletin)
+    render json: serialize_bulletin(bulletin)
+  end
+
+  def serialize_bulletin(bulletin)
+    JSONAPI::ResourceSerializer.new(Api::V1::BulletinResource).
+      serialize_to_hash(Api::V1::BulletinResource.new(bulletin, nil))
+  end
+
+  def fetch_bulletin
+    @bulletin = Bulletin.find(params[:id])
   end
 end
