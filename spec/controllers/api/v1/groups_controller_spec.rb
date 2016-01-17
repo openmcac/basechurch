@@ -2,17 +2,15 @@ require 'rails_helper'
 
 describe Api::V1::GroupsController, type: :controller do
   let(:user) { create(:user) }
+  let(:group) do
+    create(:group,
+           created_at: DateTime.iso8601("2001-02-03T04:05:06+07:00"),
+           about: Forgery(:lorem_ipsum).text,
+           banner_url: "http://#{Forgery(:internet).domain_name}")
+  end
 
-  describe 'GET /groups/:id' do
-    let(:group) do
-      create(:group,
-             created_at: DateTime.iso8601("2001-02-03T04:05:06+07:00"),
-             about: Forgery(:lorem_ipsum).text,
-             banner_url: "http://#{Forgery(:internet).domain_name}")
-    end
-
+  shared_examples_for "a group payload" do
     it 'returns a single group' do
-      get :show, id: group.id
       data = JSON.parse(response.body)["data"]
       attributes = data["attributes"]
       expect(data["id"]).to eq group.id.to_s
@@ -23,6 +21,25 @@ describe Api::V1::GroupsController, type: :controller do
       expect(attributes["banner-url"]).to eq group.banner_url
       expect(attributes["created-at"]).to eq "2001-02-02T21:05:06+00:00"
     end
+  end
+
+  describe 'GET /groups/:id' do
+    before { get :show, id: group.id }
+
+    it_behaves_like "a group payload"
+  end
+
+  describe "GET /bulletins/:bulletin_id/group" do
+    let(:bulletin) { create(:bulletin, group: group) }
+
+    before do
+      get :get_related_resource,
+        bulletin_id: bulletin.id,
+        relationship: "group",
+        source: "api/v1/bulletins"
+    end
+
+    it_behaves_like "a group payload"
   end
 
   describe "s3 signing" do
