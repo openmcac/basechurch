@@ -1,7 +1,11 @@
+require "forgery"
+
 group = Group.create(name: 'English Service')
 user = User.create(email: 'test@example.com',
                    password: 'password',
                    provider: "email")
+
+return if Rails.env.production?
 
 service_order =
   " - ## Call to Worship
@@ -15,10 +19,10 @@ service_order =
  - ## Doxology
  - ## Benediction"
 
-bulletin = Bulletin.create(published_at: DateTime.new(2016, 01, 3),
+bulletin = Bulletin.create(published_at: DateTime.new(2010, 01, 3),
                            group: group,
                            name: 'Holy Communion New Year Sunday Service',
-                           description: 'January 3, 2016 at 9:30 am',
+                           description: 'January 3, 2010 at 9:30 am',
                            service_order: service_order)
 post = Post.create(author: user,
                    group: group,
@@ -60,4 +64,23 @@ more info, visit
                       bulletin: bulletin,
                       description: a,
                       position: i + 1)
+end
+
+100.times do
+  service_order = ""
+  (5 + Random.rand(5)).times do
+    service_order = "#{service_order}\n- ## #{ Forgery('lorem_ipsum').word(random: true).capitalize } #{ Forgery('lorem_ipsum').words(Random.rand(3), random: true) }"
+  end
+
+  bulletin =
+    Bulletin.create(published_at: Random.rand(1000).days.ago,
+                    group: group,
+                    name: Forgery('lorem_ipsum').title(random: true),
+                    description: "#{ Forgery('lorem_ipsum').word(random: true).capitalize } #{ Forgery('lorem_ipsum').words(Random.rand(5), random: true) }",
+                    service_order: service_order,
+                    sermon_notes: Forgery('email').body(random: true))
+
+  (6 + Random.rand(5)).times do
+    bulletin.announcements.build(description: Forgery('lorem_ipsum').sentences(Random.rand(7), random: true)).save
+  end
 end
