@@ -22,7 +22,6 @@ end
 group :test do
   gem "codeclimate-test-reporter", require: nil
   gem "factory_girl_rails"
-  gem "forgery"
   gem "rspec-its"
   gem "rspec-rails"
   gem "timecop"
@@ -37,6 +36,10 @@ group :development, :test do
   gem "pry-remote"
   gem "sqlite3"
   gem "travis", "~> 1.5.0"
+end
+
+group :development, :test, :staging do
+  gem "forgery"
 end
 
 group :staging, :production do
