@@ -19,6 +19,8 @@ Rails.application.routes.draw do
         jsonapi_relationships
 
         get "sign", on: :collection
+        get "next", on: :member
+        get "previous", on: :member
       end
 
       jsonapi_resources :users
