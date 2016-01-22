@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Api::V1::BulletinsController, type: :controller do
-  let(:sunday_service) do
+  let(:english_service) do
     create(:group)
   end
 
@@ -19,7 +19,7 @@ describe Api::V1::BulletinsController, type: :controller do
         },
         relationships: {
           group: {
-            data: { type: "groups", id: sunday_service.id.to_s }
+            data: { type: "groups", id: english_service.id.to_s }
           }
         }
       }
@@ -33,7 +33,7 @@ describe Api::V1::BulletinsController, type: :controller do
            name: b[:name],
            description: b[:description],
            service_order: b[:"service-order"],
-           group: sunday_service)
+           group: english_service)
   end
 
   let(:valid_attributes) do
@@ -45,7 +45,7 @@ describe Api::V1::BulletinsController, type: :controller do
         },
         relationships: {
           group: {
-            data: { type: "groups", id: sunday_service.id.to_s }
+            data: { type: "groups", id: english_service.id.to_s }
           }
         }
       }
@@ -93,15 +93,15 @@ describe Api::V1::BulletinsController, type: :controller do
 
   describe 'GET /sunday' do
     let!(:bulletin) do
-      create(:bulletin, group: sunday_service, published_at: 20.seconds.ago)
+      create(:bulletin, group: english_service, published_at: 20.seconds.ago)
     end
 
     let!(:old_bulletin) do
-      create(:bulletin, group: sunday_service, published_at: 10.days.ago)
+      create(:bulletin, group: english_service, published_at: 10.days.ago)
     end
 
     let!(:future_bulletin) do
-      create(:bulletin, group: sunday_service, published_at: 10.days.from_now)
+      create(:bulletin, group: english_service, published_at: 10.days.from_now)
     end
 
     before { get :sunday }
@@ -123,6 +123,7 @@ describe Api::V1::BulletinsController, type: :controller do
   describe 'GET /bulletins/:id/previous' do
     let(:bulletin) do
       create(:bulletin_with_announcements,
+             group: english_service,
              published_at: DateTime.iso8601('2011-12-03T04:05:06+04:00'))
     end
 
@@ -156,8 +157,9 @@ describe Api::V1::BulletinsController, type: :controller do
   end
 
   describe 'GET /bulletins/:id/next' do
-    let(:bulletin) do
+    let!(:bulletin) do
       create(:bulletin_with_announcements,
+             group: english_service,
              published_at: DateTime.iso8601('2011-12-03T04:05:06+04:00'))
     end
 
@@ -165,8 +167,9 @@ describe Api::V1::BulletinsController, type: :controller do
       before do
         previous_bulletin =
           create(:bulletin_with_announcements,
-                 group: bulletin.group,
+                 group: english_service,
                  published_at: DateTime.iso8601('2011-12-01T04:05:06+04:00'))
+
         get :next, id: previous_bulletin.id
       end
 
@@ -177,7 +180,7 @@ describe Api::V1::BulletinsController, type: :controller do
       before do
         last_bulletin  =
           create(:bulletin_with_announcements,
-                 group: bulletin.group,
+                 group: english_service,
                  published_at: DateTime.iso8601('2012-12-01T04:05:06+04:00'))
 
         get :next, id: last_bulletin.id
@@ -204,7 +207,7 @@ describe Api::V1::BulletinsController, type: :controller do
           iso_date = valid_attributes[:data][:attributes][:"published-at"]
           create(:bulletin,
                  published_at: DateTime.iso8601(iso_date),
-                 group: sunday_service)
+                 group: english_service)
         end
 
         it_behaves_like 'an action to create a bulletin'

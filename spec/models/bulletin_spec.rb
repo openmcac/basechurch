@@ -42,74 +42,101 @@ RSpec.describe Bulletin, type: :model do
     end
   end
 
-  describe ".previous" do
-    let!(:bulletin) { create(:bulletin, published_at: published_at) }
-    let(:published_at) { 1.year.ago }
-
-    context "when there is a previous bulletin" do
-      let!(:previous_bulletin) do
-        create(:bulletin, published_at: published_at - 5.days, group: bulletin.group)
-      end
-
-      before do
-        # older than previous_bulletin
-        create(:bulletin,
-               published_at: published_at - 6.days,
-               group: bulletin.group)
-
-        # would be the previous bulletin, but belongs to different group
-        create(:bulletin, published_at: published_at - 4.days)
-      end
-
-      it "returns the previous bulletin" do
-        expect(Bulletin.previous(bulletin)).to eq previous_bulletin
-      end
+  describe "pagination" do
+    let(:group) { create(:group) }
+    let!(:bulletins) do
+      [
+        create(:bulletin, group: group, published_at: DateTime.now - 20.days),
+        create(:bulletin, group: group, published_at: DateTime.now - 10.days),
+        create(:bulletin, group: group, published_at: DateTime.now - 5.day)
+      ]
+    end
+    
+    before do
+      create(:bulletin, published_at: DateTime.now - 11.days)
+      create(:bulletin, published_at: DateTime.now - 6.days)
+      create(:bulletin, group: group, published_at: 5.days.from_now)
     end
 
-    context "when there is no previous bulletin" do
-      it "returns nil" do
-        expect(Bulletin.previous(bulletin)).to be_nil
-      end
-    end
-  end
-
-  describe ".next" do
-    let!(:bulletin) { create(:bulletin, published_at: published_at) }
-    let!(:next_bulletin) do
-      create(:bulletin, published_at: published_at + 5.days, group: bulletin.group)
-    end
-
-    context "when the next bulletin has been published" do
-      let(:published_at) { 1.year.ago }
- 
-      before do
-        # later than next_bulletin
-        create(:bulletin,
-               published_at: published_at + 6.days,
-               group: bulletin.group)
-
-        # would be the next bulletin, but belongs to different group
-        create(:bulletin, published_at: published_at + 4.days)
-      end
-
+    describe ".next" do
       it "returns the next bulletin" do
-        expect(Bulletin.next(bulletin)).to eq next_bulletin
+        expect(Bulletin.next(bulletins.second)).to eq bulletins.last
+      end
+
+      context "when the bulletin hasn't been published yet" do
+        subject do
+          b = create(:bulletin, group: group, published_at: 5.days.from_now)
+          Bulletin.next(b, options)
+        end
+
+        let(:options) { {} }
+
+        it { is_expected.to be_nil }
+
+        context "with rollover = true" do
+          let(:options) { { rollover: true } }
+
+          it "rolls over to the first published bulletin" do
+            expect(subject).to eq bulletins.first
+          end
+        end
+      end
+
+      context "when at the latest bulletin" do
+        subject { Bulletin.next(bulletins.last, options) }
+
+        let(:options) { {} }
+
+        it { is_expected.to be_nil }
+
+        context "with rollover = true" do
+          let(:options) { { rollover: true } }
+
+          it "rolls over to the first published bulletin" do
+            expect(subject).to eq bulletins.first
+          end
+        end
       end
     end
 
-    context "when the current bulletin has not been published" do
-      let(:published_at) { 10.days.from_now }
-
-      it "returns nil" do
-        expect(Bulletin.next(bulletin)).to be_nil
+    describe ".previous" do
+      it "returns the previous bulletin" do
+        expect(Bulletin.previous(bulletins.second)).to eq bulletins.first
       end
-    end
 
-    context "when the next bulletin has not been published" do
-      let(:published_at) { 1.second.ago }
+      context "when the bulletin hasn't been published yet" do
+        subject do
+          b = create(:bulletin, group: group, published_at: 5.days.from_now)
+          Bulletin.previous(b, options)
+        end
 
-      it "returns nil" do
-        expect(Bulletin.next(bulletin)).to be_nil
+        let(:options) { {} }
+
+        it { is_expected.to be_nil }
+
+        context "with rollover = true" do
+          let(:options) { { rollover: true } }
+
+          it "rolls over to the last published bulletin" do
+            expect(subject).to eq bulletins.last
+          end
+        end
+      end
+
+      context "when at the earliest bulletin" do
+        subject { Bulletin.previous(bulletins.first, options) }
+
+        let(:options) { {} }
+
+        it { is_expected.to be_nil }
+
+        context "with rollover = true" do
+          let(:options) { { rollover: true } }
+
+          it "rolls over to the last published bulletin" do
+            expect(subject).to eq bulletins.last
+          end
+        end
       end
     end
   end
