@@ -12,17 +12,11 @@ class Api::V1::BulletinsController < ApplicationResourceController
   end
 
   def next
-    next_bulletin = Bulletin.next(@bulletin) ||
-      Bulletin.for_group(@bulletin.group_id).oldest.first
-
-    render_bulletin(next_bulletin)
+    render_bulletin(Bulletin.next(@bulletin, rollover: true))
   end
 
   def previous
-    previous_bulletin = Bulletin.previous(@bulletin) ||
-      Bulletin.for_group(@bulletin.group_id).latest.first
-
-    render_bulletin(previous_bulletin)
+    render_bulletin(Bulletin.previous(@bulletin, rollover: true))
   end
 
   private
