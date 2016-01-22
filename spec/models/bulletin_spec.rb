@@ -63,6 +63,25 @@ RSpec.describe Bulletin, type: :model do
         expect(Bulletin.next(bulletins.second)).to eq bulletins.last
       end
 
+      context "when the bulletin hasn't been published yet" do
+        subject do
+          b = create(:bulletin, group: group, published_at: 5.days.from_now)
+          Bulletin.next(b, options)
+        end
+
+        let(:options) { {} }
+
+        it { is_expected.to be_nil }
+
+        context "with rollover = true" do
+          let(:options) { { rollover: true } }
+
+          it "rolls over to the first published bulletin" do
+            expect(subject).to eq bulletins.first
+          end
+        end
+      end
+
       context "when at the latest bulletin" do
         subject { Bulletin.next(bulletins.last, options) }
 
@@ -83,6 +102,25 @@ RSpec.describe Bulletin, type: :model do
     describe ".previous" do
       it "returns the previous bulletin" do
         expect(Bulletin.previous(bulletins.second)).to eq bulletins.first
+      end
+
+      context "when the bulletin hasn't been published yet" do
+        subject do
+          b = create(:bulletin, group: group, published_at: 5.days.from_now)
+          Bulletin.previous(b, options)
+        end
+
+        let(:options) { {} }
+
+        it { is_expected.to be_nil }
+
+        context "with rollover = true" do
+          let(:options) { { rollover: true } }
+
+          it "rolls over to the last published bulletin" do
+            expect(subject).to eq bulletins.last
+          end
+        end
       end
 
       context "when at the earliest bulletin" do
