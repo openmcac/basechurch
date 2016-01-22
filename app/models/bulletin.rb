@@ -13,6 +13,9 @@ class Bulletin < ActiveRecord::Base
   scope :latest, -> do
     published.order('published_at DESC')
   end
+  scope :oldest, -> do
+    published.order('published_at')
+  end
 
   scope :published, -> { where('published_at <= ?', DateTime.now) }
 

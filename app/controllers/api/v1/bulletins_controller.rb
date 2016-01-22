@@ -13,7 +13,7 @@ class Api::V1::BulletinsController < ApplicationResourceController
 
   def next
     next_bulletin = Bulletin.next(@bulletin) ||
-      Bulletin.for_group(@bulletin.group_id).published.first
+      Bulletin.for_group(@bulletin.group_id).oldest.first
 
     render_bulletin(next_bulletin)
   end
