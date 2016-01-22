@@ -19,24 +19,32 @@ class Bulletin < ActiveRecord::Base
 
   scope :published, -> { where('published_at <= ?', DateTime.now) }
 
-  def self.next(bulletin)
+  def self.next(bulletin, rollover: false)
     return nil unless bulletin.published?
 
-    published.
+    next_bulletin = published.
       where("published_at > ?", bulletin.published_at).
-      where(group_id: bulletin.group_id).
-      order(:published_at).
-      limit(1).
+      for_group(bulletin.group_id).
+      oldest.
       first
+
+    return next_bulletin if next_bulletin
+    return unless rollover
+
+    Bulletin.for_group(bulletin.group_id).oldest.first
   end
 
-  def self.previous(bulletin)
-    published.
+  def self.previous(bulletin, rollover: false)
+    previous_bulletin = published.
       where("published_at < ?", bulletin.published_at).
-      where(group_id: bulletin.group_id).
-      order("published_at DESC").
-      limit(1).
+      for_group(bulletin.group_id).
+      latest.
       first
+
+    return previous_bulletin if previous_bulletin
+    return unless rollover
+
+    Bulletin.for_group(bulletin.group_id).latest.first
   end
 
   def published?
