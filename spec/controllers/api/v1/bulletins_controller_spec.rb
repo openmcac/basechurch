@@ -157,7 +157,7 @@ describe Api::V1::BulletinsController, type: :controller do
   end
 
   describe 'GET /bulletins/:id/next' do
-    let(:bulletin) do
+    let!(:bulletin) do
       create(:bulletin_with_announcements,
              group: english_service,
              published_at: DateTime.iso8601('2011-12-03T04:05:06+04:00'))
@@ -169,8 +169,6 @@ describe Api::V1::BulletinsController, type: :controller do
           create(:bulletin_with_announcements,
                  group: english_service,
                  published_at: DateTime.iso8601('2011-12-01T04:05:06+04:00'))
-
-        bulletin
 
         get :next, id: previous_bulletin.id
       end
@@ -184,8 +182,6 @@ describe Api::V1::BulletinsController, type: :controller do
           create(:bulletin_with_announcements,
                  group: english_service,
                  published_at: DateTime.iso8601('2012-12-01T04:05:06+04:00'))
-
-        bulletin
 
         get :next, id: last_bulletin.id
       end
