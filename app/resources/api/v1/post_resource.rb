@@ -1,6 +1,6 @@
 class Api::V1::PostResource < JSONAPI::Resource
-  before_create :set_author_as_current_user
-  before_update :set_editor_as_current_user
+  after_replace_fields :set_author_as_current_user
+  after_replace_fields :set_editor_as_current_user
 
   attributes :banner_url,
              :content,
@@ -42,7 +42,7 @@ class Api::V1::PostResource < JSONAPI::Resource
   end
 
   def set_author_as_current_user
-    @model.author = context[:current_user]
+    @model.author ||= context[:current_user]
   end
 
   def set_editor_as_current_user
