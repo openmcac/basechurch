@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150913035436) do
+ActiveRecord::Schema.define(version: 20160309214255) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "post_id"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20150913035436) do
     t.datetime "published_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "kind",         default: 0
   end
 
   add_index "posts", ["author_id"], name: "index_posts_on_author_id"

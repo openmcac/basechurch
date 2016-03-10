@@ -21,6 +21,8 @@ class Post < ActiveRecord::Base
 
   attr_accessor :display_published_at
 
+  enum kind: [:post, :page]
+
   private
 
   def populate_published_at

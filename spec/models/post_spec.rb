@@ -9,6 +9,32 @@ RSpec.describe Post, type: :model do
     it_behaves_like "an attachment"
   end
 
+  context "#post?" do
+    it "is a post by default" do
+      expect(create(:post)).to be_post
+    end
+
+    context "when the post is a page" do
+      subject { create(:post, kind: :page) }
+
+      it { is_expected.not_to be_post }
+    end
+  end
+
+  context "#page?" do
+    context "when the post is a page" do
+      subject { create(:post, kind: :page) }
+
+      it { is_expected.to be_page }
+    end
+
+    context "when the post is not a page" do
+      subject { create(:post) }
+
+      it { is_expected.not_to be_page }
+    end
+  end
+
   context 'validations' do
     it 'requires content' do
       expect(build(:post, content: '')).to_not be_valid

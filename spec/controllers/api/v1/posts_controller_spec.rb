@@ -13,7 +13,8 @@ describe Api::V1::PostsController, type: :controller do
           content: Forgery(:lorem_ipsum).words(10),
           :"published-at" => DateTime.now.to_time.iso8601,
           tags: ["tag1", "tag2", "tag3"],
-          title: Forgery(:lorem_ipsum).title
+          title: Forgery(:lorem_ipsum).title,
+          kind: "post"
         },
         relationships: {
           group: {
@@ -57,6 +58,7 @@ describe Api::V1::PostsController, type: :controller do
       expect(attributes["slug"]).to eq expected_post.slug
       expect(attributes["tags"]).to eq expected_post.tag_list
       expect(attributes["title"]).to eq expected_post.title
+      expect(attributes["kind"]).to eq expected_post.kind
       expect(attributes["published-at"]).
         to eq expected_post.published_at.to_time.localtime("+00:00").iso8601
 
@@ -96,6 +98,7 @@ describe Api::V1::PostsController, type: :controller do
         its(:group) { should == group }
         its(:title) { should == post_params[:data][:attributes][:title] }
         its(:tag_list) { should == expected_tags }
+        its(:kind) { should == expected_kind }
 
         it_behaves_like 'a response containing a post'
       end
@@ -133,6 +136,7 @@ describe Api::V1::PostsController, type: :controller do
         its(:group) { should == group }
         its(:title) { should == post_params[:data][:attributes][:title] }
         its(:tag_list) { should == expected_tags }
+        its(:kind) { should == expected_kind }
 
         it_behaves_like 'a response containing a post'
       end
@@ -160,12 +164,24 @@ describe Api::V1::PostsController, type: :controller do
       context 'with minimum params required' do
         let(:post_params) { valid_attributes }
         let(:expected_tags) { [] }
+        let(:expected_kind) { "post" }
         it_behaves_like 'an action to create a post'
       end
 
       context 'with all params provided' do
         let(:post_params) { all_attributes }
         let(:expected_tags) { all_attributes[:data][:attributes][:tags] }
+        let(:expected_kind) { "post" }
+        it_behaves_like 'an action to create a post'
+      end
+
+      context 'when creating a page' do
+        let(:post_params) do
+          all_attributes[:data][:attributes][:kind] = "page"
+          all_attributes
+        end
+        let(:expected_tags) { all_attributes[:data][:attributes][:tags] }
+        let(:expected_kind) { "page" }
         it_behaves_like 'an action to create a post'
       end
 
@@ -205,6 +221,7 @@ describe Api::V1::PostsController, type: :controller do
           valid_attributes
         end
         let(:expected_tags) { [] }
+        let(:expected_kind) { post_to_update.kind.to_s }
 
         it_behaves_like 'an action to update a post'
       end
@@ -213,9 +230,11 @@ describe Api::V1::PostsController, type: :controller do
         let(:post_params) do
           all_attributes[:data][:id] = post_to_update.id
           all_attributes[:id] = post_to_update.id
+          all_attributes[:data][:attributes][:kind] = "page"
           all_attributes
         end
         let(:expected_tags) { post_params[:data][:attributes][:tags] }
+        let(:expected_kind) { post_params[:data][:attributes][:kind] }
 
         let(:expected_published_at) do
           DateTime.iso8601(post_params[:data][:attributes][:"published-at"])

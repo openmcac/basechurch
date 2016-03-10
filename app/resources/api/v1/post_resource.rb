@@ -4,10 +4,11 @@ class Api::V1::PostResource < JSONAPI::Resource
 
   attributes :banner_url,
              :content,
-             :slug,
-             :title,
              :group_slug,
-             :tags
+             :kind,
+             :slug,
+             :tags,
+             :title
 
   attribute :published_at, format: :iso8601
   attribute :updated_at, format: :iso8601
@@ -16,7 +17,7 @@ class Api::V1::PostResource < JSONAPI::Resource
   has_one :editor, class_name: 'User'
   has_one :group
 
-  filter :group
+  filters :group, :slug, :group_id, :kind
 
   def group_slug
     @model.group.slug
