@@ -159,6 +159,14 @@ describe Api::V1::PostsController, type: :controller do
     it_behaves_like 'a response containing a post'
   end
 
+  describe "GET /posts" do
+    before { get :index }
+
+    it "does not require authentication" do
+      expect(response.status).to eq 200
+    end
+  end
+
   describe 'POST /posts/:id' do
     context 'with an authenticated user' do
       context 'with minimum params required' do
