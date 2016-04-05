@@ -1,5 +1,5 @@
 class Api::V1::UserResource < JSONAPI::Resource
-  attributes :name, :email, :api_key, :client_id
+  attributes :name, :email, :password
 
   def api_key
     @model.tokens.values.first["token"]
@@ -7,5 +7,9 @@ class Api::V1::UserResource < JSONAPI::Resource
 
   def client_id
     @model.tokens.keys.first
+  end
+
+  def fetchable_fields
+    super - [:password]
   end
 end
