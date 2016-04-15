@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309214255) do
+ActiveRecord::Schema.define(version: 20160414233629) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "post_id"
@@ -79,6 +79,9 @@ ActiveRecord::Schema.define(version: 20160309214255) do
     t.datetime "updated_at"
     t.string   "slug"
     t.text     "about"
+    t.string   "short_description", null: false
+    t.string   "target_audience",   null: false
+    t.string   "meet_details",      null: false
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true
