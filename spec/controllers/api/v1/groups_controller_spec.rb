@@ -6,7 +6,8 @@ describe Api::V1::GroupsController, type: :controller do
     create(:group,
            created_at: DateTime.iso8601("2001-02-03T04:05:06+07:00"),
            about: Forgery(:lorem_ipsum).text,
-           banner_url: "http://#{Forgery(:internet).domain_name}")
+           banner_url: "http://#{Forgery(:internet).domain_name}",
+           profile_picture_url: "http://#{Forgery(:internet).domain_name}")
   end
 
   shared_examples_for "a group payload" do
@@ -15,11 +16,15 @@ describe Api::V1::GroupsController, type: :controller do
       attributes = data["attributes"]
       expect(data["id"]).to eq group.id.to_s
       expect(data["type"]).to eq "groups"
-      expect(attributes["name"]).to eq group.name
-      expect(attributes["slug"]).to eq group.slug
       expect(attributes["about"]).to eq group.about
       expect(attributes["banner-url"]).to eq group.banner_url
       expect(attributes["created-at"]).to eq "2001-02-02T21:05:06+00:00"
+      expect(attributes["meet-details"]).to eq group.meet_details
+      expect(attributes["name"]).to eq group.name
+      expect(attributes["profile-picture-url"]).to eq group.profile_picture_url
+      expect(attributes["short-description"]).to eq group.short_description
+      expect(attributes["slug"]).to eq group.slug
+      expect(attributes["target-audience"]).to eq group.target_audience
     end
   end
 
