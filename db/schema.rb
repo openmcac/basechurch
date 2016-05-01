@@ -79,9 +79,9 @@ ActiveRecord::Schema.define(version: 20160414233629) do
     t.datetime "updated_at"
     t.string   "slug"
     t.text     "about"
-    t.string   "short_description", null: false
-    t.string   "target_audience",   null: false
-    t.string   "meet_details",      null: false
+    t.string   "short_description"
+    t.string   "target_audience"
+    t.string   "meet_details"
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true
