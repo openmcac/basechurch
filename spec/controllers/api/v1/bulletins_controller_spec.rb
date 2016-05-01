@@ -92,10 +92,6 @@ describe Api::V1::BulletinsController, type: :controller do
   end
 
   describe 'GET /sunday' do
-    let!(:bulletin) do
-      create(:bulletin, group: english_service, published_at: 20.seconds.ago)
-    end
-
     let!(:old_bulletin) do
       create(:bulletin, group: english_service, published_at: 10.days.ago)
     end
@@ -104,9 +100,25 @@ describe Api::V1::BulletinsController, type: :controller do
       create(:bulletin, group: english_service, published_at: 10.days.from_now)
     end
 
-    before { get :sunday }
+    context "with more than 15 minutes before the service starts" do
+      let!(:bulletin) do
+        create(:bulletin, group: english_service, published_at: 20.seconds.ago)
+      end
 
-    it_behaves_like 'a response containing a bulletin'
+      before { get :sunday }
+
+      it_behaves_like 'a response containing a bulletin'
+    end
+
+    context "when it is 15 minutes before the service starts" do
+      let!(:bulletin) do
+        create(:bulletin, group: english_service, published_at: 15.minutes.from_now)
+      end
+
+      before { get :sunday }
+
+      it_behaves_like 'a response containing a bulletin'
+    end
   end
 
   describe 'GET /bulletins/:id' do
