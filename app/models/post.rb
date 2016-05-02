@@ -26,7 +26,7 @@ class Post < ActiveRecord::Base
   private
 
   def populate_published_at
-    self.published_at = published_at_or_now
+    self.published_at = published_at_or_now if self.published_at.nil?
   end
 
   def published_at_or_now

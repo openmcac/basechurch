@@ -70,13 +70,41 @@ RSpec.describe Post, type: :model do
   end
 
   context '#before_save' do
-    let(:published_at) { DateTime.now }
-    let(:post) do
-      create(:post, display_published_at: published_at.iso8601)
+    context "with a display_published_at" do
+      let(:published_at) { DateTime.new(2015, 1, 2) }
+      let(:post) do
+        create(:post, display_published_at: published_at.iso8601)
+      end
+      
+      it 'populates #published_at with a DateTime equivalent' do
+        expect(post.published_at.to_i).to eq(published_at.to_i)
+      end
     end
 
-    it 'populates #published_at with a DateTime equivalent' do
-      expect(post.published_at.to_i).to eq(published_at.to_i)
+    context "without a #display_published_at" do
+      let(:post) do
+        create(:post, display_published_at: "")
+      end
+
+      it "sets #published_at to the current time" do
+        expect(post.published_at).to be_within(1.second).of DateTime.now
+      end
+
+      context "when it already has a published_at set" do
+        let(:published_at) { DateTime.new(2000, 2, 3) }
+
+        let(:post) do
+          create(:post, published_at: published_at)
+        end
+
+        before do
+          post.editor = create(:user)
+        end
+
+        it "doesn't update published_at" do
+          expect { post.save! }.not_to change { post.published_at } 
+        end
+      end
     end
   end
 
