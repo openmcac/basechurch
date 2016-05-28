@@ -3,7 +3,12 @@ class Api::V1::BulletinsController < ApplicationResourceController
   before_action :fetch_bulletin, only: [:next, :previous]
 
   def sunday
-    render_bulletin Bulletin.english_service.latest.first
+    sunday_bulletin = Bulletin.english_service.
+      where("published_at <= ?", 15.minutes.from_now).
+      order("published_at DESC").
+      first
+
+    render_bulletin sunday_bulletin
   end
 
   def sign
