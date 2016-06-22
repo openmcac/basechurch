@@ -1,14 +1,18 @@
 class Api::V1::GroupResource < JSONAPI::Resource
-  attributes :name, :slug, :about, :banner_url
+  attributes :about,
+             :banner_url,
+             :meet_details,
+             :name,
+             :profile_picture_url,
+             :short_description,
+             :slug,
+             :target_audience
+
   attribute :created_at, format: :iso8601
 
   has_many :posts
 
   filter :slug
-
-  def banner_url
-    @model.banner_url
-  end
 
   def self.apply_filter(records, filter, value, options)
     case filter
