@@ -22,7 +22,8 @@ RSpec.describe MigrateSermons, type: :model do
         create(:bulletin,
                audio_url: "http://nba.com/audio.mp3",
                published_at: DateTime.now,
-               sermon_notes: "These are sermon notes")
+               sermon_notes: "These are sermon notes",
+               description: "random desc")
       end
 
       before { MigrateSermons.new.process }
@@ -32,8 +33,9 @@ RSpec.describe MigrateSermons, type: :model do
         expect(subject.group_id).to eq bulletin.group_id
         expect(subject.notes).to eq bulletin.sermon_notes
         expect(subject.published_at).to eq bulletin.published_at
-        expect(subject.speaker).to eq "MCAC"
         expect(subject.series).to be_nil
+        expect(subject.speaker).to eq "MCAC"
+        expect(subject.name).to eq bulletin.description
       end
     end
 
@@ -43,7 +45,8 @@ RSpec.describe MigrateSermons, type: :model do
           speaker_values.each do |s|
             create(:bulletin,
                    audio_url: "http://nba.com/audio.mp3",
-                   service_order: "what #{s} what")
+                   service_order: "what #{s} what",
+                   description: "random desc")
             MigrateSermons.new.process
             expect(Sermon.last.speaker).to eq expected_speaker
           end

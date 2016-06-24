@@ -26,4 +26,12 @@ RSpec.describe Sermon, :type => :model do
     let(:update_attributes) { {} }
     it_behaves_like "an attachment"
   end
+
+  context "#banner" do
+    let(:field) { "banner" }
+    let(:factory_name) { :sermon }
+    let(:class_name) { "Sermon" }
+    let(:update_attributes) { {} }
+    it_behaves_like "an attachment"
+  end
 end

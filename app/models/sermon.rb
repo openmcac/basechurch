@@ -6,4 +6,5 @@ class Sermon < ActiveRecord::Base
   validates :speaker, presence: true
 
   has_attachment :audio
+  has_attachment :banner
 end

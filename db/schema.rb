@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621012226) do
+ActiveRecord::Schema.define(version: 20160624024551) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "post_id"
@@ -57,7 +57,10 @@ ActiveRecord::Schema.define(version: 20160621012226) do
     t.datetime "updated_at"
     t.integer  "group_id"
     t.text     "sermon_notes"
+    t.integer  "sermon_id"
   end
+
+  add_index "bulletins", ["sermon_id"], name: "index_bulletins_on_sermon_id"
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -105,6 +108,7 @@ ActiveRecord::Schema.define(version: 20160621012226) do
 
   create_table "sermons", force: :cascade do |t|
     t.integer  "group_id"
+    t.string   "name",         null: false
     t.datetime "published_at", null: false
     t.text     "notes"
     t.string   "speaker",      null: false

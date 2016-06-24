@@ -170,16 +170,16 @@ RSpec.describe Bulletin, type: :model do
     end
   end
 
-  context "#banner" do
-    let(:field) { "banner" }
-    let(:factory_name) { :bulletin }
-    let(:class_name) { "Bulletin" }
-    let(:update_attributes) { {} }
-    it_behaves_like "an attachment"
+  describe "#sermon" do
+    let(:sermon) { build(:sermon) }
+
+    it "can be associated to a sermon" do
+      expect(build(:bulletin, sermon: sermon).sermon).to eq sermon
+    end
   end
 
-  context "#audio" do
-    let(:field) { "audio" }
+  context "#banner" do
+    let(:field) { "banner" }
     let(:factory_name) { :bulletin }
     let(:class_name) { "Bulletin" }
     let(:update_attributes) { {} }

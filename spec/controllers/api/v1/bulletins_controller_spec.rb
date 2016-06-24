@@ -14,7 +14,6 @@ describe Api::V1::BulletinsController, type: :controller do
         attributes: {
           :"published-at" => DateTime.now.to_time.iso8601,
           name: Forgery(:lorem_ipsum).title,
-          description: Forgery(:lorem_ipsum).words(10),
           :"service-order" => Forgery(:lorem_ipsum).words(10),
         },
         relationships: {
@@ -31,7 +30,6 @@ describe Api::V1::BulletinsController, type: :controller do
     create(:bulletin,
            published_at: DateTime.iso8601(b[:"published-at"]),
            name: b[:name],
-           description: b[:description],
            service_order: b[:"service-order"],
            group: english_service)
   end
@@ -79,11 +77,9 @@ describe Api::V1::BulletinsController, type: :controller do
       attributes = data["attributes"]
       expect(attributes["audioUrl"]).to eq bulletin.audio_url
       expect(attributes["bannerUrl"]).to eq bulletin.banner_url
-      expect(attributes["description"]).to eq bulletin.description
       expect(attributes["name"]).to eq bulletin.name
       expect(attributes["published-at"]).
         to eq bulletin.published_at.to_time.localtime("+00:00").iso8601
-      expect(attributes["sermonNotes"]).to eq bulletin.sermon_notes
       expect(attributes["service-order"]).to eq bulletin.service_order
 
       expect(data["relationships"]).to have_key("group")
