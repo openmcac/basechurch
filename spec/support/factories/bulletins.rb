@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :bulletin do
     group
-    published_at DateTime.now
+    published_at { DateTime.now }
 
     factory :bulletin_with_announcements do
       transient do
