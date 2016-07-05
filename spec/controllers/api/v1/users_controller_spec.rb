@@ -81,6 +81,25 @@ describe Api::V1::UsersController, type: :controller do
     it_behaves_like "a user payload"
   end
 
+  describe "GET /users" do
+    let(:perform_action) { get :index }
+
+    it_behaves_like "an authenticated action"
+
+    context "when the user is authenticated" do
+      before do
+        auth_headers =
+          user.create_new_auth_token.
+               merge("Content-Type" => "application/vnd.api+json")
+        @request.headers.merge!(auth_headers)
+      end
+
+      subject { response.status }
+
+      it { is_expected.to eq 200 }
+    end
+  end
+
   describe 'PUT /users/:id' do
     context 'with an authenticated user' do
       let(:user_to_update) { create(:user) }
