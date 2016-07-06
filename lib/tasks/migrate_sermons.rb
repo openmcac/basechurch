@@ -2,12 +2,14 @@ class MigrateSermons
   def process
     Bulletin.find_each do |b|
       next unless b.audio_url
-      Sermon.create!(group_id: b.group_id,
-                     published_at: b.published_at,
-                     name: b.description,
-                     audio_url: b.audio_url,
-                     notes: b.sermon_notes,
-                     speaker: speaker(b.service_order))
+      sermon =
+        Sermon.create!(group_id: b.group_id,
+                       published_at: b.published_at,
+                       name: b.description,
+                       audio_url: b.audio_url,
+                       notes: b.sermon_notes,
+                       speaker: speaker(b.service_order))
+      b.update_attribute(:sermon_id, sermon.id)
     end
   end
 

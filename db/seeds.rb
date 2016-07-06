@@ -33,8 +33,10 @@ unless Rails.env.production?
                       name: Forgery('lorem_ipsum').title(random: true),
                       description: "#{ Forgery('lorem_ipsum').word(random: true).capitalize } #{ Forgery('lorem_ipsum').words(Random.rand(5), random: true) }",
                       service_order: service_order,
-                      sermon_notes: Forgery('email').body(random: true),
-                      audio_url: "https://mcac.s3.amazonaws.com/bulletins/70422ae2-7a4a-4932-93d6-3c5cf057f62c.mp3")
+                      sermon_notes: Forgery('email').body(random: true))
+
+    bulletin.audio_url = "https://mcac.s3.amazonaws.com/bulletins/70422ae2-7a4a-4932-93d6-3c5cf057f62c.mp3"
+    bulletin.save!
 
     (6 + Random.rand(5)).times do
       bulletin.announcements.build(description: Forgery('lorem_ipsum').sentences(Random.rand(7), random: true)).save

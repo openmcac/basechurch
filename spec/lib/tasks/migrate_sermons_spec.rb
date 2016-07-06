@@ -36,6 +36,7 @@ RSpec.describe MigrateSermons, type: :model do
         expect(subject.series).to be_nil
         expect(subject.speaker).to eq "MCAC"
         expect(subject.name).to eq bulletin.description
+        expect(bulletin.reload.sermon).to eq subject
       end
     end
 
