@@ -9,9 +9,10 @@ group = Group.create!(name: 'English Service',
 The 2016 Church theme is [Equip to Shepherd](http://mcac.church/english-service/2016-church-theme-equip-to-shepherd). *“...to equip his people for works of service, so that the body of Christ may be built up”* (Ephesians 4:12)
 
 How can we pray for you? Let us know by [filling out a prayer request card](http://goo.gl/forms/vVNZxMsFFO).")
-User.create!(email: 'test@example.com',
-             password: 'password',
-             provider: "email")
+
+user = User.create!(email: 'test@example.com',
+                    password: 'password',
+                    provider: "email")
 
 def service_order
   " - ## Call to Worship
@@ -25,21 +26,34 @@ def service_order
  - ## Benediction"
 end
 
+def create_bulletin!(group)
+  bulletin =
+    Bulletin.create!(published_at: Random.rand(1000).days.ago,
+                    group: group,
+                    name: Forgery('lorem_ipsum').title(random: true),
+                    description: "#{ Forgery('lorem_ipsum').word(random: true).capitalize } #{ Forgery('lorem_ipsum').words(Random.rand(5), random: true) }",
+                    service_order: service_order,
+                    sermon_notes: Forgery('email').body(random: true))
+
+  bulletin.audio_url = "https://mcac.s3.amazonaws.com/bulletins/70422ae2-7a4a-4932-93d6-3c5cf057f62c.mp3"
+  bulletin.save!
+
+  (6 + Random.rand(5)).times do
+    bulletin.announcements.build(description: Forgery('lorem_ipsum').sentences(Random.rand(7), random: true)).save
+  end
+end
+
+def create_post!(group, author)
+  Post.create!(published_at: Random.rand(1000).days.ago,
+               group: group,
+               author: author,
+               title: Forgery('lorem_ipsum').title(random: true),
+               content: Forgery('email').body(random: true))
+end
+
 unless Rails.env.production?
   100.times do
-    bulletin =
-      Bulletin.create!(published_at: Random.rand(1000).days.ago,
-                      group: group,
-                      name: Forgery('lorem_ipsum').title(random: true),
-                      description: "#{ Forgery('lorem_ipsum').word(random: true).capitalize } #{ Forgery('lorem_ipsum').words(Random.rand(5), random: true) }",
-                      service_order: service_order,
-                      sermon_notes: Forgery('email').body(random: true))
-
-    bulletin.audio_url = "https://mcac.s3.amazonaws.com/bulletins/70422ae2-7a4a-4932-93d6-3c5cf057f62c.mp3"
-    bulletin.save!
-
-    (6 + Random.rand(5)).times do
-      bulletin.announcements.build(description: Forgery('lorem_ipsum').sentences(Random.rand(7), random: true)).save
-    end
+    create_bulletin!(group)
+    create_post!(group, user)
   end
 end
