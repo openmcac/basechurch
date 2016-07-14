@@ -32,7 +32,8 @@ RSpec.describe MigrateSermons, type: :model do
         expect(subject.audio_url).to eq bulletin.audio_url
         expect(subject.group_id).to eq bulletin.group_id
         expect(subject.notes).to eq bulletin.sermon_notes
-        expect(subject.published_at).to eq bulletin.published_at
+        expect(subject.published_at).
+          to be_within(1.second).of(bulletin.published_at)
         expect(subject.series).to be_nil
         expect(subject.speaker).to eq "MCAC"
         expect(subject.name).to eq bulletin.description
