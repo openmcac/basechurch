@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414233629) do
+ActiveRecord::Schema.define(version: 20160624024551) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "post_id"
@@ -57,7 +57,10 @@ ActiveRecord::Schema.define(version: 20160414233629) do
     t.datetime "updated_at"
     t.integer  "group_id"
     t.text     "sermon_notes"
+    t.integer  "sermon_id"
   end
+
+  add_index "bulletins", ["sermon_id"], name: "index_bulletins_on_sermon_id"
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -102,6 +105,19 @@ ActiveRecord::Schema.define(version: 20160414233629) do
   add_index "posts", ["author_id"], name: "index_posts_on_author_id"
   add_index "posts", ["editor_id"], name: "index_posts_on_editor_id"
   add_index "posts", ["group_id"], name: "index_posts_on_group_id"
+
+  create_table "sermons", force: :cascade do |t|
+    t.integer  "group_id"
+    t.string   "name",         null: false
+    t.datetime "published_at", null: false
+    t.text     "notes"
+    t.string   "speaker",      null: false
+    t.string   "series"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "sermons", ["group_id"], name: "index_sermons_on_group_id"
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"

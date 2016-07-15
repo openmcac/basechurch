@@ -1,22 +1,17 @@
 class Bulletin < ActiveRecord::Base
   belongs_to :group
+  belongs_to :sermon
   has_many :announcements
+  has_attachment :audio # TODO remove when sermons fully migrated
+  has_attachment :banner
 
   validates :group, presence: true
   validates :published_at, presence: true
 
-  has_attachment :banner
-  has_attachment :audio
-
   scope :english_service, -> { for_group(1) }
   scope :for_group, -> (group_id) { where(group_id: group_id) }
-  scope :latest, -> do
-    published.order('published_at DESC')
-  end
-  scope :oldest, -> do
-    published.order('published_at')
-  end
-
+  scope :latest, -> { published.order('published_at DESC') }
+  scope :oldest, -> { published.order('published_at') }
   scope :published, -> { where('published_at <= ?', DateTime.now) }
 
   def self.next(bulletin, rollover: false)

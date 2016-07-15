@@ -2,29 +2,17 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::BulletinResource, type: :resource do
   let(:bulletin) do
-    create(:bulletin_with_announcements,
-           banner_url: "http://banner.com",
-           audio_url: "http://audio.com",
-           sermon_notes: "these are sermon notes")
+    create(:bulletin_with_announcements, banner_url: "http://banner.com")
   end
   let(:resource) { Api::V1::BulletinResource.new(bulletin, nil) }
-  let(:group_resource) { Api::V1::GroupResource.new(bulletin.group, nil) }
 
   subject { resource }
 
-  its(:audio_url) { is_expected.to eq(bulletin.audio_url) }
   its(:banner_url) { is_expected.to eq(bulletin.banner_url) }
-  its(:description) { is_expected.to eq(bulletin.description) }
   its(:id) { is_expected.to eq(bulletin.id) }
   its(:name) { is_expected.to eq(bulletin.name) }
   its(:published_at) { is_expected.to eq(bulletin.published_at) }
-  its(:sermon_notes) { is_expected.to eq(bulletin.sermon_notes) }
   its(:service_order) { is_expected.to eq(bulletin.service_order) }
-
-  describe "#group" do
-    subject { resource.group.id }
-    it { is_expected.to eq(group_resource.id) }
-  end
 
   describe 'apply_filter' do
     let(:records) { Bulletin.all }
@@ -36,7 +24,7 @@ RSpec.describe Api::V1::BulletinResource, type: :resource do
     end
 
     context 'when filter is something else' do
-      let(:filter) { 'description' }
+      let(:filter) { 'name' }
       let(:value) { 'whatever' }
 
       it { is_expected.to eq([]) }

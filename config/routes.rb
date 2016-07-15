@@ -16,6 +16,12 @@ Rails.application.routes.draw do
         get "sign", on: :collection
       end
 
+      jsonapi_resources :sermons do
+        jsonapi_relationships
+
+        get "sign", on: :collection
+      end
+
       jsonapi_resources :bulletins do
         jsonapi_relationships
 

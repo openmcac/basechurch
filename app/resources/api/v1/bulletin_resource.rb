@@ -1,14 +1,10 @@
 class Api::V1::BulletinResource < JSONAPI::Resource
-  attributes :description,
-             :name,
-             :service_order,
-             :banner_url,
-             :audio_url,
-             :sermon_notes
+  attributes :name, :service_order, :banner_url
 
   attribute :published_at, format: :iso8601
 
   has_one :group
+  has_one :sermon
   has_many :announcements
 
   filter :latest_for_group
