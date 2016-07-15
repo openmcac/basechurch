@@ -27,16 +27,22 @@ def service_order
 end
 
 def create_bulletin!(group)
-  bulletin =
-    Bulletin.create!(published_at: Random.rand(1000).days.ago,
-                    group: group,
-                    name: Forgery('lorem_ipsum').title(random: true),
-                    description: "#{ Forgery('lorem_ipsum').word(random: true).capitalize } #{ Forgery('lorem_ipsum').words(Random.rand(5), random: true) }",
-                    service_order: service_order,
-                    sermon_notes: Forgery('email').body(random: true))
+  order = service_order
 
-  bulletin.audio_url = "https://mcac.s3.amazonaws.com/bulletins/70422ae2-7a4a-4932-93d6-3c5cf057f62c.mp3"
-  bulletin.save!
+  sermon =
+    Sermon.create!(group_id: group.id,
+                   published_at: Random.rand(1000).days.ago,
+                   name: Forgery('lorem_ipsum').title(random: true),
+                   audio_url: "https://mcac.s3.amazonaws.com/bulletins/70422ae2-7a4a-4932-93d6-3c5cf057f62c.mp3",
+                   notes: Forgery('email').body(random: true),
+                   speaker: speaker(order))
+
+  bulletin =
+    Bulletin.create!(published_at: sermon.published_at,
+                     group: group,
+                     name: Forgery('lorem_ipsum').title(random: true),
+                     service_order: order,
+                     sermon_id: sermon.id)
 
   (6 + Random.rand(5)).times do
     bulletin.announcements.build(description: Forgery('lorem_ipsum').sentences(Random.rand(7), random: true)).save
@@ -49,6 +55,14 @@ def create_post!(group, author)
                author: author,
                title: Forgery('lorem_ipsum').title(random: true),
                content: Forgery('email').body(random: true))
+end
+
+def speaker(string)
+  return "Pastor Ryan Lee" if string =~ /ryan|lee/i
+  return "Rev. Marshall Davis" if string =~ /marshall|davis/i
+  return "Rev. Thomas Chan" if string =~ /thomas|chan/i
+
+  return "MCAC"
 end
 
 unless Rails.env.production?
