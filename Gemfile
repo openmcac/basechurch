@@ -34,16 +34,11 @@ group :development, :test do
   gem "pry-nav"
   gem "pry-rails"
   gem "pry-remote"
-  gem "sqlite3"
   gem "travis", "~> 1.5.0"
 end
 
 group :development, :test, :staging do
   gem "forgery"
-end
-
-group :staging, :production do
-  gem "pg"
 end
 
 group :assets do
@@ -63,6 +58,7 @@ gem "friendly_id", "~> 5.0.0"
 gem "jbuilder", "~> 2.2.6"
 gem "jsonapi-resources", "~> 0.6.1"
 gem "omniauth-facebook"
+gem "pg"
 gem "rack-cors", require: "rack/cors"
 gem "rack-rewrite", "~> 1.5.0"
 gem "rails", "~> 4.2.4"
