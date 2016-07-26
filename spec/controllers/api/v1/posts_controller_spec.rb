@@ -56,7 +56,7 @@ describe Api::V1::PostsController, type: :controller do
 
       expect(attributes["content"]).to eq expected_post.content
       expect(attributes["slug"]).to eq expected_post.slug
-      expect(attributes["tags"]).to eq expected_post.tag_list
+      expect(attributes["tags"]).to match_array(expected_post.tag_list)
       expect(attributes["title"]).to eq expected_post.title
       expect(attributes["kind"]).to eq expected_post.kind
       expect(attributes["published-at"]).
@@ -97,7 +97,7 @@ describe Api::V1::PostsController, type: :controller do
         its(:content) { should == post_params[:data][:attributes][:content] }
         its(:group) { should == group }
         its(:title) { should == post_params[:data][:attributes][:title] }
-        its(:tag_list) { should == expected_tags }
+        its(:tag_list) { is_expected.to match_array(expected_tags) }
         its(:kind) { should == expected_kind }
 
         it_behaves_like 'a response containing a post'
@@ -135,7 +135,7 @@ describe Api::V1::PostsController, type: :controller do
         its(:content) { should == post_params[:data][:attributes][:content] }
         its(:group) { should == group }
         its(:title) { should == post_params[:data][:attributes][:title] }
-        its(:tag_list) { should == expected_tags }
+        its(:tag_list) { is_expected.to match_array(expected_tags) }
         its(:kind) { should == expected_kind }
 
         it_behaves_like 'a response containing a post'

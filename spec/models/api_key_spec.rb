@@ -67,7 +67,7 @@ RSpec.describe ApiKey, type: :model do
 
     context 'session scope' do
       it 'returns all keys with session scope' do
-        expect(ApiKey.session).to eq(session_keys)
+        expect(ApiKey.session).to match_array(session_keys)
       end
     end
   end

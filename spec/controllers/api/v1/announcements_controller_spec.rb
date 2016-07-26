@@ -126,10 +126,12 @@ RSpec.describe Api::V1::AnnouncementsController, type: :controller do
 
           bulletin.reload
 
-          expect(bulletin.announcements[0].position).to eq(1)
-          expect(bulletin.announcements[1].position).to eq(3)
-          expect(bulletin.announcements[2].position).to eq(4)
-          expect(bulletin.announcements[3].position).to eq(2)
+          ordered_announcements = bulletin.announcements.order(:id)
+
+          expect(ordered_announcements[0].position).to eq(1)
+          expect(ordered_announcements[1].position).to eq(3)
+          expect(ordered_announcements[2].position).to eq(4)
+          expect(ordered_announcements[3].position).to eq(2)
         end
       end
     end
@@ -218,12 +220,13 @@ RSpec.describe Api::V1::AnnouncementsController, type: :controller do
 
         context 'with minimum params required' do
           let(:announcement_id) { announcement.id }
+          let(:ordered_announcements) { bulletin.announcements.order(:id) }
           before { bulletin.reload }
 
           it 'moves existing announcement to position specified' do
-            expect(bulletin.announcements[0].position).to eq(1)
-            expect(bulletin.announcements[1].position).to eq(3)
-            expect(bulletin.announcements[2].position).to eq(2)
+            expect(ordered_announcements[0].position).to eq(1)
+            expect(ordered_announcements[1].position).to eq(3)
+            expect(ordered_announcements[2].position).to eq(2)
           end
         end
       end

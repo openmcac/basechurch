@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Api::V1::BulletinsController, type: :controller do
   let(:english_service) do
-    create(:group)
+    create(:group, slug: "english-service")
   end
 
   let(:user) { create(:user) }

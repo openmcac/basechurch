@@ -8,7 +8,7 @@ class Bulletin < ActiveRecord::Base
   validates :group, presence: true
   validates :published_at, presence: true
 
-  scope :english_service, -> { for_group(1) }
+  scope :english_service, -> { joins(:group).where(groups: { slug: "english-service" }) }
   scope :for_group, -> (group_id) { where(group_id: group_id) }
   scope :latest, -> { published.order('published_at DESC') }
   scope :oldest, -> { published.order('published_at') }
