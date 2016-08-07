@@ -26,12 +26,17 @@ class Api::V1::BulletinsController < ApplicationResourceController
 
   private
 
+  def serialization_options
+    return {} unless params.has_key?("include")
+    { include: params[:include].split(",") }
+  end
+
   def render_bulletin(bulletin)
     render json: serialize_bulletin(bulletin)
   end
 
   def serialize_bulletin(bulletin)
-    JSONAPI::ResourceSerializer.new(Api::V1::BulletinResource).
+    JSONAPI::ResourceSerializer.new(Api::V1::BulletinResource, serialization_options).
       serialize_to_hash(Api::V1::BulletinResource.new(bulletin, nil))
   end
 
