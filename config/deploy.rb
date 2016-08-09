@@ -1,5 +1,5 @@
 # Change these
-server '45.55.126.192', port: 3000, roles: [:web, :app, :db], primary: true
+server '45.55.126.192', port: 3000, roles: %w{app web}, primary: true
 
 set :repo_url,        'git@github.com:openmcac/basechurch.git'
 set :application,     'mcac'
