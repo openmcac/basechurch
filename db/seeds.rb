@@ -1,19 +1,5 @@
 require "forgery"
 
-group = Group.create!(name: 'English Service',
-                      target_audience: "Members and seekers",
-                      meet_details: "Sundays at 9:30am",
-                      short_description: "Worship service for the English congregation",
-                      about: "Welcome friends and visitors. We invite you to make MCAC your spiritual home and to worship with us every Sunday morning at 9:30am. Please let us know how we can be of help to you.
-
-The 2016 Church theme is [Equip to Shepherd](http://mcac.church/english-service/2016-church-theme-equip-to-shepherd). *“...to equip his people for works of service, so that the body of Christ may be built up”* (Ephesians 4:12)
-
-How can we pray for you? Let us know by [filling out a prayer request card](http://goo.gl/forms/vVNZxMsFFO).")
-
-user = User.create!(email: 'test@example.com',
-                    password: 'password',
-                    provider: "email")
-
 def service_order
   " - ## Call to Worship
  - ## Praise & Worship
@@ -65,7 +51,21 @@ def speaker(string)
   return "MCAC"
 end
 
-unless Rails.env.production?
+if Rails.env.development?
+  group = Group.create!(name: 'English Service',
+                        target_audience: "Members and seekers",
+                        meet_details: "Sundays at 9:30am",
+                        short_description: "Worship service for the English congregation",
+                        about: "Welcome friends and visitors. We invite you to make MCAC your spiritual home and to worship with us every Sunday morning at 9:30am. Please let us know how we can be of help to you.
+
+  The 2016 Church theme is [Equip to Shepherd](http://mcac.church/english-service/2016-church-theme-equip-to-shepherd). *“...to equip his people for works of service, so that the body of Christ may be built up”* (Ephesians 4:12)
+
+  How can we pray for you? Let us know by [filling out a prayer request card](http://goo.gl/forms/vVNZxMsFFO).")
+
+  user = User.create!(email: 'test@example.com',
+                      password: 'password',
+                      provider: "email")
+
   100.times do
     create_bulletin!(group)
     create_post!(group, user)
