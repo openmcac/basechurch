@@ -1,4 +1,5 @@
-server "159.203.115.125", user: "deploy", roles: %w{web app db}
-set :deploy_to, '/u/apps/mcac_production'
-set :unicorn_config_path, "/u/apps/mcac_production/current/config/unicorn.rb"
+stage = "production"
+server '45.55.126.192', port: 22, roles: %w{app web}, primary: true
 
+set :stage,           stage
+set :puma_env,        stage
