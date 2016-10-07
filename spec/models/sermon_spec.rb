@@ -19,6 +19,17 @@ RSpec.describe Sermon, :type => :model do
     end
   end
 
+  context '#tag_list' do
+    let(:sermon) { create(:sermon) }
+
+    it "can be tagged" do
+      sermon.tag_list << "humility"
+      sermon.save
+
+      expect(sermon.tags.map(&:name)).to eq ["humility"]
+    end
+  end
+
   context "#audio" do
     let(:field) { "audio" }
     let(:factory_name) { :sermon }
