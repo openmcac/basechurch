@@ -39,6 +39,7 @@ group :development, :test do
   gem "pry-remote"
   gem "sqlite3"
   gem "travis", "~> 1.5.0"
+  gem "rspec_api_documentation"
 end
 
 group :development, :test, :staging do
