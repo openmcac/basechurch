@@ -59,20 +59,18 @@ resource "Groups" do
     parameter :size, "Attachment filesize in kb"
     parameter :type, "Attachment file type"
 
-    example "Signing group attachments (unauthorized)" do
-      do_request(name: "myfile.jpg", size: 123, type: "image/jpeg")
-      expect(status).to eq 401
+    let(:signed_hash) do
+      S3Signer.new.sign(type: "image/jpeg", directory: "groups")
     end
 
-    example "Signing group attachments" do
-      signed_hash = S3Signer.new.sign(type: "image/jpeg", directory: "groups")
+    before do
       allow_any_instance_of(S3Signer).to receive(:sign).
         with(type: "image/jpeg", directory: "groups").
         and_return(signed_hash)
+    end
 
-      create(:user).create_new_auth_token.each { |k, v| header k, v }
-      do_request(name: "myfile.jpg", size: 123, type: "image/jpeg")
-
+    example_authenticated_request"Signing group attachments",
+      name: "myfile.jpg", size: 123, type: "image/jpeg" do
       expect(status).to eq 200
       expect(response.as_json).to eq signed_hash.as_json
     end
