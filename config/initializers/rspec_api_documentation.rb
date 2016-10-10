@@ -1,3 +1,4 @@
+return if Rails.env.production? || Rails.env.staging?
 RspecApiDocumentation.configure do |config|
   config.post_body_formatter = :json
   config.response_body_formatter =
