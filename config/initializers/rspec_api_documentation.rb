@@ -1,8 +1,9 @@
-return if Rails.env.production? || Rails.env.staging?
-RspecApiDocumentation.configure do |config|
-  config.post_body_formatter = :json
-  config.response_body_formatter =
-    Proc.new do |_response_content_type, response_body|
-      JSON.pretty_generate(JSON.parse(response_body))
-    end
+if Rails.env.development? || Rails.env.test?
+  RspecApiDocumentation.configure do |config|
+    config.post_body_formatter = :json
+    config.response_body_formatter =
+      Proc.new do |_response_content_type, response_body|
+        JSON.pretty_generate(JSON.parse(response_body))
+      end
+  end
 end
