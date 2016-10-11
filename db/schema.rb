@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160624024551) do
+ActiveRecord::Schema.define(version: 20161011033416) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "post_id"
@@ -25,17 +25,6 @@ ActiveRecord::Schema.define(version: 20160624024551) do
 
   add_index "announcements", ["bulletin_id"], name: "index_announcements_on_bulletin_id"
   add_index "announcements", ["post_id"], name: "index_announcements_on_post_id"
-
-  create_table "api_keys", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "access_token"
-    t.string   "scope"
-    t.datetime "expired_at"
-    t.datetime "created_at"
-  end
-
-  add_index "api_keys", ["access_token"], name: "index_api_keys_on_access_token", unique: true
-  add_index "api_keys", ["user_id"], name: "index_api_keys_on_user_id"
 
   create_table "attachments", force: :cascade do |t|
     t.string   "key"
