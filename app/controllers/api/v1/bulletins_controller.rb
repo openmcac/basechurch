@@ -4,7 +4,7 @@ class Api::V1::BulletinsController < ApplicationResourceController
 
   def sunday
     sunday_bulletin = Bulletin.english_service.
-      where("published_at <= ?", 15.minutes.from_now).
+      where("published_at <= ?", 1.day.from_now).
       order("published_at DESC").
       first
 
