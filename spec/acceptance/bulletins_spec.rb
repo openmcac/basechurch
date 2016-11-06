@@ -24,7 +24,7 @@ resource "Bulletins" do
       create(:bulletin, :completed, group: english_service, published_at: 10.days.from_now)
     end
 
-    example "Show the latest bulletin (with more than 15 minutes before the service starts)" do
+    example "Show the latest bulletin (with more than 24 hours before the service starts)" do
       bulletin = create(:bulletin, :completed, group: english_service, published_at: 20.seconds.ago)
 
       do_request
@@ -32,8 +32,8 @@ resource "Bulletins" do
       expect_bulletin(response["data"], bulletin)
     end
 
-    example "Show the latest bulletin (when it is 15 minutes before the service starts)" do
-      bulletin = create(:bulletin, :completed, group: english_service, published_at: 15.minutes.from_now)
+    example "Show the latest bulletin (when it is 24 hours before the service starts)" do
+      bulletin = create(:bulletin, :completed, group: english_service, published_at: 24.hours.from_now)
 
       do_request
 
