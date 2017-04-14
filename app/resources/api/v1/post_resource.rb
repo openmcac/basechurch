@@ -38,15 +38,6 @@ class Api::V1::PostResource < JSONAPI::Resource
 
   private
 
-  def self.apply_filter(records, filter, value, options)
-    case filter
-    when :group
-      records.where(group_id: value)
-    else
-      return super(records, filter, value, options)
-    end
-  end
-
   def set_author_as_current_user
     @model.author ||= context[:current_user]
   end
