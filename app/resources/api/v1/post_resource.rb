@@ -18,6 +18,11 @@ class Api::V1::PostResource < JSONAPI::Resource
   has_one :group
 
   filters :group, :slug, :group_id, :kind
+  filter :status, default: "published", apply: ->(records, value, _options) {
+    return records if value.first == "all"
+
+    records.where("published_at <= ?", DateTime.now)
+  }
 
   def group_slug
     @model.group.slug

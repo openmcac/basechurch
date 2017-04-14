@@ -36,6 +36,23 @@ RSpec.describe Api::V1::PostResource, type: :resource do
       Api::V1::PostResource.apply_filter(records, filter, value, options)
     end
 
+    context "when filter is :status" do
+      let(:filter) { :status }
+      let(:value) { [] }
+      let!(:posts) do
+        create_list(:post, 3, group: group)
+      end
+      let!(:postdated_post) { create(:post, published_at: 1.day.from_now) }
+
+      it { is_expected.to eq([post] + posts) }
+
+      context 'with the "all" filter' do
+        let (:value) { ["all"] }
+
+        it { is_expected.to eq([post] + posts + [postdated_post]) }
+      end
+    end
+
     context 'when filter is :group' do
       let(:filter) { :group }
       let(:value) { group.id.to_s }
