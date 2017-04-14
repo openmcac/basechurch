@@ -18,6 +18,11 @@ class Api::V1::PostResource < JSONAPI::Resource
   has_one :group
 
   filters :group, :slug, :group_id, :kind
+  filter :status, default: "published", apply: ->(records, value, _options) {
+    return records if value.first == "all"
+
+    records.where("published_at <= ?", DateTime.now)
+  }
 
   def group_slug
     @model.group.slug
@@ -32,15 +37,6 @@ class Api::V1::PostResource < JSONAPI::Resource
   end
 
   private
-
-  def self.apply_filter(records, filter, value, options)
-    case filter
-    when :group
-      records.where(group_id: value)
-    else
-      return super(records, filter, value, options)
-    end
-  end
 
   def set_author_as_current_user
     @model.author ||= context[:current_user]
