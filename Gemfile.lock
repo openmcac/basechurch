@@ -269,6 +269,9 @@ GEM
     pkg-config (1.1.7)
     plist (3.2.0)
     powerpack (0.1.1)
+    prerender_rails (1.4.1)
+      activesupport
+      rack
     proxifier (1.0.3)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -450,7 +453,7 @@ DEPENDENCIES
   acts-as-taggable-on (~> 3.5.0)
   acts_as_list (~> 0)
   bcrypt-ruby (~> 3.1.2)
-  capistrano (~> 3.4.0)
+  capistrano
   capistrano-bundler
   capistrano-rails
   capistrano3-puma
@@ -468,6 +471,7 @@ DEPENDENCIES
   marco-polo
   omniauth-facebook
   pg
+  prerender_rails
   pry-nav
   pry-rails
   pry-remote
