@@ -13,7 +13,7 @@ source "https://rubygems.org"
 # gem 'debugger'
 
 group :development do
-  gem "capistrano", "~> 3.4.0"
+  gem "capistrano"
   gem "capistrano-bundler"
   gem "capistrano-rails"
   gem "capistrano3-puma"
@@ -48,6 +48,7 @@ end
 
 group :staging, :production do
   gem "pg"
+  gem "prerender_rails"
 end
 
 group :assets do
