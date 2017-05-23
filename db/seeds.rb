@@ -51,7 +51,7 @@ def speaker(string)
   return "MCAC"
 end
 
-if Rails.env.development?
+unless Rails.env.production?
   group = Group.create!(name: 'English Service',
                         target_audience: "Members and seekers",
                         meet_details: "Sundays at 9:30am",
