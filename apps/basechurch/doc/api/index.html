@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Documentation</title>
+  <meta charset="utf-8">
+  <style>
+    
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: &quot;required&quot;;
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>API Documentation</h1>
+
+  <div class="article">
+    <h2>Announcements</h2>
+
+    <ul>
+      <li>
+        <a href="announcements/create_an_announcement.html">Create an announcement</a>
+      </li>
+      <li>
+        <a href="announcements/create_an_announcement_(unauthorized).html">Create an announcement (unauthorized)</a>
+      </li>
+      <li>
+        <a href="announcements/delete_an_announcement.html">Delete an announcement</a>
+      </li>
+      <li>
+        <a href="announcements/delete_an_announcement_(invalid_id).html">Delete an announcement (invalid id)</a>
+      </li>
+      <li>
+        <a href="announcements/delete_an_announcement_(invalid_id)_(unauthorized).html">Delete an announcement (invalid id) (unauthorized)</a>
+      </li>
+      <li>
+        <a href="announcements/delete_an_announcement_(unauthorized).html">Delete an announcement (unauthorized)</a>
+      </li>
+      <li>
+        <a href="announcements/listing_announcements.html">Listing announcements</a>
+      </li>
+      <li>
+        <a href="announcements/show_an_announcement.html">Show an announcement</a>
+      </li>
+      <li>
+        <a href="announcements/update_an_announcement.html">Update an announcement</a>
+      </li>
+      <li>
+        <a href="announcements/update_an_announcement_(invalid_parameters).html">Update an announcement (invalid parameters)</a>
+      </li>
+      <li>
+        <a href="announcements/update_an_announcement_(invalid_parameters)_(unauthorized).html">Update an announcement (invalid parameters) (unauthorized)</a>
+      </li>
+      <li>
+        <a href="announcements/update_an_announcement_(unauthorized).html">Update an announcement (unauthorized)</a>
+      </li>
+    </ul>
+  </div>
+  <div class="article">
+    <h2>Bulletins</h2>
+
+    <ul>
+      <li>
+        <a href="bulletins/create_a_bulletin.html">Create a bulletin</a>
+      </li>
+      <li>
+        <a href="bulletins/create_a_bulletin_(invalid_parameters).html">Create a bulletin (invalid parameters)</a>
+      </li>
+      <li>
+        <a href="bulletins/create_a_bulletin_(invalid_parameters)_(unauthorized).html">Create a bulletin (invalid parameters) (unauthorized)</a>
+      </li>
+      <li>
+        <a href="bulletins/create_a_bulletin_(unauthorized).html">Create a bulletin (unauthorized)</a>
+      </li>
+      <li>
+        <a href="bulletins/show_a_bulletin.html">Show a bulletin</a>
+      </li>
+      <li>
+        <a href="bulletins/show_the_latest_bulletin_(when_it_is_15_minutes_before_the_service_starts).html">Show the latest bulletin (when it is 15 minutes before the service starts)</a>
+      </li>
+      <li>
+        <a href="bulletins/show_the_latest_bulletin_(with_more_than_15_minutes_before_the_service_starts).html">Show the latest bulletin (with more than 15 minutes before the service starts)</a>
+      </li>
+      <li>
+        <a href="bulletins/show_the_next_bulletin.html">Show the next bulletin</a>
+      </li>
+      <li>
+        <a href="bulletins/show_the_next_bulletin_(roll-over).html">Show the next bulletin (Roll-over)</a>
+      </li>
+      <li>
+        <a href="bulletins/show_the_previous_bulletin.html">Show the previous bulletin</a>
+      </li>
+      <li>
+        <a href="bulletins/show_the_previous_bulletin_(roll-over).html">Show the previous bulletin (Roll-over)</a>
+      </li>
+      <li>
+        <a href="bulletins/signing_attachments.html">Signing attachments</a>
+      </li>
+      <li>
+        <a href="bulletins/signing_attachments_(unauthorized).html">Signing attachments (unauthorized)</a>
+      </li>
+    </ul>
+  </div>
+  <div class="article">
+    <h2>Groups</h2>
+
+    <ul>
+      <li>
+        <a href="groups/fetch_the_group_of_a_bulletin.html">Fetch the group of a bulletin</a>
+      </li>
+      <li>
+        <a href="groups/listing_groups.html">Listing groups</a>
+      </li>
+      <li>
+        <a href="groups/show_a_group.html">Show a group</a>
+      </li>
+      <li>
+        <a href="groups/signing_attachments.html">Signing attachments</a>
+      </li>
+      <li>
+        <a href="groups/signing_attachments_(unauthorized).html">Signing attachments (unauthorized)</a>
+      </li>
+    </ul>
+  </div>
+  <div class="article">
+    <h2>Posts</h2>
+
+    <ul>
+      <li>
+        <a href="posts/create_a_post.html">Create a post</a>
+      </li>
+      <li>
+        <a href="posts/create_a_post_(invalid_parameters).html">Create a post (invalid parameters)</a>
+      </li>
+      <li>
+        <a href="posts/create_a_post_(invalid_parameters)_(unauthorized).html">Create a post (invalid parameters) (unauthorized)</a>
+      </li>
+      <li>
+        <a href="posts/create_a_post_(unauthorized).html">Create a post (unauthorized)</a>
+      </li>
+      <li>
+        <a href="posts/listing_posts.html">Listing posts</a>
+      </li>
+      <li>
+        <a href="posts/show_a_post.html">Show a post</a>
+      </li>
+      <li>
+        <a href="posts/signing_attachments.html">Signing attachments</a>
+      </li>
+      <li>
+        <a href="posts/signing_attachments_(unauthorized).html">Signing attachments (unauthorized)</a>
+      </li>
+      <li>
+        <a href="posts/update_a_post.html">Update a post</a>
+      </li>
+      <li>
+        <a href="posts/update_a_post_(invalid_parameters).html">Update a post (invalid parameters)</a>
+      </li>
+      <li>
+        <a href="posts/update_a_post_(invalid_parameters)_(unauthorized).html">Update a post (invalid parameters) (unauthorized)</a>
+      </li>
+      <li>
+        <a href="posts/update_a_post_(unauthorized).html">Update a post (unauthorized)</a>
+      </li>
+    </ul>
+  </div>
+  <div class="article">
+    <h2>Sermons</h2>
+
+    <ul>
+      <li>
+        <a href="sermons/create_a_sermon.html">Create a sermon</a>
+      </li>
+      <li>
+        <a href="sermons/create_a_sermon_(invalid_parameters).html">Create a sermon (invalid parameters)</a>
+      </li>
+      <li>
+        <a href="sermons/create_a_sermon_(invalid_parameters)_(unauthorized).html">Create a sermon (invalid parameters) (unauthorized)</a>
+      </li>
+      <li>
+        <a href="sermons/create_a_sermon_(unauthorized).html">Create a sermon (unauthorized)</a>
+      </li>
+      <li>
+        <a href="sermons/show_a_sermon.html">Show a sermon</a>
+      </li>
+      <li>
+        <a href="sermons/signing_attachments.html">Signing attachments</a>
+      </li>
+      <li>
+        <a href="sermons/signing_attachments_(unauthorized).html">Signing attachments (unauthorized)</a>
+      </li>
+      <li>
+        <a href="sermons/update_a_sermon.html">Update a sermon</a>
+      </li>
+      <li>
+        <a href="sermons/update_a_sermon_(invalid_parameters).html">Update a sermon (invalid parameters)</a>
+      </li>
+      <li>
+        <a href="sermons/update_a_sermon_(invalid_parameters)_(unauthorized).html">Update a sermon (invalid parameters) (unauthorized)</a>
+      </li>
+      <li>
+        <a href="sermons/update_a_sermon_(unauthorized).html">Update a sermon (unauthorized)</a>
+      </li>
+    </ul>
+  </div>
+  <div class="article">
+    <h2>Users</h2>
+
+    <ul>
+      <li>
+        <a href="users/listing_users.html">Listing users</a>
+      </li>
+      <li>
+        <a href="users/listing_users_(unauthorized).html">Listing users (unauthorized)</a>
+      </li>
+      <li>
+        <a href="users/show_a_user.html">Show a user</a>
+      </li>
+      <li>
+        <a href="users/update_a_user.html">Update a user</a>
+      </li>
+      <li>
+        <a href="users/update_a_user_(invalid_parameters).html">Update a user (invalid parameters)</a>
+      </li>
+      <li>
+        <a href="users/update_a_user_(invalid_parameters)_(unauthorized).html">Update a user (invalid parameters) (unauthorized)</a>
+      </li>
+      <li>
+        <a href="users/update_a_user_(unauthorized).html">Update a user (unauthorized)</a>
+      </li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

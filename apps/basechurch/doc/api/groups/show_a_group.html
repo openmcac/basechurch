@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Groups API</title>
+    <meta charset="utf-8">
+    <style>
+      
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: "required";
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Groups API</h1>
+
+      <div class="article">
+        <h2>Show a group</h2>
+        <h3>GET api/v1/groups/:id</h3>
+
+          <h3>Parameters</h3>
+          <table class="parameters table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    <span class="name">id</span>
+                </td>
+                <td>
+                  <span class="description">The group id</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <h3>Request</h3>
+
+            <h4>Headers</h4>
+            <pre class="request headers">Host: example.org
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">GET api/v1/groups/1</pre>
+
+
+
+
+            <h3>Response</h3>
+              <h4>Headers</h4>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Type: application/vnd.api+json
+Vary: Origin
+ETag: W/&quot;cf0fe6ccdd021cc22e449422a19f0cff&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 1ded3216-0f7a-49d2-b9a2-05f6efac4c21
+X-Runtime: 0.008127
+Content-Length: 995</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">{
+  &quot;data&quot;: {
+    &quot;id&quot;: &quot;1&quot;,
+    &quot;type&quot;: &quot;groups&quot;,
+    &quot;links&quot;: {
+      &quot;self&quot;: &quot;http://example.org/api/v1/groups/1&quot;
+    },
+    &quot;attributes&quot;: {
+      &quot;about&quot;: &quot;lorem ipsum dolor sit amet consectetuer adipiscing elitproin risuspraesent lectusvestibulum quam sapien varius ut blandit non interdum in an&quot;,
+      &quot;banner-url&quot;: &quot;https://wordpedia.biz/banner.png&quot;,
+      &quot;meet-details&quot;: &quot;lorem ipsum dolor sit amet consectetuer adipiscing&quot;,
+      &quot;name&quot;: &quot;Lorem Ipsum Dolor Sit Amet, Consectetuer Adipiscing Elit&quot;,
+      &quot;profile-picture-url&quot;: &quot;https://skimia.biz/profile-picture.png&quot;,
+      &quot;short-description&quot;: &quot;lorem ipsum dolor sit amet consectetuer adipiscing elitproin risuspraesent lectusvestibulum quam sapien varius ut blandit non interdum in an&quot;,
+      &quot;slug&quot;: &quot;lorem-ipsum-dolor-sit-amet-consectetuer-adipiscing-elit&quot;,
+      &quot;target-audience&quot;: &quot;lorem ipsum dolor sit amet consectetuer adipiscing&quot;,
+      &quot;created-at&quot;: &quot;2016-10-10T23:12:32+00:00&quot;
+    },
+    &quot;relationships&quot;: {
+      &quot;posts&quot;: {
+        &quot;links&quot;: {
+          &quot;self&quot;: &quot;http://example.org/api/v1/groups/1/relationships/posts&quot;,
+          &quot;related&quot;: &quot;http://example.org/api/v1/groups/1/posts&quot;
+        }
+      }
+    }
+  }
+}</pre>
+      </div>
+    </div>
+  </body>
+</html>

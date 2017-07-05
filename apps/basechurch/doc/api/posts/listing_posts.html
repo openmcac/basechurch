@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Posts API</title>
+    <meta charset="utf-8">
+    <style>
+      
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: "required";
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Posts API</h1>
+
+      <div class="article">
+        <h2>Listing posts</h2>
+        <h3>GET api/v1/posts</h3>
+
+
+
+          <h3>Request</h3>
+
+            <h4>Headers</h4>
+            <pre class="request headers">Host: example.org
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">GET api/v1/posts</pre>
+
+
+
+
+            <h3>Response</h3>
+              <h4>Headers</h4>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Type: application/vnd.api+json
+Vary: Origin
+ETag: W/&quot;42357d931b1478494ecaca0973ce2a3d&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 92db0540-3e07-4a20-b82f-71de699408e6
+X-Runtime: 0.018527
+Content-Length: 3978</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;1&quot;,
+      &quot;type&quot;: &quot;posts&quot;,
+      &quot;links&quot;: {
+        &quot;self&quot;: &quot;http://example.org/api/v1/posts/1&quot;
+      },
+      &quot;attributes&quot;: {
+        &quot;banner-url&quot;: &quot;http://yakidoo.edu/banner.jpg&quot;,
+        &quot;content&quot;: &quot;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.&quot;,
+        &quot;group-slug&quot;: &quot;lorem-ipsum-dolor-sit-amet-consectetuer-adipiscing-elit&quot;,
+        &quot;kind&quot;: &quot;post&quot;,
+        &quot;slug&quot;: &quot;lorem-ipsum-dolor-sit-amet-consectetuer-adipiscing-elit&quot;,
+        &quot;tags&quot;: [
+          &quot;ultrices&quot;,
+          &quot;turpis&quot;,
+          &quot;tellus&quot;
+        ],
+        &quot;title&quot;: &quot;Lorem Ipsum Dolor Sit Amet, Consectetuer Adipiscing Elit&quot;,
+        &quot;published-at&quot;: &quot;2016-10-08T23:12:32+00:00&quot;,
+        &quot;updated-at&quot;: &quot;2016-10-10T23:12:32+00:00&quot;
+      },
+      &quot;relationships&quot;: {
+        &quot;author&quot;: {
+          &quot;links&quot;: {
+            &quot;self&quot;: &quot;http://example.org/api/v1/posts/1/relationships/author&quot;,
+            &quot;related&quot;: &quot;http://example.org/api/v1/posts/1/author&quot;
+          }
+        },
+        &quot;editor&quot;: {
+          &quot;links&quot;: {
+            &quot;self&quot;: &quot;http://example.org/api/v1/posts/1/relationships/editor&quot;,
+            &quot;related&quot;: &quot;http://example.org/api/v1/posts/1/editor&quot;
+          }
+        },
+        &quot;group&quot;: {
+          &quot;links&quot;: {
+            &quot;self&quot;: &quot;http://example.org/api/v1/posts/1/relationships/group&quot;,
+            &quot;related&quot;: &quot;http://example.org/api/v1/posts/1/group&quot;
+          }
+        }
+      }
+    },
+    {
+      &quot;id&quot;: &quot;2&quot;,
+      &quot;type&quot;: &quot;posts&quot;,
+      &quot;links&quot;: {
+        &quot;self&quot;: &quot;http://example.org/api/v1/posts/2&quot;
+      },
+      &quot;attributes&quot;: {
+        &quot;banner-url&quot;: &quot;http://jaxspan.gov/banner.jpg&quot;,
+        &quot;content&quot;: &quot;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.&quot;,
+        &quot;group-slug&quot;: &quot;lorem-ipsum-dolor-sit-amet-consectetuer-adipiscing-elit-ddc06953-261e-4b00-a56a-7ef699369fb9&quot;,
+        &quot;kind&quot;: &quot;post&quot;,
+        &quot;slug&quot;: &quot;lorem-ipsum-dolor-sit-amet-consectetuer-adipiscing-elit-116487c9-6ff2-4188-ba09-acaaa47be86c&quot;,
+        &quot;tags&quot;: [
+          &quot;nulla&quot;,
+          &quot;sollicitudin&quot;,
+          &quot;ante&quot;
+        ],
+        &quot;title&quot;: &quot;Lorem Ipsum Dolor Sit Amet, Consectetuer Adipiscing Elit&quot;,
+        &quot;published-at&quot;: &quot;2016-10-08T23:12:32+00:00&quot;,
+        &quot;updated-at&quot;: &quot;2016-10-10T23:12:32+00:00&quot;
+      },
+      &quot;relationships&quot;: {
+        &quot;author&quot;: {
+          &quot;links&quot;: {
+            &quot;self&quot;: &quot;http://example.org/api/v1/posts/2/relationships/author&quot;,
+            &quot;related&quot;: &quot;http://example.org/api/v1/posts/2/author&quot;
+          }
+        },
+        &quot;editor&quot;: {
+          &quot;links&quot;: {
+            &quot;self&quot;: &quot;http://example.org/api/v1/posts/2/relationships/editor&quot;,
+            &quot;related&quot;: &quot;http://example.org/api/v1/posts/2/editor&quot;
+          }
+        },
+        &quot;group&quot;: {
+          &quot;links&quot;: {
+            &quot;self&quot;: &quot;http://example.org/api/v1/posts/2/relationships/group&quot;,
+            &quot;related&quot;: &quot;http://example.org/api/v1/posts/2/group&quot;
+          }
+        }
+      }
+    },
+    {
+      &quot;id&quot;: &quot;3&quot;,
+      &quot;type&quot;: &quot;posts&quot;,
+      &quot;links&quot;: {
+        &quot;self&quot;: &quot;http://example.org/api/v1/posts/3&quot;
+      },
+      &quot;attributes&quot;: {
+        &quot;banner-url&quot;: &quot;http://yakidoo.edu/banner.jpg&quot;,
+        &quot;content&quot;: &quot;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.\n\nVestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.&quot;,
+        &quot;group-slug&quot;: &quot;lorem-ipsum-dolor-sit-amet-consectetuer-adipiscing-elit-54e8ad3e-7ce4-4428-bc0f-7fa6b6435b06&quot;,
+        &quot;kind&quot;: &quot;post&quot;,
+        &quot;slug&quot;: &quot;lorem-ipsum-dolor-sit-amet-consectetuer-adipiscing-elit-77ebc378-10f9-4b35-a786-51861cd2e547&quot;,
+        &quot;tags&quot;: [
+          &quot;faucibus&quot;,
+          &quot;sapien&quot;,
+          &quot;sed&quot;
+        ],
+        &quot;title&quot;: &quot;Lorem Ipsum Dolor Sit Amet, Consectetuer Adipiscing Elit&quot;,
+        &quot;published-at&quot;: &quot;2016-10-08T23:12:32+00:00&quot;,
+        &quot;updated-at&quot;: &quot;2016-10-10T23:12:32+00:00&quot;
+      },
+      &quot;relationships&quot;: {
+        &quot;author&quot;: {
+          &quot;links&quot;: {
+            &quot;self&quot;: &quot;http://example.org/api/v1/posts/3/relationships/author&quot;,
+            &quot;related&quot;: &quot;http://example.org/api/v1/posts/3/author&quot;
+          }
+        },
+        &quot;editor&quot;: {
+          &quot;links&quot;: {
+            &quot;self&quot;: &quot;http://example.org/api/v1/posts/3/relationships/editor&quot;,
+            &quot;related&quot;: &quot;http://example.org/api/v1/posts/3/editor&quot;
+          }
+        },
+        &quot;group&quot;: {
+          &quot;links&quot;: {
+            &quot;self&quot;: &quot;http://example.org/api/v1/posts/3/relationships/group&quot;,
+            &quot;related&quot;: &quot;http://example.org/api/v1/posts/3/group&quot;
+          }
+        }
+      }
+    }
+  ],
+  &quot;links&quot;: {
+    &quot;first&quot;: &quot;http://example.org/api/v1/posts?page%5Bnumber%5D=1&amp;page%5Bsize%5D=10&quot;,
+    &quot;last&quot;: &quot;http://example.org/api/v1/posts?page%5Bnumber%5D=1&amp;page%5Bsize%5D=10&quot;
+  }
+}</pre>
+      </div>
+    </div>
+  </body>
+</html>
