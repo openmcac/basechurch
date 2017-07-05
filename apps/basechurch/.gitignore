@@ -11,9 +11,9 @@
 
 /coverage
 
-/db/*.sqlite3
-/db/*.sqlite3-journal
-/log/*.log
+db/*.sqlite3
+db/*.sqlite3-journal
+log/*.log
 /tmp
 /bin
 /doc
