@@ -1,0 +1,12 @@
+version: '3'
+services:
+  db:
+    image: postgres
+  web:
+    env_file:
+      - ./.env.dev
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+

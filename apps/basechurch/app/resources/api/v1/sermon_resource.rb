@@ -6,7 +6,7 @@ class Api::V1::SermonResource < JSONAPI::Resource
   has_one :group
 
   def tags
-    @model.tag_list
+    @model.tag_list.sort
   end
 
   def tags=(tags)

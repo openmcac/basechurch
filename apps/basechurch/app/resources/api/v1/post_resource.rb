@@ -29,7 +29,7 @@ class Api::V1::PostResource < JSONAPI::Resource
   end
 
   def tags
-    @model.tag_list
+    @model.tag_list.sort
   end
 
   def tags=(tags)
