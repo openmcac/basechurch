@@ -15,7 +15,7 @@ resource "Sermons" do
     expect(attributes["published-at"]).to eq model.published_at.localtime("+00:00").iso8601
     expect(attributes["series"]).to eq model.series
     expect(attributes["speaker"]).to eq model.speaker
-    expect(attributes["tags"]).to eq model.tag_list
+    expect(attributes["tags"]).to eq model.tag_list.sort
   end
 
   get "api/v1/sermons/:id" do
@@ -103,7 +103,7 @@ resource "Sermons" do
       expect(subject.notes).to eq data_attributes_notes
       expect(subject.series).to eq data_attributes_series
       expect(subject.speaker).to eq data_attributes_speaker
-      expect(subject.tag_list).to eq data_attributes_tags
+      expect(subject.tag_list.sort).to eq data_attributes_tags
 
       expect_sermon(response["data"], subject)
     end
@@ -195,7 +195,7 @@ resource "Sermons" do
       expect(subject.notes).to eq data_attributes_notes
       expect(subject.series).to eq data_attributes_series
       expect(subject.speaker).to eq data_attributes_speaker
-      expect(subject.tag_list).to eq data_attributes_tags
+      expect(subject.tag_list.sort).to eq data_attributes_tags
 
       expect_sermon(response["data"], subject)
     end

@@ -14,7 +14,7 @@ resource "Bulletins" do
   end
 
   get "api/v1/sunday" do
-    let!(:english_service) { create(:group, :completed, slug: "english-service") }
+    let!(:english_service) { create(:group, :completed, id: 1, slug: "english-service") }
 
     let!(:old_bulletin) do
       create(:bulletin, :completed, group: english_service, published_at: 10.days.ago)

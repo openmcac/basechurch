@@ -12,7 +12,7 @@ resource "Posts" do
     expect(attributes["content"]).to eq model.content
     expect(attributes["kind"]).to eq model.kind
     expect(attributes["published-at"]).to eq model.published_at.localtime("+00:00").iso8601
-    expect(attributes["tags"]).to eq model.tag_list
+    expect(attributes["tags"]).to eq model.tag_list.sort
     expect(attributes["title"]).to eq model.title
   end
 
@@ -100,7 +100,7 @@ resource "Posts" do
         to eq data_attributes_published_at.to_time.localtime("+00:00").iso8601
       expect(subject.title).to eq data_attributes_title
       expect(subject.content).to eq data_attributes_content
-      expect(subject.tag_list).to eq data_attributes_tags
+      expect(subject.tag_list.sort).to eq data_attributes_tags
       expect(subject.kind).to eq data_attributes_kind
       expect(subject.group).to eq group
 
@@ -179,7 +179,7 @@ resource "Posts" do
 
       expect(subject.title).to eq data_attributes_title
       expect(subject.content).to eq data_attributes_content
-      expect(subject.tag_list).to eq data_attributes_tags
+      expect(subject.tag_list.sort).to eq data_attributes_tags
       expect(subject.kind).to eq data_attributes_kind
       expect(subject.group).to eq group
 
