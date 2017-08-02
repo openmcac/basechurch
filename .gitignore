@@ -1,5 +1,7 @@
 .bundle
 
+.env.production
+
 apps/basechurch/build
 apps/basechurch/coverage
 
