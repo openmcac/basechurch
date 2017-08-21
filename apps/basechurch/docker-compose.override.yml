@@ -1,8 +1,8 @@
 version: '3'
 services:
   db:
-    image: postgres
-  web:
+    image: postgres:latest
+  api:
     env_file:
       - ./.env.dev
     volumes:
