@@ -3,6 +3,7 @@ services:
   db:
     image: postgres:latest
   api:
+    build: .
     env_file:
       - ./.env.dev
     volumes:
