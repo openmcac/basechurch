@@ -18,3 +18,8 @@ development-secrets.yml
 staging-secrets.yml
 
 dump.rdb
+
+.DS_Store
+
+apps/landing/target
+apps/landing/out
