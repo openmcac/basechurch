@@ -4,3 +4,6 @@ services:
     build: .
     env_file:
       - ./.env.dev
+    volumes:
+      - ./target:/app/target
+    command: bash -c "mvn package && java -jar target/landing-jar-with-dependencies.jar"
