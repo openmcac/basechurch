@@ -8,35 +8,13 @@ import spark.Route;
 import java.util.Optional;
 
 public class LandingController {
-  private Jedis jedis;
+  private LandingPageStore store;
 
-  private LandingController(Jedis jedis) {
-    this.jedis = jedis;
+  public LandingController(LandingPageStore store) {
+    this.store = store;
   }
 
-  public static Route indexRoute(Jedis jedis) {
-    return new LandingController(jedis).getIndex();
-  }
-
-  public Route getIndex() {
-    return (Request request, Response response) -> {
-      return fetchLandingPageContents(request);
-    };
-  }
-
-  private String fetchLandingPageContents(Request request) {
-    return jedis.get(fetchRevisionKey(request));
-  }
-
-  private String fetchRevisionKey(Request request) {
-    String revision = Optional.ofNullable(request.queryParams("revision"))
-        .filter(s -> !s.isEmpty())
-        .orElse(getCurrentRevision());
-
-    return String.format("basechurch:index:%s", revision);
-  }
-
-  private String getCurrentRevision() {
-    return jedis.get("basechurch:index:current");
-  }
+  public final Route indexRoute = (Request request, Response response) -> {
+    return store.getFromRevision(Optional.ofNullable(request.queryParams("revision")));
+  };
 }

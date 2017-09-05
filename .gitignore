@@ -23,3 +23,8 @@ dump.rdb
 
 apps/landing/target
 apps/landing/out
+
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+**/.idea/*.iws
+
