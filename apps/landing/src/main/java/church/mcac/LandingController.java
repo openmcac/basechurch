@@ -5,6 +5,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.Optional;
+
 public class LandingController {
   private Jedis jedis;
 
@@ -16,13 +18,25 @@ public class LandingController {
     return new LandingController(jedis).getIndex();
   }
 
-  private String fetchLandingPageContents() {
-    return jedis.get("basechurch:index:__development__");
-  }
-
   public Route getIndex() {
     return (Request request, Response response) -> {
-      return fetchLandingPageContents();
+      return fetchLandingPageContents(request);
     };
+  }
+
+  private String fetchLandingPageContents(Request request) {
+    return jedis.get(fetchRevisionKey(request));
+  }
+
+  private String fetchRevisionKey(Request request) {
+    String revision = Optional.ofNullable(request.queryParams("revision"))
+        .filter(s -> !s.isEmpty())
+        .orElse(getCurrentRevision());
+
+    return String.format("basechurch:index:%s", revision);
+  }
+
+  private String getCurrentRevision() {
+    return jedis.get("basechurch:index:current");
   }
 }
