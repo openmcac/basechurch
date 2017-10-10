@@ -1,23 +1,22 @@
-package church.mcac;
+package io.fisherhall;
 
 import redis.clients.jedis.Jedis;
-import spark.Request;
 
 import java.util.Optional;
 
 public interface LandingPageStore {
   public String getFromRevision(Optional<String> revision);
 
-  public static LandingPageStore defaultImplementation(Jedis jedis, Environment environment) {
+  public static LandingPageStore defaultImplementation(Jedis jedis, io.fisherhall.Environment environment) {
     return new LandingPageStoreImpl(jedis, environment);
   }
 }
 
 class LandingPageStoreImpl implements LandingPageStore {
   private Jedis jedis;
-  private Environment environment;
+  private io.fisherhall.Environment environment;
 
-  LandingPageStoreImpl(Jedis jedis, Environment environment) {
+  LandingPageStoreImpl(Jedis jedis, io.fisherhall.Environment environment) {
     this.jedis = jedis;
     this.environment = environment;
 

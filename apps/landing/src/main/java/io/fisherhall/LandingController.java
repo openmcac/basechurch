@@ -1,6 +1,5 @@
-package church.mcac;
+package io.fisherhall;
 
-import redis.clients.jedis.Jedis;
 import spark.Request;
 import spark.Response;
 import spark.Route;

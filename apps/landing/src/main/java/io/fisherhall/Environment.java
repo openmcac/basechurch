@@ -1,4 +1,4 @@
-package church.mcac;
+package io.fisherhall;
 
 public enum Environment {
   TEST, DEVELOPMENT, STAGING, PRODUCTION;

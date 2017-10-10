@@ -1,0 +1,10 @@
+version: '3'
+services:
+  landing:
+    build: .
+    env_file:
+      - ./.env.test
+    volumes:
+      - ./target:/app/target
+      - ./src:/app/src
+    command: bash -c "mvn package && java -jar target/landing-test-jar-with-dependencies.jar"

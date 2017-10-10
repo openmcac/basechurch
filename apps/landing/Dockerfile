@@ -10,8 +10,7 @@ WORKDIR /app
 # Prepare by downloading dependencies
 ADD pom.xml /app/pom.xml
 RUN ["mvn", "dependency:resolve"]
-RUN ["mvn", "verify"]
 
-# Adding source, compile and package into a fat jar
 ADD src /app/src
-RUN ["mvn", "package"]
+RUN ["mvn", "verify", "-DskipTests"]
+RUN ["mvn", "package", "-DskipTests"]
