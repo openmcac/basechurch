@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export BASECHURCH_ENV=test
+
 docker-compose \
   -f apps/basechurch/docker-compose.yml \
   -f apps/basechurch/docker-compose.override.yml \
