@@ -5,7 +5,7 @@ services:
   landing:
     image: fisherhall/landing:latest
     env_file:
-      - ./.env.production
+      - ./.env.${BASECHURCH_ENV}
     command: java -jar target/landing-jar-with-dependencies.jar
     ports:
       - "4567:4567"

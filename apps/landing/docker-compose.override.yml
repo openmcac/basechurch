@@ -3,7 +3,7 @@ services:
   landing:
     build: .
     env_file:
-      - ./.env.dev
+      - ./.env.${BASECHURCH_ENV}
     volumes:
       - ./target:/app/target
     command: bash -c "mvn package && java -jar target/landing-jar-with-dependencies.jar"
