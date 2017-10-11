@@ -1,5 +1,7 @@
 .bundle
 
+.env.production
+
 apps/basechurch/build
 apps/basechurch/coverage
 
@@ -16,3 +18,13 @@ development-secrets.yml
 staging-secrets.yml
 
 dump.rdb
+
+.DS_Store
+
+apps/landing/target
+apps/landing/out
+
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+**/.idea/*.iws
+

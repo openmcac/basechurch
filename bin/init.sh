@@ -8,22 +8,22 @@ docker-compose \
 docker-compose \
   -f apps/basechurch/docker-compose.yml \
   -f apps/basechurch/docker-compose.override.yml \
-  run web rm /app/tmp/pids/server.pid
+  run api rm /app/tmp/pids/server.pid
 
 docker-compose \
   -f apps/basechurch/docker-compose.yml \
   -f apps/basechurch/docker-compose.override.yml \
-  run web bundle exec rake db:create
+  run api bundle exec rake db:create
 
 docker-compose \
   -f apps/basechurch/docker-compose.yml \
   -f apps/basechurch/docker-compose.override.yml \
-  run web bundle exec rake db:migrate
+  run api bundle exec rake db:migrate
 
 docker-compose \
   -f apps/basechurch/docker-compose.yml \
   -f apps/basechurch/docker-compose.override.yml \
-  run web bundle exec rake db:seed
+  run api bundle exec rake db:seed
 
 docker-compose \
   -f apps/basechurch/docker-compose.yml \

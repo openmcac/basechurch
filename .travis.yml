@@ -4,7 +4,8 @@ services:
   - docker
 
 script:
-  - ./bin/test.sh
+  - ./bin/test-basechurch.sh
+  - ./bin/test-landing.sh
 
 addons:
   code_climate:
