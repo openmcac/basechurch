@@ -14,11 +14,9 @@ public interface LandingPageStore {
 
 class LandingPageStoreImpl implements LandingPageStore {
   private Jedis jedis;
-  private io.fisherhall.Environment environment;
 
   LandingPageStoreImpl(Jedis jedis, io.fisherhall.Environment environment) {
     this.jedis = jedis;
-    this.environment = environment;
 
     if (environment == Environment.DEVELOPMENT) {
       seedDevelopmentData();
