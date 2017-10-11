@@ -1,0 +1,8 @@
+version: '3'
+services:
+  landing:
+    env_file:
+      - ./.env.${BASECHURCH_ENV}
+    volumes:
+      - ./target:/app/target
+      - ./src:/app/src

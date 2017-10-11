@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  database: mcac
+  encoding: utf8
+  host: <%= ENV["DATABASE_HOST"] %>
+  username: <%= ENV["DATABASE_USER"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  pool: 5
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  database: mcac_test
+
+production:
+  <<: *default
