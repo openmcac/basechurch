@@ -5,7 +5,7 @@ services:
   api:
     build: .
     env_file:
-      - ./.env.dev
+      - ./.env.${BASECHURCH_ENV}
     volumes:
       - .:/app
     depends_on:
