@@ -15,7 +15,6 @@
 /db/*.sqlite3-journal
 /log/*.log
 /tmp
-/bin
 /doc
 
 production-secrets.yml
@@ -25,3 +24,6 @@ public
 
 dump.rdb
 config/secrets.yml
+
+# Ignore application configuration
+/config/application.yml
