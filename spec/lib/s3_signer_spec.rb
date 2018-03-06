@@ -27,8 +27,7 @@ describe S3Signer do
 
     it "creates signed request for s3" do
       expect(signed[:acl]).to eq "public-read"
-      expect(signed[:awsAccessKeyId]).
-        to eq Rails.application.secrets.aws_access_key_id
+      expect(signed[:awsAccessKeyId]).to eq ENV["aws_access_key_id"]
       expect(signed[:bucket]).to eq "mcac-test"
       expect(signed["Cache-Control"]).to eq "max-age=630720000, public"
       expect(signed["Content-Type"]).to eq "image/jpeg"
