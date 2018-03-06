@@ -11,7 +11,7 @@ class S3Signer
 
     {
       acl: "public-read",
-      awsAccessKeyId: Rails.application.secrets.aws_access_key_id,
+      awsAccessKeyId: ENV["aws_access_key_id"],
       bucket: AwsSettings.bucket,
       "Cache-Control" => "max-age=630720000, public",
       "Content-Type" => type,
@@ -49,7 +49,7 @@ class S3Signer
     Base64.strict_encode64(
       OpenSSL::HMAC.digest(
         OpenSSL::Digest::Digest.new("sha1"),
-        Rails.application.secrets.aws_secret_access_key,
+        ENV["aws_secret_access_key"],
         encoded_policy
       )
     )
