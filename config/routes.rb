@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  constraints(host: /^www\./i) do 
+    match '(*any)', via: :all, to: redirect { |params, request|
+      # parse the current request url
+      # tap in and remove www. 
+      URI.parse(request.url).tap { |uri| uri.host.sub!(/^www\./i, '') }.to_s 
+    }
+  end
+
   mount_devise_token_auth_for "User", at: "api/auth", controllers: {
     passwords: "passwords",
     registrations: "registrations",
