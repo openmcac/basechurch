@@ -18,7 +18,6 @@ class SelectiveStack
       ActionDispatch::MiddlewareStack.new.tap do |middleware|
         middleware.use ActionDispatch::Cookies
         middleware.use Rails.application.config.session_store, Rails.application.config.session_options
-        middleware.use OmniAuth::Builder, &OmniAuthConfig
         middleware.use ActionDispatch::Flash
       end
     end
